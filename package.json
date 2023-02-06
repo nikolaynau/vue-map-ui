@@ -1,18 +1,82 @@
 {
   "name": "vue3-map-ui",
   "version": "0.0.1",
-  "description": "Vue3 map component library based on leaflet.js",
-  "main": "index.js",
+  "description": "Vue3 map component library based on leaflet",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.es.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "vite build --watch",
+    "build": "run-p type-check build-only",
+    "test": "npm run test:unit",
+    "test:unit": "vitest --environment jsdom --root src/",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
+    "postversion": "npm run push",
+    "push": "git push origin master --tags",
+    "husky": "husky install"
+  },
+  "peerDependencies": {
+    "leaflet": "^1.9.3",
+    "vue": "^3.2.47"
+  },
+  "devDependencies": {
+    "@babel/types": "^7.20.7",
+    "@commitlint/cli": "^17.4.2",
+    "@commitlint/config-angular": "^17.4.2",
+    "@rushstack/eslint-patch": "^1.2.0",
+    "@types/jsdom": "^21.1.0",
+    "@types/node": "^18.11.19",
+    "@vitejs/plugin-vue": "^4.0.0",
+    "@vitest/coverage-c8": "^0.28.4",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "@vue/eslint-config-typescript": "^11.0.2",
+    "@vue/test-utils": "^2.2.10",
+    "@vue/tsconfig": "^0.1.3",
+    "autoprefixer": "^10.4.13",
+    "eslint": "^8.33.0",
+    "eslint-plugin-vue": "^9.9.0",
+    "husky": "^8.0.3",
+    "jsdom": "^21.1.0",
+    "lint-staged": "^13.1.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.21",
+    "postcss-import": "^15.1.0",
+    "prettier": "^2.8.3",
+    "tailwindcss": "^3.2.4",
+    "typescript": "~4.9.5",
+    "vite": "^4.1.1",
+    "vite-plugin-dts": "^1.7.2",
+    "vitest": "^0.28.4",
+    "vue-tsc": "^1.0.24"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue,css}": "prettier --write"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nikolaynau/vue3-map-ui.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "vue3",
+    "map",
+    "ui",
+    "leaflet"
+  ],
+  "author": "Nikolay Naumenkov <nikolas.it.web@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nikolaynau/vue3-map-ui/issues"
   },
