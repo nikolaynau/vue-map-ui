@@ -22,6 +22,8 @@
     "test:unit": "vitest --environment jsdom --root src/",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "clear-docs": "rimraf ./dist/docs/components",
+    "build-docs": "npm run clear-docs && vue-docgen",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
     "postversion": "npm run push",
@@ -60,6 +62,7 @@
     "vite": "^4.1.1",
     "vite-plugin-dts": "^1.7.2",
     "vitest": "^0.28.4",
+    "vue-docgen-cli": "^4.57.1",
     "vue-tsc": "^1.0.24"
   },
   "lint-staged": {
