@@ -6,3 +6,4 @@
 
 ```bash
 npm install vue3-map-ui leaflet
+```
