@@ -1,3 +1,10 @@
 // Vitest Snapshot v1
 
-exports[`VMap > render default props 1`] = `"<div>Map</div>"`;
+exports[`VMap > render default props 1`] = `
+"<div><span>Map: </span><!-- @slot Default slot -->
+  <!--
+      @slot Tile slot
+      @binding {number} item an item passed to the tile
+     -->
+</div>"
+`;
