@@ -2,6 +2,8 @@
 
 > Vue 3 map component library based on leaflet.
 
+[Live Demo](https://nikolaynau.github.io/vue3-map-ui-docs/)
+
 ## Installation
 
 ```bash
