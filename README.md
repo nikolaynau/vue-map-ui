@@ -4,16 +4,15 @@
 
 ## Installation
 
-#### npm
-
 ```bash
-npm install vue3-map-ui leaflet
-```
+# NPM
+$ npm install vue3-map-ui leaflet
 
-#### yarn
+# Yarn
+$ yarn add vue3-map-ui leaflet
 
-```bash
-yarn add vue3-map-ui leaflet
+# pnpm
+$ pnpm install vue3-map-ui leaflet
 ```
 
 ## Usage
