@@ -24,6 +24,7 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "clear-docs": "rimraf ./dist/docs/components",
     "build-docs": "npm run clear-docs && vue-docgen",
+    "build-all": "run-s build build-docs",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
     "postversion": "npm run push",

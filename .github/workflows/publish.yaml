@@ -41,7 +41,7 @@ jobs:
     - name: Install project dependencies
       run: npm ci
     - name: Build library
-      run: npm run build
+      run: npm run build-all
     - name: Get latest release version number
       id: get_version
       uses: battila7/get-version-action@v2
