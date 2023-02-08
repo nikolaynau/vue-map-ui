@@ -18,3 +18,7 @@ $ pnpm install vue3-map-ui leaflet
 ```
 
 ## Usage
+
+## License
+
+Licensed under the [MIT License](./LICENSE).
