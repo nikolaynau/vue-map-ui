@@ -8,7 +8,8 @@ export default defineConfig({
   plugins: [
     vue(),
     dts({
-      insertTypesEntry: true
+      insertTypesEntry: true,
+      outputDir: path.resolve(__dirname, 'dist', 'types')
     })
   ],
   resolve: {
