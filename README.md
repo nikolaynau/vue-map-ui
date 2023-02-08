@@ -19,6 +19,18 @@ $ pnpm install vue3-map-ui leaflet
 
 ## Usage
 
+```ts
+// main.ts
+import { createApp } from 'vue';
+import App from './App.vue';
+// import styles
+import 'leaflet/dist/leaflet.css';
+import 'vue3-map-ui/dist/normalize.css';
+import 'vue3-map-ui/dist/style.css';
+
+createApp(App).mount('#app');
+```
+
 ## License
 
 Licensed under the [MIT License](./LICENSE).
