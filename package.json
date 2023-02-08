@@ -13,9 +13,12 @@
     "url": "https://github.com/nikolaynau/vue3-map-ui/issues"
   },
   "keywords": [
-    "vue3",
+    "map ui",
     "map",
+    "component library",
+    "ui framework",
     "ui",
+    "vue3",
     "leaflet"
   ],
   "sideEffects": false,
@@ -44,7 +47,8 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "clear-docs": "rimraf ./dist/docs/components",
     "build-docs": "npm run clear-docs && vue-docgen",
-    "build-all": "run-s build build-docs",
+    "build-all": "run-s build build-docs global-dts",
+    "global-dts": "esno scripts/gen-global.ts",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
     "postversion": "npm run push",
@@ -71,6 +75,7 @@
     "autoprefixer": "^10.4.13",
     "eslint": "^8.33.0",
     "eslint-plugin-vue": "^9.9.0",
+    "esno": "^0.16.3",
     "husky": "^8.0.3",
     "jsdom": "^21.1.0",
     "lint-staged": "^13.1.0",
