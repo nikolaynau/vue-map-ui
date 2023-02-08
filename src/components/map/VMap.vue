@@ -52,3 +52,7 @@ defineExpose({
     <slot name="tile" :item="item"></slot>
   </div>
 </template>
+
+<style>
+@import 'map';
+</style>
