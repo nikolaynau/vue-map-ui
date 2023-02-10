@@ -1,15 +1,22 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, markRaw, toRaw, onMounted } from 'vue';
+import { type MapOptions, type LatLngBoundsExpression, Map } from 'leaflet';
 
-export interface Props {
+export interface Props extends MapOptions {
   /**
-   * Initial geographic center of the map
+   * Initial geographic bounds of the map. The fitBounds method is called to set the bounds.
    */
-  center?: number[];
+  bounds?: LatLngBoundsExpression;
+
+  /**
+   * Initial center, zoom and bounds use fly methods
+   */
+  useFly?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
-  center: () => [0, 0]
+const props = withDefaults(defineProps<Props>(), {
+  center: () => [0, 0],
+  zoom: 0
 });
 
 defineEmits<{
@@ -20,36 +27,26 @@ defineEmits<{
   (e: 'viewport-changed', center: number[]): void;
 }>();
 
-const item = ref<number>(0);
+const map = ref<Map | null>(null);
+const container = ref<HTMLElement | null>(null);
 
-function check(text: string): boolean {
-  return !!text;
-}
+onMounted(() => {
+  if (container.value) {
+    const { bounds: _bounds, useFly: _useFly, ...leafletMapOptions } = toRaw;
+    map.value = markRaw(new Map(container.value, {}));
+  }
+});
 
 defineExpose({
-  /**
-   * Link to map instance
-   */
-  ref: ref<number | null>(null),
-  /**
-   * Check map method
-   * @param {string} text Text to check
-   * @returns {boolean} Result of checking
-   */
-  check
+  container,
+  map
 });
 </script>
 
 <template>
-  <div>
-    <span>Map: </span>
-    <!-- @slot Default slot -->
+  <div class="v-map" ref="container">
+    <!-- @slot The default slot is used for all map components -->
     <slot></slot>
-    <!--
-      @slot Tile slot
-      @binding {number} item an item passed to the tile
-     -->
-    <slot name="tile" :item="item"></slot>
   </div>
 </template>
 
