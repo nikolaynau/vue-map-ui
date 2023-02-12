@@ -43,7 +43,17 @@ export function useLeafletMap(
     if (needInitView) {
       leafletOptions.center = undefined;
       leafletOptions.zoom = undefined;
+    } else {
+      if (!isDef(leafletOptions.center)) {
+        leafletOptions.center = unref(center);
+      }
+      if (!isDef(leafletOptions.zoom)) {
+        leafletOptions.zoom = unref(zoom);
+      }
     }
+
+    leafletOptions.center = needInitView ? undefined : unref(center);
+    leafletOptions.zoom = needInitView ? undefined : unref(zoom);
 
     const mapInstance = new Map(element, leafletOptions);
 

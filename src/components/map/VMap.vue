@@ -52,8 +52,6 @@ const { center, zoom, bounds, useFly } = toRefs(props);
 const { useFly: _useFly, bounds: _bounds, ...leafletOptions } = toRaw(props);
 
 const container = ref<HTMLElement | null>(null);
-const attrs = useAttrs();
-
 const map = useLeafletMap(container, {
   center,
   zoom,
@@ -61,6 +59,8 @@ const map = useLeafletMap(container, {
   useFly,
   leafletOptions
 });
+
+const attrs = useAttrs();
 useProxyEvents(map, emit, getEventTypesFromAttrs(attrs));
 provideMap(map);
 
