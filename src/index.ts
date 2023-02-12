@@ -1,1 +1,2 @@
-export { default as VMap } from './components/map/VMap.vue';
+export * from './components/map';
+export * from './composables';

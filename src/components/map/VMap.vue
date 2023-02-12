@@ -1,6 +1,16 @@
 <script setup lang="ts">
-import { ref, markRaw, toRaw, onMounted } from 'vue';
-import { type MapOptions, type LatLngBoundsExpression, Map } from 'leaflet';
+import { ref, toRaw, toRefs, useAttrs } from 'vue';
+import type {
+  MapOptions,
+  LatLngBoundsExpression,
+  LeafletEvent,
+  LatLng,
+  LatLngBounds
+} from 'leaflet';
+import { useLeafletMap } from './composables/useLeafletMap';
+import { provideMap } from './composables/useMap';
+import { useProxyEvents } from '@/composables/useProxyEvents';
+import { getEventTypesFromAttrs } from '@/utils/events';
 
 export interface Props extends MapOptions {
   /**
@@ -16,29 +26,52 @@ export interface Props extends MapOptions {
 
 const props = withDefaults(defineProps<Props>(), {
   center: () => [0, 0],
-  zoom: 0
+  zoom: 0,
+  bounds: undefined,
+  useFly: false
 });
 
-defineEmits<{
+const emit = defineEmits<{
   /**
-   * Trigger viewport-changed
-   * @property {number[]} center the center point
+   * Triggers when moved map view
+   * @property {object} data
    */
-  (e: 'viewport-changed', center: number[]): void;
+  (
+    e: 'viewport-changed',
+    data: { center: LatLng; zoom: number; bounds: LatLngBounds }
+  ): void;
+  /**
+   * Triggers when any event occurs in the leaflet
+   * @property {object} data
+   */
+  (e: string, data: LeafletEvent): void;
 }>();
 
-const map = ref<Map | null>(null);
-const container = ref<HTMLElement | null>(null);
+const { center, zoom, bounds, useFly } = toRefs(props);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { useFly: _useFly, bounds: _bounds, ...leafletOptions } = toRaw(props);
 
-onMounted(() => {
-  if (container.value) {
-    const { bounds: _bounds, useFly: _useFly, ...leafletMapOptions } = toRaw;
-    map.value = markRaw(new Map(container.value, {}));
-  }
+const container = ref<HTMLElement | null>(null);
+const attrs = useAttrs();
+
+const map = useLeafletMap(container, {
+  center,
+  zoom,
+  bounds,
+  useFly,
+  leafletOptions
 });
+useProxyEvents(map, emit, getEventTypesFromAttrs(attrs));
+provideMap(map);
 
 defineExpose({
+  /**
+   * Ref to dom element where the map is created
+   */
   container,
+  /**
+   * Ref to instance of leaflet map
+   */
   map
 });
 </script>
