@@ -14,7 +14,7 @@ import { getEventTypesFromAttrs } from '@/utils/events';
 
 export interface Props extends MapOptions {
   /**
-   * Initial geographic bounds of the map. The fitBounds method is called to set the bounds.
+   * Initial geographic bounds of the map
    */
   bounds?: LatLngBoundsExpression;
 
@@ -48,6 +48,7 @@ const emit = defineEmits<{
 }>();
 
 const { center, zoom, bounds, useFly } = toRefs(props);
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { useFly: _useFly, bounds: _bounds, ...leafletOptions } = toRaw(props);
 
@@ -62,6 +63,7 @@ const map = useLeafletMap(container, {
 
 const attrs = useAttrs();
 useProxyEvents(map, emit, getEventTypesFromAttrs(attrs));
+
 provideMap(map);
 
 defineExpose({

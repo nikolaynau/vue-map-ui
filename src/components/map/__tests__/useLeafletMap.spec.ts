@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { nextTick, ref } from 'vue';
 import { useLeafletMap } from '../composables/useLeafletMap';
 
@@ -71,15 +71,14 @@ describe('useLeafletMap', () => {
     const map = useLeafletMap(element);
 
     element.value = div1;
-
     await nextTick();
 
     expect(map.value).toBeDefined();
 
     const map1 = map.value;
+    const removeSpy = vi.spyOn(map1!, 'remove');
 
     element.value = div2;
-
     await nextTick();
 
     expect(map.value).toBeDefined();
@@ -87,6 +86,22 @@ describe('useLeafletMap', () => {
     const map2 = map.value;
 
     expect(map1).not.toBe(map2);
-    // check destroy
+
+    expect(removeSpy).toBeCalled();
+  });
+
+  it('destroy map when element changed to null', async () => {
+    const div = document.createElement('div');
+    const element = ref<HTMLElement | null>(div);
+    const map = useLeafletMap(element);
+
+    expect(map.value).toBeDefined();
+    const removeSpy = vi.spyOn(map.value!, 'remove');
+
+    element.value = null;
+    await nextTick();
+
+    expect(map.value).toBeNull();
+    expect(removeSpy).toBeCalled();
   });
 });

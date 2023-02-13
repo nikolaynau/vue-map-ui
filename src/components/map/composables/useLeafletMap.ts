@@ -1,5 +1,5 @@
 import { computed, markRaw, ref, unref, watch, type Ref } from 'vue';
-import { isDef, tryOnBeforeUnmount, type MaybeRef } from '@vueuse/shared';
+import { isDef, tryOnUnmounted, type MaybeRef } from '@vueuse/shared';
 import {
   latLngBounds,
   latLng,
@@ -20,19 +20,20 @@ export interface UseLeafletMapOptions {
 const DEFAULT_OPTIONS: Readonly<UseLeafletMapOptions> = {
   center: [0, 0],
   zoom: 0,
-  leafletOptions: {},
-  useFly: false,
-  bounds: undefined
+  useFly: false
 };
 
 export function useLeafletMap(
   element: MaybeRef<HTMLElement | null | undefined>,
   options: UseLeafletMapOptions = {}
 ): Ref<Map | null> {
-  const { center, zoom, bounds, useFly, leafletOptions } = {
-    ...DEFAULT_OPTIONS,
-    ...options
-  } as Required<UseLeafletMapOptions>;
+  const {
+    center = DEFAULT_OPTIONS.center,
+    zoom = DEFAULT_OPTIONS.zoom,
+    useFly = DEFAULT_OPTIONS.useFly,
+    bounds,
+    leafletOptions = {}
+  } = options;
 
   const map = ref<Map | null>(null) as Ref<Map | null>;
   const view = computed(() => ({ center: unref(center), zoom: unref(zoom) }));
@@ -51,9 +52,6 @@ export function useLeafletMap(
         leafletOptions.zoom = unref(zoom);
       }
     }
-
-    leafletOptions.center = needInitView ? undefined : unref(center);
-    leafletOptions.zoom = needInitView ? undefined : unref(zoom);
 
     const mapInstance = new Map(element, leafletOptions);
 
@@ -140,6 +138,7 @@ export function useLeafletMap(
 
   function destroyMap() {
     map.value?.off().remove();
+    map.value = null;
   }
 
   watch(
@@ -177,7 +176,7 @@ export function useLeafletMap(
     }
   });
 
-  tryOnBeforeUnmount(() => {
+  tryOnUnmounted(() => {
     destroyMap();
   });
 
