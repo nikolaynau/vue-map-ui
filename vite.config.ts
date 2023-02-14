@@ -1,3 +1,5 @@
+/// <reference types="vitest" />
+
 import { fileURLToPath, URL } from 'node:url';
 import path from 'node:path';
 import { defineConfig } from 'vite';
@@ -29,5 +31,8 @@ export default defineConfig({
         globals: { vue: 'Vue', leaflet: 'L' }
       }
     }
+  },
+  test: {
+    environment: 'jsdom'
   }
 });
