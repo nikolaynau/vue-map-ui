@@ -1,5 +1,6 @@
 export function getEventTypesFromAttrs(
-  attrs: Record<string, unknown>
+  attrs: Record<string, unknown>,
+  exclude: string[] = []
 ): string[] {
   return [];
 }

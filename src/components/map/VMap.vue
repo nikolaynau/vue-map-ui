@@ -37,7 +37,7 @@ const emit = defineEmits<{
    * @property {object} data
    */
   (
-    e: 'viewport-changed',
+    e: 'view-changed',
     data: { center: LatLng; zoom: number; bounds: LatLngBounds }
   ): void;
   /**
@@ -48,11 +48,12 @@ const emit = defineEmits<{
 }>();
 
 const { center, zoom, bounds, useFly } = toRefs(props);
-
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { useFly: _useFly, bounds: _bounds, ...leafletOptions } = toRaw(props);
 
 const container = ref<HTMLElement | null>(null);
+const attrs = useAttrs();
+const events = getEventTypesFromAttrs(attrs, ['viewChanged']);
 const map = useLeafletMap(container, {
   center,
   zoom,
@@ -60,10 +61,7 @@ const map = useLeafletMap(container, {
   useFly,
   leafletOptions
 });
-
-const attrs = useAttrs();
-useProxyEvents(map, emit, getEventTypesFromAttrs(attrs));
-
+useProxyEvents(map, emit, events);
 provideMap(map);
 
 defineExpose({
