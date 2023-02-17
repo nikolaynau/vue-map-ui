@@ -2,13 +2,13 @@ import { isEmpty, lcFirst } from './strings';
 
 export function getEventsFromAttrs(
   attrs: Record<string, unknown>,
-  exclude: string[] = []
+  exclude?: string[]
 ): string[] {
   const result = [];
   for (const key in attrs) {
     if (key.startsWith('on') && typeof attrs[key] === 'function') {
       const eventName = lcFirst(key.slice(2));
-      if (!isEmpty(eventName) && !exclude.includes(eventName)) {
+      if (!isEmpty(eventName) && !exclude?.includes(eventName)) {
         result.push(eventName);
       }
     }
@@ -18,13 +18,13 @@ export function getEventsFromAttrs(
 
 export function getPropsFromAttrs(
   attrs: Record<string, unknown>,
-  exclude: string[] = []
+  exclude?: string[]
 ): Record<string, unknown> {
   const result: Record<string, unknown> = {};
   for (const key in attrs) {
     if (
       !(key.startsWith('on') && typeof attrs[key] === 'function') &&
-      !exclude.includes(key)
+      !exclude?.includes(key)
     ) {
       result[key] = attrs[key];
     }

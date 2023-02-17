@@ -20,6 +20,7 @@ import {
 } from './composables/useLeafletMap';
 import { provideMap } from './composables/useMap';
 import { getEventsFromAttrs, getPropsFromAttrs, getAttrs } from '@/utils/attrs';
+import { ucFirst } from '@/utils/strings';
 
 export interface Props extends MapOptions {
   /**
@@ -48,19 +49,6 @@ export interface Props extends MapOptions {
   excludeAttrs?: string[];
 }
 
-type Emits = {
-  /**
-   * Triggers when moved map view
-   * @property {object} data
-   */
-  (e: 'view-changed', ev: ViewChangedEvent): void;
-  /**
-   * Triggers when any event occurs in the leaflet
-   * @property {object} data
-   */
-  (e: string, ev: LeafletEvent): void;
-};
-
 const props = withDefaults(defineProps<Props>(), {
   center: () => [0, 0],
   zoom: 0,
@@ -68,8 +56,6 @@ const props = withDefaults(defineProps<Props>(), {
   useFly: false,
   excludeAttrs: undefined
 });
-
-const emit = defineEmits<Emits>();
 
 const { center, zoom, bounds, useFly } = toRefs(props);
 const container = ref<HTMLElement | null>(null);
@@ -81,6 +67,10 @@ const excludeAttrs = [
 const leafletEvents = getEventsFromAttrs(attrs, ['viewChanged']);
 const leafletOptions = getPropsFromAttrs(attrs, excludeAttrs);
 const containerAttrs = getAttrs(attrs, { include: excludeAttrs });
+const onViewChanged =
+  typeof attrs['onViewChanged'] === 'function'
+    ? (attrs['onViewChanged'] as (ev: ViewChangedEvent) => void)
+    : undefined;
 
 const map = useLeafletMap(container, {
   center,
@@ -90,18 +80,16 @@ const map = useLeafletMap(container, {
   leafletOptions,
   events: leafletEvents,
   onEvent: onLeafletEvent,
-  onViewChanged:
-    typeof attrs['onViewChanged'] === 'function' ? onViewChanged : undefined
+  onViewChanged
 });
 
 provideMap(map);
 
 function onLeafletEvent(e: LeafletEvent) {
-  emit(e.target, e);
-}
-
-function onViewChanged(e: ViewChangedEvent) {
-  emit('view-changed', e);
+  const key = `on${ucFirst(e.type)}`;
+  if (typeof attrs[key] === 'function') {
+    (attrs[key] as Function)(e);
+  }
 }
 
 defineExpose({
