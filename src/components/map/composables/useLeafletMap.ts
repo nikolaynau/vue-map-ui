@@ -8,8 +8,8 @@ import {
   type LatLngExpression,
   type MapOptions,
   type LeafletEvent,
-  LatLng,
-  LatLngBounds
+  type LatLng,
+  type LatLngBounds
 } from 'leaflet';
 import { useLeafletEvent } from '@/composables/useLeafletEvent';
 

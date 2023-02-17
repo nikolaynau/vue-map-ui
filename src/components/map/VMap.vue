@@ -1,20 +1,37 @@
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  inheritAttrs: false
+});
+</script>
+
 <script setup lang="ts">
-import { ref, toRaw, toRefs, useAttrs } from 'vue';
+import { ref, toRefs, useAttrs } from 'vue';
 import type {
   MapOptions,
   LatLngBoundsExpression,
   LeafletEvent,
-  LatLng,
-  LatLngBounds
+  LatLngExpression
 } from 'leaflet';
 import {
   useLeafletMap,
   type ViewChangedEvent
 } from './composables/useLeafletMap';
 import { provideMap } from './composables/useMap';
-import { getEventsFromAttrs } from '@/utils/events';
+import { getEventsFromAttrs, getPropsFromAttrs, getAttrs } from '@/utils/attrs';
 
 export interface Props extends MapOptions {
+  /**
+   * Initial geographic center of the map
+   */
+  center?: LatLngExpression;
+
+  /**
+   * Initial map zoom level
+   */
+  zoom?: number;
+
   /**
    * Initial geographic bounds of the map
    */
@@ -24,45 +41,54 @@ export interface Props extends MapOptions {
    * Initial center, zoom and bounds use fly methods
    */
   useFly?: boolean;
+
+  /**
+   *
+   */
+  excludeAttrs?: string[];
 }
+
+type Emits = {
+  /**
+   * Triggers when moved map view
+   * @property {object} data
+   */
+  (e: 'view-changed', ev: ViewChangedEvent): void;
+  /**
+   * Triggers when any event occurs in the leaflet
+   * @property {object} data
+   */
+  (e: string, ev: LeafletEvent): void;
+};
 
 const props = withDefaults(defineProps<Props>(), {
   center: () => [0, 0],
   zoom: 0,
   bounds: undefined,
-  useFly: false
+  useFly: false,
+  excludeAttrs: undefined
 });
 
-const emit = defineEmits<{
-  /**
-   * Triggers when moved map view
-   * @property {object} data
-   */
-  (
-    e: 'view-changed',
-    data: { center: LatLng; zoom: number; bounds: LatLngBounds }
-  ): void;
-  /**
-   * Triggers when any event occurs in the leaflet
-   * @property {object} data
-   */
-  (e: string, data: LeafletEvent): void;
-}>();
+const emit = defineEmits<Emits>();
 
 const { center, zoom, bounds, useFly } = toRefs(props);
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { useFly: _useFly, bounds: _bounds, ...leafletOptions } = toRaw(props);
-
 const container = ref<HTMLElement | null>(null);
 const attrs = useAttrs();
-const events = getEventsFromAttrs(attrs, ['viewChanged']);
+const excludeAttrs = [
+  ...(props.excludeAttrs ?? []),
+  ...['id', 'class', 'style']
+];
+const leafletEvents = getEventsFromAttrs(attrs, ['viewChanged']);
+const leafletOptions = getPropsFromAttrs(attrs, excludeAttrs);
+const containerAttrs = getAttrs(attrs, { include: excludeAttrs });
+
 const map = useLeafletMap(container, {
   center,
   zoom,
   bounds,
   useFly,
   leafletOptions,
-  events,
+  events: leafletEvents,
   onEvent: onLeafletEvent,
   onViewChanged:
     typeof attrs['onViewChanged'] === 'function' ? onViewChanged : undefined
@@ -91,7 +117,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="v-map" ref="container">
+  <div v-bind="containerAttrs" class="v-map" ref="container">
     <!-- @slot The default slot is used for all map components -->
     <slot></slot>
   </div>
