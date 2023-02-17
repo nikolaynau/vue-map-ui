@@ -169,7 +169,8 @@ export function useLeafletMap(
       }
     },
     {
-      immediate: true
+      immediate: true,
+      flush: 'sync'
     }
   );
 
