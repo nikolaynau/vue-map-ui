@@ -43,7 +43,7 @@ export interface Props extends MapOptions {
   useFly?: boolean;
 
   /**
-   *
+   * Attributes that are not map options
    */
   excludeAttrs?: string[];
 }
