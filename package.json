@@ -42,7 +42,7 @@
     "watch": "vite build --watch",
     "build": "run-p type-check build-only",
     "build-only": "vite build",
-    "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
+    "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "build-styles": "postcss src/assets/css/normalize.css --base src/assets/css --dir dist -u \"postcss-import\" tailwindcss autoprefixer cssnano --no-map",
     "clear-docs": "rimraf ./dist/docs/components",
     "build-docs": "npm run clear-docs && vue-docgen",

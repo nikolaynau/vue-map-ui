@@ -11,6 +11,8 @@ export default defineConfig({
     vue(),
     dts({
       insertTypesEntry: true,
+      copyDtsFiles: false,
+      skipDiagnostics: true,
       outputDir: path.resolve(__dirname, 'dist', 'types')
     })
   ],
@@ -26,9 +28,14 @@ export default defineConfig({
       fileName: format => `index.${format}.js`
     },
     rollupOptions: {
-      external: ['vue', 'leaflet'],
+      external: ['vue', 'leaflet', '@vueuse/core', '@vueuse/shared'],
       output: {
-        globals: { vue: 'Vue', leaflet: 'L' }
+        globals: {
+          vue: 'Vue',
+          leaflet: 'L',
+          '@vueuse/core': 'VueUse',
+          '@vueuse/shared': 'VueUse'
+        }
       }
     }
   },
