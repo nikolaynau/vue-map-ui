@@ -1,1 +1,1 @@
-export { useProxyEvents } from './useProxyEvents';
+export { useLeafletEvent } from './useLeafletEvent';

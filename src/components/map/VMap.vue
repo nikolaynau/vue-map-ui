@@ -7,10 +7,12 @@ import type {
   LatLng,
   LatLngBounds
 } from 'leaflet';
-import { useLeafletMap } from './composables/useLeafletMap';
+import {
+  useLeafletMap,
+  type ViewChangedEvent
+} from './composables/useLeafletMap';
 import { provideMap } from './composables/useMap';
-import { useProxyEvents } from '@/composables/useProxyEvents';
-import { getEventTypesFromAttrs } from '@/utils/events';
+import { getEventsFromAttrs } from '@/utils/events';
 
 export interface Props extends MapOptions {
   /**
@@ -53,16 +55,28 @@ const { useFly: _useFly, bounds: _bounds, ...leafletOptions } = toRaw(props);
 
 const container = ref<HTMLElement | null>(null);
 const attrs = useAttrs();
-const events = getEventTypesFromAttrs(attrs, ['viewChanged']);
+const events = getEventsFromAttrs(attrs, ['viewChanged']);
 const map = useLeafletMap(container, {
   center,
   zoom,
   bounds,
   useFly,
-  leafletOptions
+  leafletOptions,
+  events,
+  onEvent: onLeafletEvent,
+  onViewChanged:
+    typeof attrs['onViewChanged'] === 'function' ? onViewChanged : undefined
 });
-useProxyEvents(map, emit, events);
+
 provideMap(map);
+
+function onLeafletEvent(e: LeafletEvent) {
+  emit(e.target, e);
+}
+
+function onViewChanged(e: ViewChangedEvent) {
+  emit('view-changed', e);
+}
 
 defineExpose({
   /**

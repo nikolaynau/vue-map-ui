@@ -1,3 +1,9 @@
+import {
+  latLng,
+  latLngBounds,
+  type LatLngBoundsLiteral,
+  type LatLngExpression
+} from 'leaflet';
 import { describe, it, expect, vi } from 'vitest';
 import { nextTick, ref } from 'vue';
 import { useLeafletMap } from '../composables/useLeafletMap';
@@ -103,5 +109,159 @@ describe('useLeafletMap', () => {
 
     expect(map.value).toBeNull();
     expect(removeSpy).toBeCalled();
+  });
+
+  it('leaflet events', () => {
+    const div = document.createElement('div');
+    const element = ref<HTMLElement | null>(div);
+    const listener = vi.fn();
+    const map = useLeafletMap(element, {
+      events: ['moveend', 'zoomend', 'event1'],
+      onEvent: listener
+    });
+
+    map.value?.setView([1, 2], 4, { animate: false });
+    map.value?.fire('event1');
+
+    expect(listener).toBeCalledTimes(3);
+    expect(listener.mock.calls[0][0].type).toBe('zoomend');
+    expect(listener.mock.calls[1][0].type).toBe('moveend');
+    expect(listener.mock.calls[2][0].type).toBe('event1');
+  });
+
+  it('call onViewChanged when map view changed', () => {
+    const div = document.createElement('div');
+    const element = ref<HTMLElement | null>(div);
+    const listener = vi.fn();
+    const map = useLeafletMap(element, {
+      onViewChanged: listener
+    });
+
+    map.value?.setView([1, 2], 4, { animate: false });
+
+    expect(listener).toBeCalledTimes(1);
+    expect(listener.mock.calls[0][0].center).toEqual({ lat: 1, lng: 2 });
+    expect(listener.mock.calls[0][0].zoom).toBe(4);
+    expect(listener.mock.calls[0][0].bounds).toBeDefined();
+  });
+
+  it.each([
+    [false, 'fitBounds'],
+    [true, 'flyToBounds']
+  ])('change bounds (useFly: %s, method: %s)', async (useFly, methodName) => {
+    const div = document.createElement('div');
+    const element = ref<HTMLElement | null>(div);
+    const bounds = ref<LatLngBoundsLiteral>([
+      [1, 2],
+      [3, 4]
+    ]);
+    const map = useLeafletMap(element, {
+      bounds,
+      useFly
+    });
+
+    expect(map.value).toBeDefined();
+    const spy = vi.spyOn(map.value!, methodName as any);
+
+    bounds.value = [
+      [5, 6],
+      [7, 8]
+    ];
+
+    await nextTick();
+
+    expect(spy).toBeCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toEqual(
+      latLngBounds([
+        [5, 6],
+        [7, 8]
+      ])
+    );
+  });
+
+  it.each([
+    [false, 'setView'],
+    [true, 'flyTo']
+  ])(
+    'change center and zoom (useFly: %s, method: %s)',
+    async (useFly, methodName) => {
+      const div = document.createElement('div');
+      const element = ref<HTMLElement | null>(div);
+      const center = ref<LatLngExpression>([1, 2]);
+      const zoom = ref(1);
+
+      const map = useLeafletMap(element, {
+        center,
+        zoom,
+        useFly
+      });
+
+      expect(map.value).toBeDefined();
+      const spy = vi.spyOn(map.value!, methodName as any);
+
+      center.value = [3, 4];
+      zoom.value = 2;
+
+      await nextTick();
+
+      expect(spy).toBeCalledTimes(1);
+      expect(spy.mock.calls[0][0]).toEqual([3, 4]);
+      expect(spy.mock.calls[0][1]).toBe(2);
+    }
+  );
+
+  it.each([
+    [false, 'panTo'],
+    [true, 'flyTo']
+  ])('change center (useFly: %s, method: %s)', async (useFly, methodName) => {
+    const div = document.createElement('div');
+    const element = ref<HTMLElement | null>(div);
+    const center = ref<LatLngExpression>([1, 2]);
+
+    const map = useLeafletMap(element, {
+      center,
+      useFly
+    });
+
+    expect(map.value).toBeDefined();
+    const spy = vi.spyOn(map.value!, methodName as any);
+
+    center.value = [3, 4];
+
+    await nextTick();
+
+    expect(spy).toBeCalledTimes(1);
+    expect(spy.mock.calls[0][0]).toEqual([3, 4]);
+  });
+
+  it.each([
+    [false, 'setZoom'],
+    [true, 'flyTo']
+  ])('change zoom (useFly: %s, method: %s)', async (useFly, methodName) => {
+    const div = document.createElement('div');
+    const element = ref<HTMLElement | null>(div);
+    const center = ref<LatLngExpression>([1, 2]);
+    const zoom = ref(1);
+
+    const map = useLeafletMap(element, {
+      center,
+      zoom,
+      useFly
+    });
+
+    expect(map.value).toBeDefined();
+    const spy = vi.spyOn(map.value!, methodName as any);
+
+    zoom.value = 2;
+
+    await nextTick();
+
+    expect(spy).toBeCalledTimes(1);
+    if (useFly) {
+      expect(spy.mock.calls[0][0]).toEqual(latLng([1, 2]));
+      expect(spy.mock.calls[0][1]).toBe(2);
+    } else {
+      expect(spy.mock.calls[0][0]).toBe(2);
+    }
   });
 });

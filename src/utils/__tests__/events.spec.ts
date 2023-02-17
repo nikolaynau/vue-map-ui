@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getEventTypesFromAttrs } from '../events';
+import { getEventsFromAttrs } from '../events';
 
 describe('events', () => {
   it.each([
@@ -15,11 +15,13 @@ describe('events', () => {
       { onSomeEvent: () => {}, onSomeevent: () => {} },
       ['someEvent'],
       ['someevent']
-    ]
+    ],
+    [{ on: () => {} }, undefined, []],
+    [{ onclick: () => {} }, undefined, ['click']]
   ])(
-    'getEventTypesFromAttrs: attrs(%o), exclude(%o), expected(%o)',
+    'getEventsFromAttrs: attrs(%o), exclude(%o), expected(%o)',
     (attrs, exclude, expected) => {
-      const result = getEventTypesFromAttrs(attrs, exclude);
+      const result = getEventsFromAttrs(attrs, exclude);
       expect(result).toEqual(expected);
     }
   );

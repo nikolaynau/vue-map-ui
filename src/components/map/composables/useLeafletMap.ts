@@ -6,15 +6,31 @@ import {
   Map,
   type LatLngBoundsExpression,
   type LatLngExpression,
-  type MapOptions
+  type MapOptions,
+  type LeafletEvent,
+  LatLng,
+  LatLngBounds
 } from 'leaflet';
+import { useLeafletEvent } from '@/composables/useLeafletEvent';
 
-export interface UseLeafletMapOptions {
+export interface UseLeafletMapOptions extends UseLeafletMapCallbacks {
   center?: MaybeRef<LatLngExpression | undefined>;
   zoom?: MaybeRef<number | undefined>;
   bounds?: MaybeRef<LatLngBoundsExpression | undefined>;
   useFly?: MaybeRef<boolean | undefined>;
   leafletOptions?: MapOptions;
+  events?: Array<string>;
+}
+
+export interface UseLeafletMapCallbacks {
+  onEvent?: (ev: LeafletEvent) => void;
+  onViewChanged?: (ev: ViewChangedEvent) => void;
+}
+
+export interface ViewChangedEvent extends LeafletEvent {
+  center: LatLng;
+  zoom: number;
+  bounds: LatLngBounds;
 }
 
 const DEFAULT_OPTIONS: Readonly<UseLeafletMapOptions> = {
@@ -31,8 +47,11 @@ export function useLeafletMap(
     center = DEFAULT_OPTIONS.center,
     zoom = DEFAULT_OPTIONS.zoom,
     useFly = DEFAULT_OPTIONS.useFly,
+    leafletOptions = {},
     bounds,
-    leafletOptions = {}
+    events,
+    onEvent,
+    onViewChanged
   } = options;
 
   const map = ref<Map | null>(null) as Ref<Map | null>;
@@ -175,6 +194,22 @@ export function useLeafletMap(
       isDef(newValue.zoom) && setZoom(newValue.zoom);
     }
   });
+
+  if (events && onEvent && events.length > 0) {
+    useLeafletEvent(map, events, onEvent);
+  }
+
+  if (onViewChanged) {
+    useLeafletEvent(map, 'moveend', (ev: LeafletEvent) => {
+      const map = ev.sourceTarget as Map;
+      onViewChanged({
+        center: map.getCenter(),
+        zoom: map.getZoom(),
+        bounds: map.getBounds(),
+        ...ev
+      });
+    });
+  }
 
   tryOnUnmounted(() => {
     destroyMap();
