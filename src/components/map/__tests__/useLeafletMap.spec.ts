@@ -4,11 +4,15 @@ import {
   type LatLngBoundsLiteral,
   type LatLngExpression
 } from 'leaflet';
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, afterEach } from 'vitest';
 import { nextTick, ref } from 'vue';
 import { useLeafletMap } from '../composables/useLeafletMap';
 
 describe('useLeafletMap', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('defualt options', () => {
     const div = document.createElement('div');
     const element = ref(div);
@@ -111,25 +115,7 @@ describe('useLeafletMap', () => {
     expect(removeSpy).toBeCalled();
   });
 
-  it('leaflet events', () => {
-    const div = document.createElement('div');
-    const element = ref<HTMLElement | null>(div);
-    const listener = vi.fn();
-    const map = useLeafletMap(element, {
-      events: ['moveend', 'zoomend', 'event1'],
-      onEvent: listener
-    });
-
-    map.value?.setView([1, 2], 4, { animate: false });
-    map.value?.fire('event1');
-
-    expect(listener).toBeCalledTimes(3);
-    expect(listener.mock.calls[0][0].type).toBe('zoomend');
-    expect(listener.mock.calls[1][0].type).toBe('moveend');
-    expect(listener.mock.calls[2][0].type).toBe('event1');
-  });
-
-  it('call onViewChanged when map view changed', () => {
+  it('call onViewChanged callback when map view changed', () => {
     const div = document.createElement('div');
     const element = ref<HTMLElement | null>(div);
     const listener = vi.fn();

@@ -19,11 +19,9 @@ export interface UseLeafletMapOptions extends UseLeafletMapCallbacks {
   bounds?: MaybeRef<LatLngBoundsExpression | undefined>;
   useFly?: MaybeRef<boolean | undefined>;
   leafletOptions?: MapOptions;
-  events?: Array<string>;
 }
 
 export interface UseLeafletMapCallbacks {
-  onEvent?: (ev: LeafletEvent) => void;
   onViewChanged?: (ev: ViewChangedEvent) => void;
 }
 
@@ -32,6 +30,8 @@ export interface ViewChangedEvent extends LeafletEvent {
   zoom: number;
   bounds: LatLngBounds;
 }
+
+export type ViewChangedEventHandler = (event: ViewChangedEvent) => void;
 
 const DEFAULT_OPTIONS: Readonly<UseLeafletMapOptions> = {
   center: [0, 0],
@@ -49,8 +49,6 @@ export function useLeafletMap(
     useFly = DEFAULT_OPTIONS.useFly,
     leafletOptions = {},
     bounds,
-    events,
-    onEvent,
     onViewChanged
   } = options;
 
@@ -195,10 +193,6 @@ export function useLeafletMap(
       isDef(newValue.zoom) && setZoom(newValue.zoom);
     }
   });
-
-  if (events && onEvent && events.length > 0) {
-    useLeafletEvent(map, events, onEvent);
-  }
 
   if (onViewChanged) {
     useLeafletEvent(map, 'moveend', (ev: LeafletEvent) => {

@@ -5,7 +5,7 @@ import { useLeafletEvent } from '../useLeafletEvent';
 
 class EventTest extends Evented {}
 
-describe('useProxyEvents', () => {
+describe('useLeafletEvent', () => {
   it('target ref is defined', () => {
     const eventSource = new EventTest();
     const target = ref<Evented>(markRaw(eventSource));
