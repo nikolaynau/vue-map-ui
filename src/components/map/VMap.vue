@@ -23,29 +23,10 @@ import { getEventsFromAttrs, getPropsFromAttrs, getAttrs } from '@/utils/attrs';
 import { ucFirst } from '@/utils/strings';
 
 export interface Props extends MapOptions {
-  /**
-   * Initial geographic center of the map
-   */
   center?: LatLngExpression;
-
-  /**
-   * Initial map zoom level
-   */
   zoom?: number;
-
-  /**
-   * Initial geographic bounds of the map
-   */
   bounds?: LatLngBoundsExpression;
-
-  /**
-   * Initial center, zoom and bounds use fly methods
-   */
   useFly?: boolean;
-
-  /**
-   * Attributes that are not map options
-   */
   excludeAttrs?: string[];
 }
 
@@ -93,20 +74,13 @@ function onLeafletEvent(e: LeafletEvent) {
 }
 
 defineExpose({
-  /**
-   * Ref to dom element where the map is created
-   */
   container,
-  /**
-   * Ref to instance of leaflet map
-   */
   map
 });
 </script>
 
 <template>
   <div v-bind="containerAttrs" class="v-map" ref="container">
-    <!-- @slot The default slot is used for all map components -->
     <slot></slot>
   </div>
 </template>

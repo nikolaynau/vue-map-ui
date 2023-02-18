@@ -4,18 +4,9 @@ import { fileURLToPath, URL } from 'node:url';
 import path from 'node:path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import dts from 'vite-plugin-dts';
 
 export default defineConfig({
-  plugins: [
-    vue(),
-    dts({
-      insertTypesEntry: true,
-      copyDtsFiles: false,
-      skipDiagnostics: true,
-      outputDir: path.resolve(__dirname, 'dist', 'types')
-    })
-  ],
+  plugins: [vue()],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
