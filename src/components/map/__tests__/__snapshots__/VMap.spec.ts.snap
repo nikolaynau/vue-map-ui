@@ -2,7 +2,6 @@
 
 exports[`VMap > render default props 1`] = `
 "<div class=\\"v-map leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom\\" style=\\"position: relative;\\" tabindex=\\"0\\">
-  <!-- @slot The default slot is used for all map components -->
   <div class=\\"leaflet-pane leaflet-map-pane\\" style=\\"left: 0px; top: 0px;\\">
     <div class=\\"leaflet-pane leaflet-tile-pane\\"></div>
     <div class=\\"leaflet-pane leaflet-overlay-pane\\"></div>
