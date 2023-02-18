@@ -24,7 +24,7 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/types/index.d.ts",
       "import": "./dist/index.es.js",
       "require": "./dist/index.umd.js"
     },
@@ -32,7 +32,7 @@
   },
   "main": "./dist/index.umd.js",
   "module": "./dist/index.es.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "files": [
     "dist"
   ],
@@ -41,9 +41,10 @@
   },
   "scripts": {
     "watch": "vite build --watch",
-    "build": "run-p type-check build-only",
+    "build": "run-s type-check build-only build-dts",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
+    "build-dts": "vue-tsc -p tsconfig.dts.json",
     "build-styles": "postcss src/assets/css/normalize.css --base src/assets/css --dir dist -u \"postcss-import\" tailwindcss autoprefixer cssnano --no-map",
     "build-all": "run-s build build-styles global-dts",
     "global-dts": "esno scripts/gen-global.ts",
