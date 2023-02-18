@@ -24,6 +24,15 @@ describe('VMap', () => {
     expect(wrapper.vm.map?.getCenter()).toEqual({ lat: 1, lng: 2 });
   });
 
+  it('bounds prop', () => {
+    const expected = [
+      [1, 2],
+      [3, 4]
+    ];
+    const wrapper = mount(VMap, { props: { bounds: expected } });
+    expect(wrapper.vm.map?.getBounds()).toBeInstanceOf(LatLngBounds);
+  });
+
   it('inherit css class', () => {
     const wrapper = mount(VMap, { attrs: { class: 'some-class' } });
     expect(wrapper.find('.v-map').classes('some-class')).toBe(true);
