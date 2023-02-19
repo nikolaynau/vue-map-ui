@@ -1,6 +1,7 @@
 import {
   latLng,
   latLngBounds,
+  Map,
   type LatLngBoundsLiteral,
   type LatLngExpression
 } from 'leaflet';
@@ -13,12 +14,13 @@ describe('useLeafletMap', () => {
     vi.restoreAllMocks();
   });
 
-  it('defualt options', () => {
+  it('default options', () => {
     const div = document.createElement('div');
     const element = ref(div);
     const map = useLeafletMap(element);
 
     expect(map.value).toBeDefined();
+    expect(map.value).toBeInstanceOf(Map);
     expect(map.value?.getCenter()).toEqual({ lat: 0, lng: 0 });
     expect(map.value?.getZoom()).toBe(0);
   });

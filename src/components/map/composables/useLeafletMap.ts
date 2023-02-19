@@ -1,5 +1,13 @@
-import { computed, markRaw, ref, unref, watch, type Ref } from 'vue';
-import { isDef, tryOnUnmounted, type MaybeRef } from '@vueuse/shared';
+import {
+  computed,
+  markRaw,
+  ref,
+  unref,
+  watch,
+  shallowReadonly,
+  type Ref
+} from 'vue';
+import { isDefined, tryOnUnmounted, type MaybeRef } from '@vueuse/shared';
 import {
   latLngBounds,
   latLng,
@@ -62,10 +70,10 @@ export function useLeafletMap(
       leafletOptions.center = undefined;
       leafletOptions.zoom = undefined;
     } else {
-      if (!isDef(leafletOptions.center)) {
+      if (!isDefined(leafletOptions.center)) {
         leafletOptions.center = unref(center);
       }
-      if (!isDef(leafletOptions.zoom)) {
+      if (!isDefined(leafletOptions.zoom)) {
         leafletOptions.zoom = unref(zoom);
       }
     }
@@ -147,7 +155,7 @@ export function useLeafletMap(
     if (latLngA === latLngB) {
       return true;
     }
-    if (!isDef(latLngA) || !isDef(latLngB)) {
+    if (!isDefined(latLngA) || !isDefined(latLngB)) {
       return false;
     }
     return latLng(latLngA!).equals(latLng(latLngB!));
@@ -186,11 +194,11 @@ export function useLeafletMap(
       !latLngEquals(newValue.center, oldValue.center) &&
       newValue.zoom !== oldValue.zoom
     ) {
-      isDef(newValue.center) && setView(newValue.center, newValue.zoom);
+      isDefined(newValue.center) && setView(newValue.center, newValue.zoom);
     } else if (!latLngEquals(newValue.center, oldValue.center)) {
-      isDef(newValue.center) && setCenter(newValue.center);
+      isDefined(newValue.center) && setCenter(newValue.center);
     } else if (newValue.zoom !== oldValue.zoom) {
-      isDef(newValue.zoom) && setZoom(newValue.zoom);
+      isDefined(newValue.zoom) && setZoom(newValue.zoom);
     }
   });
 
@@ -210,7 +218,7 @@ export function useLeafletMap(
     destroyMap();
   });
 
-  return map;
+  return shallowReadonly(map) as Ref<Map | null>;
 }
 
 export type UseLeafletMapReturn = ReturnType<typeof useLeafletMap>;

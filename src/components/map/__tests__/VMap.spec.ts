@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils';
 import VMap from '../VMap.vue';
 import { h, type Ref, nextTick } from 'vue';
 import { useMap } from '../composables/useMap';
-import { LatLngBounds, type Map } from 'leaflet';
+import { LatLngBounds, type Map, type LatLngBoundsExpression } from 'leaflet';
 import type { ViewChangedEvent } from '../composables/useLeafletMap';
 
 describe('VMap', () => {
@@ -25,7 +25,7 @@ describe('VMap', () => {
   });
 
   it('bounds prop', () => {
-    const expected = [
+    const expected: LatLngBoundsExpression = [
       [1, 2],
       [3, 4]
     ];
