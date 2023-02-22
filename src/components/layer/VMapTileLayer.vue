@@ -9,10 +9,8 @@ export default defineComponent({
 <script setup lang="ts">
 import { toRefs } from 'vue';
 import type { LeafletEventHandlerFn, TileLayerOptions } from 'leaflet';
-import { useMap } from '@/components/map/composables/useMap';
-import { useEvents } from '@/composables/useEvents';
-import { useAttrs } from '@/composables/useAttrs';
-import { useLeafletTileLayer } from './composables/useLeafletTileLayer';
+import { useLeafletTileLayer, useLeafletToggleLayer } from 'vue-use-leaflet';
+import { useMap, useEvents, useAttrs } from '@/composables';
 
 export interface Props extends TileLayerOptions {
   url?: string;
@@ -23,7 +21,8 @@ const props = defineProps<Props>();
 const { url } = toRefs(props);
 const map = useMap();
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
-const tileLayer = useLeafletTileLayer(map, url, attrs);
+const tileLayer = useLeafletTileLayer(url, attrs);
+useLeafletToggleLayer(map, tileLayer);
 useEvents(tileLayer, events);
 
 defineExpose({

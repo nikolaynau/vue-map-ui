@@ -1,5 +1,5 @@
-import { isEmpty, lcFirst } from '@/utils/strings';
 import { useAttrs as _useAttrs } from 'vue';
+import { isEmpty, lcFirst } from '../utils/strings';
 
 export function useAttrs<T = Function, U = unknown>() {
   const result: {

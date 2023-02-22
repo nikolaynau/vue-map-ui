@@ -14,11 +14,8 @@ import type {
   LatLngExpression,
   LeafletEventHandlerFn
 } from 'leaflet';
-import {
-  useLeafletMap,
-  type ViewChangedEventHandler
-} from './composables/useLeafletMap';
-import { provideMap } from './composables/useMap';
+import { useLeafletMap, type ViewChangedCallback } from 'vue-use-leaflet';
+import { provideMap } from '@/composables/useMap';
 import { omit, pick } from '@/utils/objects';
 import { useAttrs } from '@/composables/useAttrs';
 import { useEvents } from '@/composables/useEvents';
@@ -28,7 +25,7 @@ export interface Props extends MapOptions {
   zoom?: number;
   bounds?: LatLngBoundsExpression;
   useFly?: boolean;
-  excludeAttrs?: string[];
+  elementAttrs?: string[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -36,26 +33,27 @@ const props = withDefaults(defineProps<Props>(), {
   zoom: 0,
   bounds: undefined,
   useFly: false,
-  excludeAttrs: undefined
+  elementAttrs: undefined
 });
 
 const { center, zoom, bounds, useFly } = toRefs(props);
 const container = ref<HTMLElement | null>(null);
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
-const excludeAttrs = [
-  ...(props.excludeAttrs ?? []),
+const _elementAttrs = [
+  ...(props.elementAttrs ?? []),
   ...['id', 'class', 'style']
 ];
 const leafletEvents = omit(events, ['viewChanged']);
-const leafletOptions = omit(attrs, excludeAttrs);
-const elementAttrs = pick(attrs, excludeAttrs);
-const onViewChanged = events['viewChanged'] as ViewChangedEventHandler;
+const leafletOptions = omit(attrs, _elementAttrs);
+const elementAttrs = pick(attrs, _elementAttrs);
+const onViewChanged = events['viewChanged'] as ViewChangedCallback;
+
 const map = useLeafletMap(container, {
   center,
   zoom,
   bounds,
   useFly,
-  leafletOptions,
+  ...leafletOptions,
   onViewChanged
 });
 useEvents(map, leafletEvents);

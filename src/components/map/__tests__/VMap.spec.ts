@@ -1,10 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
-import { mount } from '@vue/test-utils';
-import VMap from '../VMap.vue';
 import { h, type Ref, nextTick } from 'vue';
-import { useMap } from '../composables/useMap';
+import { mount } from '@vue/test-utils';
 import { LatLngBounds, type Map, type LatLngBoundsExpression } from 'leaflet';
-import type { ViewChangedEvent } from '../composables/useLeafletMap';
+import { useMap } from '@/composables';
+import VMap from '../VMap.vue';
 
 describe('VMap', () => {
   it('render default props', () => {
@@ -12,7 +11,7 @@ describe('VMap', () => {
     expect(wrapper.html()).toMatchSnapshot();
   });
 
-  it('map and container exist after component is mounted', () => {
+  it('map and container exist', () => {
     const wrapper = mount(VMap);
     expect(wrapper.vm.container).toBeDefined();
     expect(wrapper.vm.map).toBeDefined();
@@ -53,7 +52,7 @@ describe('VMap', () => {
   it('inherit any attrs', () => {
     const expected = 'map-1';
     const wrapper = mount(VMap, {
-      props: { excludeAttrs: ['data-id'] },
+      props: { elementAttrs: ['data-id'] },
       attrs: { 'data-id': expected }
     });
     expect(wrapper.find('.v-map').attributes('data-id')).contains(expected);
@@ -130,7 +129,7 @@ describe('VMap', () => {
     wrapper.vm.map?.setView([1, 2], 3, { animate: false });
 
     expect(listener).toBeCalledTimes(1);
-    const ev = listener.mock.calls[0][0] as ViewChangedEvent;
+    const ev = listener.mock.calls[0][0];
     expect(ev.center).toEqual({ lat: 1, lng: 2 });
     expect(ev.zoom).toBe(3);
     expect(ev.bounds).toBeInstanceOf(LatLngBounds);

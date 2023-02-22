@@ -15,7 +15,7 @@ describe('useAttrs', () => {
     ],
     [{ a: 1, on: fn }, { a: 1, on: fn }, {}]
   ])(
-    'useAttrs (source: %o, events: %o, attrs: %o)',
+    'should work with source: %o, events: %o, attrs: %o',
     (sourceAttrs, expectedAttrs, expectedEvents) => {
       let result: UseAttrsReturn | undefined = undefined;
 

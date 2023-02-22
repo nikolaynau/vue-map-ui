@@ -1,16 +1,21 @@
+import { describe, it, expect, vi, type Mock, beforeEach } from 'vitest';
+import { ref, markRaw, type Ref } from 'vue';
 import { Evented } from 'leaflet';
-import { describe, it, expect, vi } from 'vitest';
-import { ref, markRaw } from 'vue';
 import { useEvents } from '../useEvents';
 
-class EventTest extends Evented {}
-
 describe('useEvents', () => {
-  it('subscribe', () => {
-    const eventSource = new EventTest();
-    const target = ref<Evented>(markRaw(eventSource));
-    const listeners = { event1: vi.fn(), event2: vi.fn() };
+  const EventTest = class extends Evented {};
+  let eventSource: Evented;
+  let target: Ref<Evented>;
+  let listeners: Record<string, Mock>;
 
+  beforeEach(() => {
+    eventSource = new EventTest();
+    target = ref(markRaw(eventSource));
+    listeners = { event1: vi.fn(), event2: vi.fn() };
+  });
+
+  it('should subscribe events', () => {
     useEvents(target, listeners);
 
     eventSource.fire('event1');
@@ -23,11 +28,7 @@ describe('useEvents', () => {
     expect(listeners.event2.mock.calls[0][0].type).toBe('event2');
   });
 
-  it('unsubscribe', () => {
-    const eventSource = new EventTest();
-    const target = ref<Evented>(markRaw(eventSource));
-    const listeners = { event1: vi.fn(), event2: vi.fn() };
-
+  it('should unsubscribe events', () => {
     const stop = useEvents(target, listeners);
     stop();
 
