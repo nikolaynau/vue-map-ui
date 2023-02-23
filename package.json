@@ -1,6 +1,6 @@
 {
   "name": "vue-map-ui",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Map component library based on leaflet for Vue 3",
   "author": "Nikolay Naumenkov <nikolas.it.web@gmail.com>",
   "license": "MIT",
