@@ -1,20 +1,20 @@
-# vue3-map-ui [![npm version](https://img.shields.io/npm/v/vue3-map-ui.svg)](https://npmjs.org/package/vue3-map-ui) [![npm downloads](https://img.shields.io/npm/dm/vue3-map-ui.svg)](https://npmjs.org/package/vue3-map-ui)
+# vue-map-ui [![npm version](https://img.shields.io/npm/v/vue-map-ui.svg)](https://npmjs.org/package/vue-map-ui) [![npm downloads](https://img.shields.io/npm/dm/vue-map-ui.svg)](https://npmjs.org/package/vue-map-ui)
 
 > Vue 3 map component library based on leaflet.
 
-[Live Demo](https://nikolaynau.github.io/vue3-map-ui-docs/)
+[Live Demo](https://nikolaynau.github.io/vue-map-ui-docs/)
 
 ## Installation
 
 ```bash
 # NPM
-$ npm install vue3-map-ui leaflet
+$ npm install vue-map-ui leaflet
 
 # Yarn
-$ yarn add vue3-map-ui leaflet
+$ yarn add vue-map-ui leaflet
 
 # pnpm
-$ pnpm install vue3-map-ui leaflet
+$ pnpm install vue-map-ui leaflet
 ```
 
 ## Usage
@@ -25,8 +25,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 // import styles
 import 'leaflet/dist/leaflet.css';
-import 'vue3-map-ui/dist/normalize.css';
-import 'vue3-map-ui/dist/style.css';
+import 'vue-map-ui/dist/normalize.css';
+import 'vue-map-ui/dist/style.css';
 
 createApp(App).mount('#app');
 ```
