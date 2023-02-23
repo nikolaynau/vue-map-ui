@@ -18,6 +18,7 @@ module.exports = {
     ecmaVersion: 'latest'
   },
   rules: {
-    'vue/component-definition-name-casing': ['error', 'kebab-case']
+    'vue/component-definition-name-casing': ['error', 'kebab-case'],
+    'vue/one-component-per-file': 'off'
   }
 };

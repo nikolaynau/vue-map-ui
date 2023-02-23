@@ -19,6 +19,7 @@ import { provideMap } from '@/composables/useMap';
 import { omit, pick } from '@/utils/objects';
 import { useAttrs } from '@/composables/useAttrs';
 import { useEvents } from '@/composables/useEvents';
+import { isReady } from '@/utils/isReady';
 
 export interface Props extends MapOptions {
   center?: LatLngExpression;
@@ -56,6 +57,7 @@ const map = useLeafletMap(container, {
   ...leafletOptions,
   onViewChanged
 });
+const ready = isReady(map);
 useEvents(map, leafletEvents);
 provideMap(map);
 
@@ -67,7 +69,7 @@ defineExpose({
 
 <template>
   <div v-bind="elementAttrs" class="v-map" ref="container">
-    <slot></slot>
+    <slot v-if="ready"></slot>
   </div>
 </template>
 

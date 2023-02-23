@@ -1,7 +1,16 @@
 import { describe, it, expect, vi } from 'vitest';
-import { h, type Ref, nextTick } from 'vue';
+import {
+  unref,
+  h,
+  nextTick,
+  defineComponent,
+  onMounted,
+  onBeforeMount,
+  onBeforeUnmount,
+  onUnmounted
+} from 'vue';
 import { mount } from '@vue/test-utils';
-import { LatLngBounds, type Map, type LatLngBoundsExpression } from 'leaflet';
+import { LatLngBounds, Map, type LatLngBoundsExpression } from 'leaflet';
 import { useMap } from '@/composables';
 import VMap from '../VMap.vue';
 
@@ -13,8 +22,8 @@ describe('VMap', () => {
 
   it('map and container exist', () => {
     const wrapper = mount(VMap);
-    expect(wrapper.vm.container).toBeDefined();
-    expect(wrapper.vm.map).toBeDefined();
+    expect(wrapper.vm.container).not.toBeNull();
+    expect(wrapper.vm.map).toBeInstanceOf(Map);
   });
 
   it('center and zoom props', () => {
@@ -65,7 +74,7 @@ describe('VMap', () => {
     expect(wrapper.vm.map?.getMaxZoom()).toBe(5);
   });
 
-  it('default slot', () => {
+  it('default slot', async () => {
     const wrapper = mount(VMap, {
       slots: {
         default: {
@@ -76,25 +85,47 @@ describe('VMap', () => {
       }
     });
 
+    await nextTick();
+
     expect(wrapper.find('.child-component').exists()).toBe(true);
   });
 
-  it('provide map', () => {
-    let map: Readonly<Ref<Map | null>> | undefined = undefined;
-    const wrapper = mount(VMap, {
-      slots: {
-        default: {
-          setup() {
-            map = useMap();
-            return () => h('div', { class: 'child' });
-          }
-        }
+  it('provide map', async () => {
+    expect.assertions(5);
+
+    const expectMap = (map: unknown) => expect(unref(map)).toBeInstanceOf(Map);
+
+    const Child = defineComponent({
+      setup() {
+        const map = useMap();
+        expectMap(map);
+
+        onBeforeMount(() => {
+          expectMap(map);
+        });
+        onMounted(() => {
+          expectMap(map);
+        });
+        onBeforeUnmount(() => {
+          expectMap(map);
+        });
+        onUnmounted(() => {
+          expectMap(map);
+        });
+
+        return () => h('div', { class: 'child' });
       }
     });
 
-    expect(map).toBeDefined();
-    expect(wrapper.vm.map).toBeDefined();
-    expect(wrapper.vm.map).toBe(map!.value);
+    const Root = defineComponent({
+      setup() {
+        return () => h(VMap, null, { default: () => h(Child) });
+      }
+    });
+
+    const wrapper = mount(Root);
+    await nextTick();
+    wrapper.unmount();
   });
 
   it('leaflet event', async () => {
@@ -133,5 +164,23 @@ describe('VMap', () => {
     expect(ev.center).toEqual({ lat: 1, lng: 2 });
     expect(ev.zoom).toBe(3);
     expect(ev.bounds).toBeInstanceOf(LatLngBounds);
+  });
+
+  it('should be defined map in children component when parent is mounted', () => {
+    expect.assertions(1);
+
+    mount(VMap, {
+      slots: {
+        default: defineComponent({
+          setup() {
+            const map = useMap();
+            onMounted(() => {
+              expect(unref(map)).toBeInstanceOf(Map);
+            });
+            return () => null;
+          }
+        })
+      }
+    });
   });
 });

@@ -19,18 +19,26 @@ export default defineConfig({
       fileName: format => `index.${format}.js`
     },
     rollupOptions: {
-      external: ['vue', 'leaflet', '@vueuse/core', '@vueuse/shared'],
+      external: [
+        'vue',
+        'leaflet',
+        '@vueuse/core',
+        '@vueuse/shared',
+        'vue-use-leaflet'
+      ],
       output: {
         globals: {
           vue: 'Vue',
           leaflet: 'L',
           '@vueuse/core': 'VueUse',
-          '@vueuse/shared': 'VueUse'
+          '@vueuse/shared': 'VueUse',
+          'vue-use-leaflet': 'VueUseLeaflet'
         }
       }
     }
   },
   test: {
-    environment: 'jsdom'
+    environment: 'jsdom',
+    reporters: 'dot'
   }
 });
