@@ -1,5 +1,3 @@
-/// <reference types="vitest" />
-
 import { fileURLToPath, URL } from 'node:url';
 import path from 'node:path';
 import { defineConfig } from 'vite';
@@ -20,7 +18,7 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        'vue',
+        'vue-demi',
         'leaflet',
         '@vueuse/core',
         '@vueuse/shared',
@@ -28,7 +26,7 @@ export default defineConfig({
       ],
       output: {
         globals: {
-          vue: 'Vue',
+          'vue-demi': 'VueDemi',
           leaflet: 'L',
           '@vueuse/core': 'VueUse',
           '@vueuse/shared': 'VueUse',
@@ -36,9 +34,5 @@ export default defineConfig({
         }
       }
     }
-  },
-  test: {
-    environment: 'jsdom',
-    reporters: 'dot'
   }
 });

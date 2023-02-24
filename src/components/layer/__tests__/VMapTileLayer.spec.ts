@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
-import { ref, unref, h, nextTick, defineComponent, type Ref } from 'vue';
-import { mount } from '@vue/test-utils';
+import { ref, unref, h, nextTick, defineComponent, type Ref } from 'vue-demi';
 import { TileLayer, type Coords } from 'leaflet';
+import { mount } from '@/../.test';
 import { VMap } from '@/components/map';
 import VMapTileLayer from '../VMapTileLayer.vue';
 
@@ -16,64 +16,102 @@ describe('VMapTileLayer', () => {
     expect(layer.getTileUrl({ z: 1 } as Coords)).toBe(expectedUrl);
   }
 
-  function wrapComponent(defaultSlotFn: () => any) {
+  function wrapComponent(
+    defaultSlotFn: () => any,
+    refs?: Record<string, unknown>,
+    isRender: Ref<boolean> | boolean = true
+  ) {
     return defineComponent({
       setup() {
-        return () => h(VMap, null, { default: defaultSlotFn });
+        return { ...refs };
+      },
+      render() {
+        return h(
+          VMap,
+          { ref: 'mapRef' },
+          unref(isRender) ? { default: defaultSlotFn } : undefined
+        );
       }
     });
   }
 
   it('should render with default props', () => {
-    const wrapper = mount(VMapTileLayer);
-    expect(wrapper.html()).toBe('<!--v-if-->');
+    const vm = mount(VMapTileLayer);
+    expect(vm.$el.nodeType).toBe(Node.COMMENT_NODE);
   });
 
   it('should be expose instance', () => {
-    const wrapper = mount(VMapTileLayer, { props: { url: testUrl } });
-    expectTileLayer(wrapper.vm.tileLayer);
+    const vm = mount(
+      defineComponent({
+        setup() {
+          const componentRef = ref<InstanceType<typeof VMapTileLayer> | null>(
+            null
+          );
+
+          return { componentRef };
+        },
+        render() {
+          return h(VMapTileLayer, { url: testUrl, ref: 'componentRef' });
+        }
+      })
+    );
+
+    expect(unref(vm.componentRef)).not.toBeNull();
+    expectTileLayer(vm.componentRef!.tileLayer);
   });
 
   it('should work', async () => {
-    const wrapper = mount(VMap, {
-      slots: { default: () => h(VMapTileLayer, { url: testUrl }) }
-    });
+    const mapRef = ref<InstanceType<typeof VMap> | null>(null);
+    const tileLayerRef = ref<InstanceType<typeof VMapTileLayer> | null>(null);
+    mount(
+      wrapComponent(
+        () => h(VMapTileLayer, { url: testUrl, ref: 'tileLayerRef' }),
+        {
+          mapRef,
+          tileLayerRef
+        }
+      )
+    );
 
     await nextTick();
 
-    const mapComponent = wrapper.findComponent(VMap);
-    const tileLayerComponent = wrapper.findComponent(VMapTileLayer);
+    expect(unref(mapRef)).toBeTruthy();
+    expect(unref(tileLayerRef)).toBeTruthy();
 
-    expect(mapComponent.exists()).toBeTruthy();
-    expect(tileLayerComponent.exists()).toBeTruthy();
-
-    expectTileLayer(tileLayerComponent.vm.tileLayer);
+    expectTileLayer(unref(tileLayerRef)?.tileLayer);
     expect(
-      mapComponent.vm.map!.hasLayer(tileLayerComponent.vm.tileLayer!)
+      unref(mapRef)?.map!.hasLayer(unref(tileLayerRef)?.tileLayer!)
     ).toBeTruthy();
   });
 
-  /*it('should remove from map when component is unmounted', async () => {
-    const wrapper = mount(VMap, {
-      slots: { default: () => h(VMapTileLayer, { url: testUrl }) }
-    });
+  it('should remove from map when component is unmounted', async () => {
+    const mapRef = ref<InstanceType<typeof VMap> | null>(null);
+    const tileLayerRef = ref<InstanceType<typeof VMapTileLayer> | null>(null);
+    const isRender = ref(true);
+    mount(
+      wrapComponent(
+        () => h(VMapTileLayer, { url: testUrl, ref: 'tileLayerRef' }),
+        {
+          mapRef,
+          tileLayerRef
+        },
+        isRender
+      )
+    );
 
     await nextTick();
 
-    const mapComponent = wrapper.findComponent(VMap);
-    const tileLayerComponent = wrapper.findComponent(VMapTileLayer);
-
-    expect(mapComponent.exists()).toBeTruthy();
-    expect(tileLayerComponent.exists()).toBeTruthy();
-
-    const { tileLayer } = tileLayerComponent.vm;
-    const { map } = mapComponent.vm;
-
+    expect(unref(mapRef)).toBeTruthy();
+    expect(unref(tileLayerRef)).toBeTruthy();
+    const { tileLayer } = unref(tileLayerRef)!;
     expectTileLayer(tileLayer);
-    expect(map!.hasLayer(tileLayer!)).toBeTruthy();
 
-    wrapper.unmount();
+    isRender.value = false;
 
-    expect(map!.hasLayer(tileLayer!)).toBe(false);
-  });*/
+    await nextTick();
+
+    expect(unref(tileLayerRef)).toBeNull();
+    expectTileLayer(tileLayer);
+    expect(unref(mapRef)?.map!.hasLayer(tileLayer!)).toBeFalsy();
+  });
 });

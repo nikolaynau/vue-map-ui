@@ -1,4 +1,4 @@
-import { useAttrs as _useAttrs } from 'vue';
+import { useAttrs as _useAttrs } from 'vue-demi';
 import { isEmpty, lcFirst } from '../utils/strings';
 
 export function useAttrs<T = Function, U = unknown>() {

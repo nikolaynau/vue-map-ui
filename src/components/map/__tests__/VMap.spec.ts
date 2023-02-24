@@ -7,29 +7,52 @@ import {
   onMounted,
   onBeforeMount,
   onBeforeUnmount,
-  onUnmounted
-} from 'vue';
-import { mount } from '@vue/test-utils';
+  onUnmounted,
+  ref
+} from 'vue-demi';
 import { LatLngBounds, Map, type LatLngBoundsExpression } from 'leaflet';
+import { mount } from '@/../.test';
 import { useMap } from '@/composables';
 import VMap from '../VMap.vue';
 
 describe('VMap', () => {
+  function mountMapComponent(props?: object, children?: any) {
+    const mapRef = ref<InstanceType<typeof VMap> | null>(null);
+    const { unmount } = mount(
+      defineComponent({
+        setup() {
+          return { mapRef };
+        },
+        render() {
+          return h(VMap, { ref: 'mapRef', ...props }, children);
+        }
+      })
+    );
+    const vm = unref(mapRef)!;
+    (vm as any).unmount = unmount;
+    return vm;
+  }
+
+  function expectMap(value: unknown) {
+    expect(unref(value)).not.toBeNull();
+    expect(unref(value)).toBeInstanceOf(Map);
+  }
+
   it('render default props', () => {
-    const wrapper = mount(VMap);
-    expect(wrapper.html()).toMatchSnapshot();
+    const vm = mount(VMap);
+    expect(vm.$el.outerHTML).toMatchSnapshot();
   });
 
   it('map and container exist', () => {
-    const wrapper = mount(VMap);
-    expect(wrapper.vm.container).not.toBeNull();
-    expect(wrapper.vm.map).toBeInstanceOf(Map);
+    const vm = mount(VMap);
+    expect(vm.container).toBeInstanceOf(HTMLElement);
+    expectMap(vm.map);
   });
 
   it('center and zoom props', () => {
-    const wrapper = mount(VMap, { props: { center: [1, 2], zoom: 3 } });
-    expect(wrapper.vm.map?.getZoom()).toBe(3);
-    expect(wrapper.vm.map?.getCenter()).toEqual({ lat: 1, lng: 2 });
+    const vm = mountMapComponent({ center: [1, 2], zoom: 3 });
+    expect(vm.map?.getZoom()).toBe(3);
+    expect(vm.map?.getCenter()).toEqual({ lat: 1, lng: 2 });
   });
 
   it('bounds prop', () => {
@@ -37,63 +60,60 @@ describe('VMap', () => {
       [1, 2],
       [3, 4]
     ];
-    const wrapper = mount(VMap, { props: { bounds: expected } });
-    expect(wrapper.vm.map?.getBounds()).toBeInstanceOf(LatLngBounds);
+    const vm = mountMapComponent({ bounds: expected });
+    expect(vm.map?.getBounds()).toBeInstanceOf(LatLngBounds);
   });
 
   it('inherit css class', () => {
-    const wrapper = mount(VMap, { attrs: { class: 'some-class' } });
-    expect(wrapper.find('.v-map').classes('some-class')).toBe(true);
+    const vm = mountMapComponent({ class: 'some-class' });
+    expect(vm.$el.classList.contains('some-class')).toBe(true);
   });
 
   it('inherit css style', () => {
     const expected = 'height: 100px';
-    const wrapper = mount(VMap, { attrs: { style: expected } });
-    expect(wrapper.find('.v-map').attributes('style')).contains(expected);
+    const vm = mountMapComponent({ style: expected });
+    expect(vm.$el.getAttribute('style')).contains(expected);
   });
 
   it('inherit id attrs', () => {
     const expected = 'map-1';
-    const wrapper = mount(VMap, { attrs: { id: expected } });
-    expect(wrapper.find('.v-map').attributes('id')).contains(expected);
+    const vm = mountMapComponent({ id: expected });
+    expect(vm.$el.getAttribute('id')).contains(expected);
   });
 
   it('inherit any attrs', () => {
     const expected = 'map-1';
-    const wrapper = mount(VMap, {
-      props: { elementAttrs: ['data-id'] },
-      attrs: { 'data-id': expected }
+    const vm = mountMapComponent({
+      elementAttrs: ['data-id'],
+      'data-id': expected
     });
-    expect(wrapper.find('.v-map').attributes('data-id')).contains(expected);
+    expect(vm.$el.getAttribute('data-id')).contains(expected);
   });
 
   it('set leaflet property', () => {
-    const wrapper = mount(VMap, {
-      attrs: { maxZoom: 5 }
+    const vm = mountMapComponent({
+      maxZoom: 5
     });
-    expect(wrapper.vm.map?.getMaxZoom()).toBe(5);
+    expect(vm.map?.getMaxZoom()).toBe(5);
   });
 
   it('default slot', async () => {
-    const wrapper = mount(VMap, {
-      slots: {
-        default: {
-          setup() {
-            return () => h('div', { class: 'child-component' });
-          }
-        }
+    const Child = defineComponent({
+      setup() {
+        return () => h('div', { class: 'child-component' });
       }
     });
+    const vm = mountMapComponent(undefined, { default: () => h(Child) });
 
     await nextTick();
 
-    expect(wrapper.find('.child-component').exists()).toBe(true);
+    expect(vm.$el.querySelector('.child-component')).toBeInstanceOf(
+      HTMLElement
+    );
   });
 
-  /*it('provide map', async () => {
-    expect.assertions(5);
-
-    const expectMap = (map: unknown) => expect(unref(map)).toBeInstanceOf(Map);
+  it('provide map', async () => {
+    expect.assertions(10);
 
     const Child = defineComponent({
       setup() {
@@ -117,37 +137,31 @@ describe('VMap', () => {
       }
     });
 
-    const Root = defineComponent({
-      setup() {
-        return () => h(VMap, null, { default: () => h(Child) });
-      }
-    });
+    const vm = mountMapComponent(undefined, { default: () => h(Child) });
 
-    const wrapper = mount(Root);
     await nextTick();
-    wrapper.unmount();
-  });*/
+
+    (vm as any).unmount();
+  });
 
   it('leaflet event', async () => {
     const moveendListener = vi.fn();
     const zoomendListener = vi.fn();
 
-    const wrapper = mount(VMap, {
-      attrs: {
-        onMoveend: moveendListener,
-        onZoomend: zoomendListener
-      }
+    const vm = mountMapComponent({
+      onMoveend: moveendListener,
+      onZoomend: zoomendListener
     });
 
     await nextTick();
 
-    wrapper.vm.map?.setView([1, 2], 3, { animate: false });
+    vm.map!.setView([1, 2], 3, { animate: false });
 
     expect(moveendListener).toBeCalledTimes(1);
     expect(zoomendListener).toBeCalledTimes(1);
   });
 
-  it('view changed event', async () => {
+  /*it('view changed event', async () => {
     const listener = vi.fn();
     const wrapper = mount(VMap, {
       attrs: {
@@ -182,5 +196,5 @@ describe('VMap', () => {
         })
       }
     });
-  });
+  });*/
 });

@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue-demi';
 
 export default defineComponent({
   inheritAttrs: false
@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { onUnmounted, toRefs } from 'vue';
+import { toRefs } from 'vue-demi';
 import type { LeafletEventHandlerFn, TileLayerOptions } from 'leaflet';
 import { useLeafletTileLayer, useLeafletToggleLayer } from 'vue-use-leaflet';
 import { useMap, useEvents, useAttrs } from '@/composables';

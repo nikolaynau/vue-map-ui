@@ -1,5 +1,6 @@
-import { mount } from '@vue/test-utils';
 import { describe, it, expect } from 'vitest';
+import { defineComponent, h } from 'vue-demi';
+import { mount } from '@/../.test';
 import { useAttrs, type UseAttrsReturn } from '../useAttrs';
 
 describe('useAttrs', () => {
@@ -19,15 +20,20 @@ describe('useAttrs', () => {
     (sourceAttrs, expectedAttrs, expectedEvents) => {
       let result: UseAttrsReturn | undefined = undefined;
 
-      mount(
-        {
-          setup() {
-            result = useAttrs();
-            return () => {};
-          }
-        },
-        { attrs: sourceAttrs }
-      );
+      const Child = defineComponent({
+        setup() {
+          result = useAttrs();
+          return () => {};
+        }
+      });
+
+      const Root = defineComponent({
+        render() {
+          return h(Child, { ...sourceAttrs });
+        }
+      });
+
+      mount(Root);
 
       expect(result!.attrs).toEqual(expectedAttrs);
       expect(result!.events).toEqual(expectedEvents);

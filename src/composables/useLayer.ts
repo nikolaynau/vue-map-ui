@@ -1,4 +1,4 @@
-import { inject, provide, readonly, type Ref } from 'vue';
+import { inject, provide, readonly, type Ref } from 'vue-demi';
 import type { Layer } from 'leaflet';
 import { layerKey } from '../utils/injectionSymbols';
 

@@ -1,4 +1,4 @@
-import { computed, type ComputedRef } from 'vue';
+import { computed, type ComputedRef } from 'vue-demi';
 import { type MaybeComputedRef, resolveUnref } from '@vueuse/shared';
 
 export function isReady(

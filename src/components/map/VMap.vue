@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue-demi';
 
 export default defineComponent({
   inheritAttrs: false
@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, toRefs } from 'vue';
+import { ref, toRefs } from 'vue-demi';
 import type {
   MapOptions,
   LatLngBoundsExpression,
