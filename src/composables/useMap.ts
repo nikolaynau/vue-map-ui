@@ -1,4 +1,4 @@
-import { inject, provide, readonly, type Ref } from 'vue-demi';
+import { inject, provide, readonly, type Ref } from 'vue';
 import type { Map } from 'leaflet';
 import { mapKey } from '../utils/injectionSymbols';
 

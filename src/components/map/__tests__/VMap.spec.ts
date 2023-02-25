@@ -9,7 +9,7 @@ import {
   onBeforeUnmount,
   onUnmounted,
   ref
-} from 'vue-demi';
+} from 'vue';
 import { LatLngBounds, Map, type LatLngBoundsExpression } from 'leaflet';
 import { mount } from '@/../.test';
 import { useMap } from '@/composables';

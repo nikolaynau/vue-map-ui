@@ -1,4 +1,4 @@
-import { createApp } from 'vue-demi';
+import { createApp } from 'vue';
 
 type InstanceType<V> = V extends { new (...arg: any[]): infer X } ? X : never;
 type VM<V> = InstanceType<V> & { unmount(): void };

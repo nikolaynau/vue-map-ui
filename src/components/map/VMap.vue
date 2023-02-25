@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue-demi';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   inheritAttrs: false
@@ -7,19 +7,22 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, toRefs } from 'vue-demi';
+import { ref, toRefs } from 'vue';
 import type {
   MapOptions,
   LatLngBoundsExpression,
   LatLngExpression,
   LeafletEventHandlerFn
 } from 'leaflet';
-import { useLeafletMap, type ViewChangedCallback } from 'vue-use-leaflet';
+import {
+  useLeafletMap,
+  useLeafletReady,
+  type ViewChangedCallback
+} from 'vue-use-leaflet';
 import { provideMap } from '@/composables/useMap';
 import { omit, pick } from '@/utils/objects';
 import { useAttrs } from '@/composables/useAttrs';
 import { useEvents } from '@/composables/useEvents';
-import { isReady } from '@/utils/isReady';
 
 export interface Props extends MapOptions {
   center?: LatLngExpression;
@@ -57,7 +60,7 @@ const map = useLeafletMap(container, {
   ...leafletOptions,
   onViewChanged
 });
-const ready = isReady(map);
+const ready = useLeafletReady(map);
 useEvents(map, leafletEvents);
 provideMap(map);
 

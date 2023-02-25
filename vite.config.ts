@@ -18,7 +18,7 @@ export default defineConfig({
     },
     rollupOptions: {
       external: [
-        'vue-demi',
+        'vue',
         'leaflet',
         '@vueuse/core',
         '@vueuse/shared',
@@ -26,7 +26,7 @@ export default defineConfig({
       ],
       output: {
         globals: {
-          'vue-demi': 'VueDemi',
+          vue: 'Vue',
           leaflet: 'L',
           '@vueuse/core': 'VueUse',
           '@vueuse/shared': 'VueUse',

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { defineComponent, h } from 'vue-demi';
+import { defineComponent, h } from 'vue';
 import { mount } from '@/../.test';
 import { useAttrs, type UseAttrsReturn } from '../useAttrs';
 

@@ -22,7 +22,7 @@ jobs:
       - name: Install project dependencies
         run: npm ci
       - name: Run tests
-        run: npm test run
+        run: npm run test:run
 
   publish:
     runs-on: ubuntu-latest

@@ -17,9 +17,6 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     reporters: 'dot',
-    setupFiles: [path.resolve(__dirname, '.test/setup.ts')],
-    deps: {
-      inline: ['vue2', 'vue-demi']
-    }
+    setupFiles: [path.resolve(__dirname, '.test/setup.ts')]
   }
 });

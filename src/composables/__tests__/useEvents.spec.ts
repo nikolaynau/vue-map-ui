@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, type Mock, beforeEach } from 'vitest';
-import { ref, markRaw, type Ref } from 'vue-demi';
+import { ref, markRaw, type Ref } from 'vue';
 import { Evented } from 'leaflet';
 import { useEvents } from '../useEvents';
 
