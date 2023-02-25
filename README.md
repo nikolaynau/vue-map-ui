@@ -31,6 +31,71 @@ import 'vue-map-ui/dist/style.css';
 createApp(App).mount('#app');
 ```
 
+```html
+<script setup>
+// map.vue
+import { VMap, VMapOsmTileLayer } from 'vue-map-ui';
+</script>
+
+<template>
+  <VMap style="height: 200px;">
+    <VMapOsmTileLayer />
+  </VMap>
+</template>
+```
+
+## Auto import
+
+```bash
+$ npm install -D unplugin-vue-map-ui unplugin-vue-components
+```
+
+<details>
+<summary>Vite</summary>
+<br>
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import Components from 'unplugin-vue-components/vite';
+import { VueMapUiResolver } from 'unplugin-vue-map-ui';
+
+export default defineConfig({
+  // ...
+  plugins: [
+    // ...
+    Components({
+      resolvers: [VueMapUiResolver()]
+    })
+  ]
+});
+```
+
+<br>
+</details>
+
+<details>
+<summary>Webpack</summary>
+<br>
+
+```ts
+// webpack.config.js
+const Components = require('unplugin-vue-components/webpack');
+const { VueMapUiResolver } = require('unplugin-vue-map-ui');
+
+module.exports = {
+  // ...
+  plugins: [
+    Components({
+      resolvers: [VueMapUiResolver()]
+    })
+  ]
+};
+```
+
+<br>
+</details>
+
 ## License
 
 Licensed under the [MIT License](./LICENSE).
