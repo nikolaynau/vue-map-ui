@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { ref, unref, h, nextTick, defineComponent, type Ref } from 'vue-demi';
 import { TileLayer, type Coords } from 'leaflet';
 import { mount } from '@/../.test';

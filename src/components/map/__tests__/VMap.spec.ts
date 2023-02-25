@@ -38,29 +38,33 @@ describe('VMap', () => {
     expect(unref(value)).toBeInstanceOf(Map);
   }
 
-  it('render default props', () => {
+  it('render default props', async () => {
     const vm = mount(VMap);
+    await nextTick();
     expect(vm.$el.outerHTML).toMatchSnapshot();
   });
 
-  it('map and container exist', () => {
+  it('map and container exist', async () => {
     const vm = mount(VMap);
+    await nextTick();
     expect(vm.container).toBeInstanceOf(HTMLElement);
     expectMap(vm.map);
   });
 
-  it('center and zoom props', () => {
+  it('center and zoom props', async () => {
     const vm = mountMapComponent({ center: [1, 2], zoom: 3 });
+    await nextTick();
     expect(vm.map?.getZoom()).toBe(3);
     expect(vm.map?.getCenter()).toEqual({ lat: 1, lng: 2 });
   });
 
-  it('bounds prop', () => {
+  it('bounds prop', async () => {
     const expected: LatLngBoundsExpression = [
       [1, 2],
       [3, 4]
     ];
     const vm = mountMapComponent({ bounds: expected });
+    await nextTick();
     expect(vm.map?.getBounds()).toBeInstanceOf(LatLngBounds);
   });
 
@@ -90,10 +94,11 @@ describe('VMap', () => {
     expect(vm.$el.getAttribute('data-id')).contains(expected);
   });
 
-  it('set leaflet property', () => {
+  it('set leaflet property', async () => {
     const vm = mountMapComponent({
       maxZoom: 5
     });
+    await nextTick();
     expect(vm.map?.getMaxZoom()).toBe(5);
   });
 
@@ -161,17 +166,15 @@ describe('VMap', () => {
     expect(zoomendListener).toBeCalledTimes(1);
   });
 
-  /*it('view changed event', async () => {
+  it('view changed event', async () => {
     const listener = vi.fn();
-    const wrapper = mount(VMap, {
-      attrs: {
-        onViewChanged: listener
-      }
+    const vm = mountMapComponent({
+      onViewChanged: listener
     });
 
     await nextTick();
 
-    wrapper.vm.map?.setView([1, 2], 3, { animate: false });
+    vm.map?.setView([1, 2], 3, { animate: false });
 
     expect(listener).toBeCalledTimes(1);
     const ev = listener.mock.calls[0][0];
@@ -179,22 +182,4 @@ describe('VMap', () => {
     expect(ev.zoom).toBe(3);
     expect(ev.bounds).toBeInstanceOf(LatLngBounds);
   });
-
-  it('should be defined map in children component when parent is mounted', () => {
-    expect.assertions(1);
-
-    mount(VMap, {
-      slots: {
-        default: defineComponent({
-          setup() {
-            const map = useMap();
-            onMounted(() => {
-              expect(unref(map)).toBeInstanceOf(Map);
-            });
-            return () => null;
-          }
-        })
-      }
-    });
-  });*/
 });

@@ -1,5 +1,4 @@
-import { isFunction } from '@vue/shared';
-import type { MaybeComputedRef } from '@vueuse/shared';
+import { type MaybeComputedRef, isFunction } from '@vueuse/shared';
 import type { Evented, LeafletEvent, LeafletEventHandlerFn } from 'leaflet';
 import { useLeafletEvent } from 'vue-use-leaflet';
 
