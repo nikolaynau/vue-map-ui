@@ -100,7 +100,7 @@ module.exports = {
 
 If you use volar, please add the global component type definition to `compilerOptions.types` in `tsconfig.json`.
 
-```json
+```js
 // tsconfig.json
 {
   "compilerOptions": {
