@@ -33,7 +33,7 @@ createApp(App).mount('#app');
 
 ```html
 <script setup>
-// map.vue
+// Map.vue
 import { VMap, VMapOsmTileLayer } from 'vue-map-ui';
 </script>
 
@@ -95,6 +95,28 @@ module.exports = {
 
 <br>
 </details>
+
+## Volar support
+
+If you use volar, please add the global component type definition to `compilerOptions.types` in `tsconfig.json`.
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    // ...
+    "types": ["vue-map-ui/global"]
+  }
+}
+```
+
+## Typescript
+
+if you use typescript, please add the type definitions fot `leaflet` library.
+
+```bash
+$ npm install -D @types/leaflet
+```
 
 ## License
 
