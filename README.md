@@ -110,7 +110,7 @@ If you use volar, please add the global component type definition to `compilerOp
 }
 ```
 
-## Typescript
+## Type definitions
 
 if you use typescript, please add the type definitions fot `leaflet` library.
 
