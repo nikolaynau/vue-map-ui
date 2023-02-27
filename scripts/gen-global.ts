@@ -3,7 +3,7 @@ import { promises as fs, existsSync } from 'fs';
 import fg from 'fast-glob';
 import { name } from '../package.json';
 
-const distDir = resolve(__dirname, '../dist');
+const baseDir = resolve(__dirname, '../');
 
 async function run() {
   const files = await fg('**/VMap*.vue', {
@@ -28,10 +28,10 @@ declare module '@vue/runtime-core' {
 
 export {};
 `;
-  if (!existsSync(distDir)) {
-    await fs.mkdir(distDir);
+  if (!existsSync(baseDir)) {
+    await fs.mkdir(baseDir);
   }
-  await fs.writeFile(resolve(distDir, 'global.d.ts'), fileContent);
+  await fs.writeFile(resolve(baseDir, 'global.d.ts'), fileContent);
 }
 
 run();

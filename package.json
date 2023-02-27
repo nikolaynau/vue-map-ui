@@ -34,7 +34,8 @@
   "module": "./dist/index.es.js",
   "types": "./dist/types/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "global.d.ts"
   ],
   "lint-staged": {
     "*.{js,ts,vue,css}": "prettier --write"
