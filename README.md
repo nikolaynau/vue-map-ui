@@ -112,7 +112,7 @@ If you use volar, please add the global component type definition to `compilerOp
 
 ## Type definitions
 
-if you use typescript, please add the type definitions fot `leaflet` library.
+If you use typescript, please add the type definitions fot `leaflet` library.
 
 ```bash
 $ npm install -D @types/leaflet
