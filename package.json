@@ -47,8 +47,9 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "build-dts": "vue-tsc -p tsconfig.dts.json",
     "build-styles": "postcss src/assets/css/normalize.css --base src/assets/css --dir dist -u \"postcss-import\" tailwindcss autoprefixer cssnano --no-map",
-    "build-all": "run-s build build-styles global-dts",
-    "global-dts": "esno scripts/gen-global.ts",
+    "build-meta": "esno scripts/meta.ts",
+    "build-global-dts": "esno scripts/gen-global.ts",
+    "build-all": "run-s build build-styles build-global-dts build-meta",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
     "test": "vitest",
@@ -67,7 +68,7 @@
     "@vueuse/shared": "^9.12.0",
     "object.omit": "^3.0.0",
     "object.pick": "^1.3.0",
-    "vue-use-leaflet": "^0.0.5"
+    "vue-use-leaflet": "^0.0.6"
   },
   "devDependencies": {
     "@babel/types": "^7.20.7",
