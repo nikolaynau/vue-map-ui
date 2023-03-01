@@ -123,7 +123,7 @@ $ npm install -D @types/leaflet
 For Nuxt users, you only need to install `nuxt-vue-map-ui`.
 
 ```bash
-$ npm install -D @element-plus/nuxt
+$ npm install -D nuxt-vue-map-ui
 ```
 
 Then add the code below into your config file.
@@ -131,7 +131,7 @@ Then add the code below into your config file.
 ```js
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@element-plus/nuxt']
+  modules: ['nuxt-vue-map-ui']
 });
 ```
 
