@@ -110,6 +110,14 @@ If you use volar, please add the global component type definition to `compilerOp
 }
 ```
 
+## Type definitions
+
+If you use typescript, please add the type definitions fot `leaflet` library.
+
+```bash
+$ npm install -D @types/leaflet
+```
+
 ## Nuxt
 
 For Nuxt users, you only need to install `nuxt-vue-map-ui`.
@@ -128,14 +136,6 @@ export default defineNuxtConfig({
 ```
 
 Refer to the [docs](https://github.com/nikolaynau/nuxt-vue-map-ui#readme) for how to configure it.
-
-## Type definitions
-
-If you use typescript, please add the type definitions fot `leaflet` library.
-
-```bash
-$ npm install -D @types/leaflet
-```
 
 ## License
 
