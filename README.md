@@ -33,8 +33,8 @@ createApp(App).mount('#app');
 
 ```html
 <script setup>
-// Map.vue
-import { VMap, VMapOsmTileLayer } from 'vue-map-ui';
+  // Map.vue
+  import { VMap, VMapOsmTileLayer } from 'vue-map-ui';
 </script>
 
 <template>
@@ -109,6 +109,25 @@ If you use volar, please add the global component type definition to `compilerOp
   }
 }
 ```
+
+## Nuxt
+
+For Nuxt users, you only need to install `nuxt-vue-map-ui`.
+
+```bash
+$ npm install -D @element-plus/nuxt
+```
+
+Then add the code below into your config file.
+
+```js
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@element-plus/nuxt']
+});
+```
+
+Refer to the [docs](https://github.com/nikolaynau/nuxt-vue-map-ui#readme) for how to configure it.
 
 ## Type definitions
 
