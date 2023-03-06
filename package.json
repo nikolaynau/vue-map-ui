@@ -1,6 +1,6 @@
 {
   "name": "vue-map-ui",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Map component library based on leaflet for Vue 3",
   "author": "Nikolay Naumenkov <nikolas.it.web@gmail.com>",
   "license": "MIT",
@@ -47,9 +47,8 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "build-dts": "vue-tsc -p tsconfig.dts.json",
     "build-styles": "postcss src/assets/css/normalize.css --base src/assets/css --dir dist -u \"postcss-import\" tailwindcss autoprefixer cssnano --no-map",
-    "build-meta": "esno scripts/meta.ts",
     "build-global-dts": "esno scripts/gen-global.ts",
-    "build-all": "run-s build build-styles build-global-dts build-meta",
+    "build-all": "run-s build build-styles build-global-dts",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
     "test": "vitest",
