@@ -11,8 +11,8 @@ import {
   ref
 } from 'vue';
 import { LatLngBounds, Map, type LatLngBoundsExpression } from 'leaflet';
-import { mount } from '@/../.test';
-import { useMap } from '@/composables';
+import { mount } from '../../../../.test';
+import { useMap } from '../../../composables';
 import VMap from '../VMap.vue';
 
 describe('VMap', () => {

@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { ref, unref, h, nextTick, defineComponent, type Ref } from 'vue';
 import { TileLayer, type Coords } from 'leaflet';
-import { mount } from '@/../.test';
-import { VMap } from '@/components/map';
+import { mount } from '../../../../.test';
+import { VMap } from '../../../components/map';
 import VMapTileLayer from '../VMapTileLayer.vue';
 
 describe('VMapTileLayer', () => {

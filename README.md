@@ -31,10 +31,10 @@ import 'vue-map-ui/dist/style.css';
 createApp(App).mount('#app');
 ```
 
-```html
+```vue
 <script setup>
-  // Map.vue
-  import { VMap, VMapOsmTileLayer } from 'vue-map-ui';
+// Map.vue
+import { VMap, VMapOsmTileLayer } from 'vue-map-ui';
 </script>
 
 <template>
@@ -110,7 +110,7 @@ If you use volar, please add the global component type definition to `compilerOp
 }
 ```
 
-## Type definitions
+## Typescript
 
 If you use typescript, please add the type definitions fot `leaflet` library.
 
@@ -131,7 +131,10 @@ Then add the code below into your config file.
 ```js
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['nuxt-vue-map-ui']
+  modules: ['nuxt-vue-map-ui'],
+  vueMap: {
+    /** Options */
+  }
 });
 ```
 

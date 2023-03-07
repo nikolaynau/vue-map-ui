@@ -1,1 +1,1 @@
-export { default as VMap } from './VMap.vue';
+export { default as VMap, type Attrs as MapAttributes } from './VMap.vue';

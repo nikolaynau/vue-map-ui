@@ -14,12 +14,13 @@ import {
   useLeafletToggleLayer,
   useLeafletReady
 } from 'vue-use-leaflet';
-import { useMap, useEvents, useAttrs } from '@/composables';
-import { provideLayer } from '@/composables/useLayer';
+import { useMap, useEvents, useAttrs, provideLayer } from '../../composables';
 
-export interface Props extends TileLayerOptions {
+export interface Props {
   url?: string;
 }
+
+export type Attrs = TileLayerOptions;
 
 const props = defineProps<Props>();
 

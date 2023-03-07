@@ -48,7 +48,8 @@
     "build-dts": "vue-tsc -p tsconfig.dts.json",
     "build-styles": "postcss src/assets/css/normalize.css --base src/assets/css --dir dist -u \"postcss-import\" tailwindcss autoprefixer cssnano --no-map",
     "build-global-dts": "esno scripts/gen-global.ts",
-    "build-all": "run-s build build-styles build-global-dts",
+    "build-attrs-dts": "esno scripts/gen-attrs.ts",
+    "build-all": "run-s build build-styles build-attrs-dts build-global-dts",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
     "test": "vitest",
@@ -60,7 +61,8 @@
   },
   "peerDependencies": {
     "leaflet": ">=1.9.0",
-    "vue": ">=3.0.0"
+    "vue": ">=3.0.0",
+    "@types/leaflet": ">=1.9.0"
   },
   "dependencies": {
     "@vueuse/core": "^9.12.0",

@@ -19,18 +19,18 @@ import {
   useLeafletReady,
   type ViewChangedCallback
 } from 'vue-use-leaflet';
-import { provideMap } from '@/composables/useMap';
-import { omit, pick } from '@/utils/objects';
-import { useAttrs } from '@/composables/useAttrs';
-import { useEvents } from '@/composables/useEvents';
+import { useAttrs, useEvents, provideMap } from '../../composables';
+import { omit, pick } from '../../utils/objects';
 
-export interface Props extends MapOptions {
+export interface Props {
   center?: LatLngExpression;
   zoom?: number;
   bounds?: LatLngBoundsExpression;
   useFly?: boolean;
   elementAttrs?: string[];
 }
+
+export type Attrs = MapOptions;
 
 const props = withDefaults(defineProps<Props>(), {
   center: () => [0, 0],

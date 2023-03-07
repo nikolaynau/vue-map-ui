@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import VMapTileLayer from '@/components/layer/VMapTileLayer.vue';
+import {
+  default as VMapTileLayer,
+  type Attrs as _Attrs
+} from '../layer/VMapTileLayer.vue';
+
+export type Attrs = _Attrs;
 </script>
 
 <template>

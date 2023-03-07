@@ -1,1 +1,4 @@
-export { default as VMapOsmTileLayer } from './VMapOsmTileLayer.vue';
+export {
+  default as VMapOsmTileLayer,
+  type Attrs as MapOsmTileLayerAttributes
+} from './VMapOsmTileLayer.vue';
