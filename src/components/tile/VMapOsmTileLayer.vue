@@ -11,5 +11,7 @@ export type Attrs = _Attrs;
   <VMapTileLayer
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     title="Open Street Map"
-  />
+  >
+    <slot></slot>
+  </VMapTileLayer>
 </template>
