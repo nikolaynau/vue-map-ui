@@ -58,14 +58,15 @@ $ npm install -D unplugin-vue-map-ui unplugin-vue-components
 // vite.config.ts
 import { defineConfig } from 'vite';
 import Components from 'unplugin-vue-components/vite';
-import { VueMapUiResolver } from 'unplugin-vue-map-ui';
+import { VueMapUiResolver, VueMapUiPreset } from 'unplugin-vue-map-ui';
 
 export default defineConfig({
   // ...
   plugins: [
     // ...
     Components({
-      resolvers: [VueMapUiResolver()]
+      resolvers: [VueMapUiResolver()],
+      types: [VueMapUiPreset]
     })
   ]
 });
@@ -81,13 +82,14 @@ export default defineConfig({
 ```ts
 // webpack.config.js
 const Components = require('unplugin-vue-components/webpack');
-const { VueMapUiResolver } = require('unplugin-vue-map-ui');
+const { VueMapUiResolver, VueMapUiPreset } = require('unplugin-vue-map-ui');
 
 module.exports = {
   // ...
   plugins: [
     Components({
-      resolvers: [VueMapUiResolver()]
+      resolvers: [VueMapUiResolver()],
+      types: [VueMapUiPreset]
     })
   ]
 };
@@ -95,6 +97,8 @@ module.exports = {
 
 <br>
 </details>
+
+> If you use typescript, make sure you also add `components.d.ts` to your `tsconfig.json` under `include`.
 
 ## Volar support
 
@@ -112,7 +116,7 @@ If you use volar, please add the global component type definition to `compilerOp
 
 ## Typescript
 
-If you use typescript, please add the type definitions fot `leaflet` library.
+If you use typescript, please add the type definitions for `leaflet` library.
 
 ```bash
 $ npm install -D @types/leaflet
