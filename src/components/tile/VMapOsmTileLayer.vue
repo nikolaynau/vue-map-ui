@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { TileLayer } from 'leaflet';
 import { useRef } from '../../composables';
 import {
   default as VMapTileLayer,
@@ -7,12 +8,13 @@ import {
 
 export type Attrs = _Attrs;
 
-const { templateRef, value } = useRef<typeof VMapTileLayer>(
-  obj => obj.tileLayer
-);
+const { templateRef, value: tileLayer } = useRef<
+  InstanceType<typeof VMapTileLayer>,
+  TileLayer | null
+>(obj => obj.tileLayer);
 
 defineExpose({
-  tileLayer: value
+  tileLayer
 });
 </script>
 
