@@ -1,4 +1,4 @@
-import type { Layer, Map } from 'leaflet';
+import type { Control, Layer, Map } from 'leaflet';
 import type { InjectionKey, Ref } from 'vue';
 
 export const mapKey = Symbol(
@@ -12,3 +12,9 @@ export const layerKey = Symbol(
     ? 'Layer'
     : ''
 ) as InjectionKey<Ref<Layer | null>>;
+
+export const controlKey = Symbol(
+  import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
+    ? 'Control'
+    : ''
+) as InjectionKey<Ref<Control | null>>;
