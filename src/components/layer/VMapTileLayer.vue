@@ -11,7 +11,7 @@ import { toRefs } from 'vue';
 import type { LeafletEventHandlerFn, TileLayerOptions } from 'leaflet';
 import {
   useLeafletTileLayer,
-  useLeafletToggleLayer,
+  useLeafletDisplayLayer,
   useLeafletReady
 } from 'vue-use-leaflet';
 import { useMap, useEvents, useAttrs, provideLayer } from '../../composables';
@@ -30,7 +30,7 @@ const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
 const tileLayer = useLeafletTileLayer(url, attrs);
 const ready = useLeafletReady(tileLayer);
 
-useLeafletToggleLayer(map, tileLayer);
+useLeafletDisplayLayer(map, tileLayer);
 useEvents(tileLayer, events);
 provideLayer(tileLayer);
 
