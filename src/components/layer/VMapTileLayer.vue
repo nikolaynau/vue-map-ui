@@ -14,7 +14,8 @@ import {
   useLeafletDisplayLayer,
   useLeafletReady
 } from 'vue-use-leaflet';
-import { useMap, useEvents, useAttrs, provideLayer } from '../../composables';
+import { useMap, provideLayer } from '../../composables';
+import { useAttrs, useEvents } from '../../composables/internal';
 
 export interface Props {
   url?: string;

@@ -69,7 +69,7 @@
     "@vueuse/shared": "^9.13.0",
     "object.omit": "^3.0.0",
     "object.pick": "^1.3.0",
-    "vue-use-leaflet": "^0.0.8"
+    "vue-use-leaflet": "^0.0.9"
   },
   "devDependencies": {
     "@babel/types": "^7.21.3",
