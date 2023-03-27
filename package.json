@@ -50,6 +50,7 @@
     "build-global-dts": "esno scripts/gen-global.ts",
     "build-attrs-dts": "esno scripts/gen-attrs.ts",
     "build-all": "run-s build build-styles build-attrs-dts build-global-dts",
+    "playground": "vite playground",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
     "test": "vitest",
@@ -60,9 +61,9 @@
     "husky": "husky install"
   },
   "peerDependencies": {
+    "@types/leaflet": ">=1.9.0",
     "leaflet": ">=1.9.0",
-    "vue": ">=3.0.0",
-    "@types/leaflet": ">=1.9.0"
+    "vue": ">=3.0.0"
   },
   "dependencies": {
     "@vueuse/core": "^9.13.0",
@@ -106,6 +107,7 @@
     "vite": "^4.2.1",
     "vitest": "^0.29.7",
     "vue": "^3.2.47",
+    "vue-router": "^4.1.6",
     "vue-tsc": "^1.2.0"
   }
 }

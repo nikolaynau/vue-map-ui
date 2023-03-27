@@ -19,6 +19,7 @@ module.exports = {
   },
   rules: {
     'vue/component-definition-name-casing': ['error', 'kebab-case'],
-    'vue/one-component-per-file': 'off'
+    'vue/one-component-per-file': 'off',
+    'vue/multi-word-component-names': 'off'
   }
 };
