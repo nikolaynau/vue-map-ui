@@ -1,3 +1,5 @@
+import { ucFirst } from '../src/utils/strings';
+
 export interface DemoEntry {
   title: string;
   url: string;
@@ -12,9 +14,15 @@ export function getDemoList(): DemoGroups {
 
   for (const [fileName, component] of Object.entries(list)) {
     const parts = fileName.split('/');
-    const group = parts[parts.length - 2];
-    const title = parts[parts.length - 1].slice(0, -4);
-    const url = `/${group}/${title}`;
+    const groupKey = parts[parts.length - 2];
+    const titleKey = parts[parts.length - 1].slice(0, -4);
+    const url = `/${groupKey}/${titleKey}`;
+
+    const group = ucFirst(groupKey);
+    const title = titleKey
+      .split('-')
+      .map(s => ucFirst(s))
+      .join(' ');
 
     if (!result[group]) {
       result[group] = [];
