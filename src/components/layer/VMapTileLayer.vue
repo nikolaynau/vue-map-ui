@@ -42,18 +42,18 @@ const api = useApi(apiKeys.layersControlKey);
 
 if (api) {
   const uid = uuidv4();
-  api.addLayer(uid, unref(title), tileLayer, unref(overlay));
+  api.add(uid, unref(title), tileLayer, unref(overlay));
 
   watch(title, val => {
-    api.setName(uid, val);
+    api.updateName(uid, val);
   });
 
   watch(overlay, val => {
-    api.setOverlay(uid, val);
+    api.updateOverlay(uid, val);
   });
 
   onUnmounted(() => {
-    api.removeLayer(uid);
+    api.remove(uid);
   });
 } else {
   useLeafletDisplayLayer(map, tileLayer);

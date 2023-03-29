@@ -8,7 +8,7 @@ export interface LayersItemIdConfig extends LayersItemConfig {
 }
 
 export function useLayersControlApi(layers: LayersItemIdConfig[]) {
-  function addLayer(
+  function add(
     id: string | number,
     name: string | undefined,
     layer: MaybeComputedRef<Layer | null | undefined>,
@@ -22,42 +22,42 @@ export function useLayersControlApi(layers: LayersItemIdConfig[]) {
     });
   }
 
-  function removeLayer(id: string | number) {
+  function remove(id: string | number) {
     const index = layers.findIndex(item => item.id === id);
     if (index > -1) {
       layers.splice(index, 1);
     }
   }
 
-  function getLayer(id: string | number): LayersItemIdConfig | undefined {
+  function getOne(id: string | number): LayersItemIdConfig | undefined {
     return layers.find(item => item.id === id);
   }
 
-  function getLayers(): Readonly<LayersItemIdConfig[]> {
+  function getAll(): Readonly<LayersItemIdConfig[]> {
     return readonly(layers) as Readonly<LayersItemIdConfig[]>;
   }
 
-  function setName(id: string | number, value: string | undefined) {
-    const entry = getLayer(id);
+  function updateName(id: string | number, value: string | undefined) {
+    const entry = getOne(id);
     if (entry) {
       entry.name = value;
     }
   }
 
-  function setOverlay(id: string | number, value: boolean) {
-    const entry = getLayer(id);
+  function updateOverlay(id: string | number, value: boolean) {
+    const entry = getOne(id);
     if (entry) {
       entry.overlay = value;
     }
   }
 
   return {
-    addLayer,
-    removeLayer,
-    getLayer,
-    getLayers,
-    setName,
-    setOverlay
+    add,
+    remove,
+    getOne,
+    getAll,
+    updateName,
+    updateOverlay
   };
 }
 
