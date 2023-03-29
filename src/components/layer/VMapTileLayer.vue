@@ -38,22 +38,22 @@ const map = useMap();
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
 const tileLayer = useLeafletTileLayer(url, attrs);
 const ready = useLeafletReady(tileLayer);
-const api = useApi(apiKeys.layersControlKey);
+const control = useApi(apiKeys.layersControlKey);
 
-if (api) {
+if (control) {
   const uid = uuidv4();
-  api.add(uid, unref(title), tileLayer, unref(overlay));
+  control.add(uid, unref(title), tileLayer, unref(overlay));
 
   watch(title, val => {
-    api.updateName(uid, val);
+    control.updateName(uid, val);
   });
 
   watch(overlay, val => {
-    api.updateOverlay(uid, val);
+    control.updateOverlay(uid, val);
   });
 
   onUnmounted(() => {
-    api.remove(uid);
+    control.remove(uid);
   });
 } else {
   useLeafletDisplayLayer(map, tileLayer);
