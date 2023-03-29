@@ -1,5 +1,5 @@
 import type { Control, Layer, Map } from 'leaflet';
-import type { UseLayersControlApiReturn } from 'src/composables/api';
+import type { UseLayersControlApiReturn } from '../composables/api';
 import type { InjectionKey, Ref } from 'vue';
 
 export const mapKey = Symbol(
