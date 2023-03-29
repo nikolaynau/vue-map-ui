@@ -7,31 +7,58 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { watch, toRefs, unref, onUnmounted } from 'vue';
 import type { LeafletEventHandlerFn, TileLayerOptions } from 'leaflet';
 import {
   useLeafletTileLayer,
   useLeafletDisplayLayer,
   useLeafletReady
 } from 'vue-use-leaflet';
-import { useMap, provideLayer } from '../../composables';
+import { v4 as uuidv4 } from 'uuid';
+import { useMap, provideLayer, useApi } from '../../composables';
 import { useAttrs, useEvents } from '../../composables/internal';
+import { apiKeys } from '../../utils/injectionSymbols';
 
 export interface Props {
   url?: string;
+  title?: string;
+  overlay?: boolean;
 }
 
 export type Attrs = TileLayerOptions;
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  url: undefined,
+  title: undefined,
+  overlay: false
+});
 
-const { url } = toRefs(props);
+const { url, title, overlay } = toRefs(props);
 const map = useMap();
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
 const tileLayer = useLeafletTileLayer(url, attrs);
 const ready = useLeafletReady(tileLayer);
+const api = useApi(apiKeys.layersControlKey);
 
-useLeafletDisplayLayer(map, tileLayer);
+if (api) {
+  const uid = uuidv4();
+  api.addLayer(uid, unref(title), tileLayer, unref(overlay));
+
+  watch(title, val => {
+    api.setName(uid, val);
+  });
+
+  watch(overlay, val => {
+    api.setOverlay(uid, val);
+  });
+
+  onUnmounted(() => {
+    api.removeLayer(uid);
+  });
+} else {
+  useLeafletDisplayLayer(map, tileLayer);
+}
+
 useEvents(tileLayer, events);
 provideLayer(tileLayer);
 

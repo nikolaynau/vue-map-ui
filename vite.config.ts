@@ -13,18 +13,20 @@ export default defineConfig({
     rollupOptions: {
       external: [
         'vue',
-        'leaflet',
         '@vueuse/core',
         '@vueuse/shared',
-        'vue-use-leaflet'
+        'vue-use-leaflet',
+        'leaflet',
+        'uuid'
       ],
       output: {
         globals: {
           vue: 'Vue',
-          leaflet: 'L',
           '@vueuse/core': 'VueUse',
           '@vueuse/shared': 'VueUse',
-          'vue-use-leaflet': 'VueUseLeaflet'
+          'vue-use-leaflet': 'VueUseLeaflet',
+          leaflet: 'L',
+          uuid: 'uuidv4'
         }
       }
     }
