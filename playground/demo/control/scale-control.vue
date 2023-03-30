@@ -11,7 +11,9 @@ const shown = ref(true);
     <VMapScaleControl v-if="shown" />
   </VMap>
 
-  <button @click="shown = !shown">Toggle Scale Control</button>
-  <br />
-  Shown: {{ shown }}
+  <div class="p-4">
+    <button @click="shown = !shown">Toggle Scale Control</button>
+    <br />
+    Shown: {{ shown }}
+  </div>
 </template>

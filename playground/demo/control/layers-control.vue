@@ -33,5 +33,7 @@ const currentBaseLayer = ref<string | undefined>(undefined);
     </VMapLayersControl>
   </VMap>
 
-  <div>Current Base Layer: {{ currentBaseLayer }}</div>
+  <div class="p-4">
+    <div>Current Base Layer: {{ currentBaseLayer }}</div>
+  </div>
 </template>

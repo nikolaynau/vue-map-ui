@@ -17,10 +17,12 @@ const attributions = ref(['Attribution 1', 'Attribution 2']);
     />
   </VMap>
 
-  <button @click="shown = !shown">Toggle Attribution Control</button>
-  <br />
-  Shown: {{ shown }}
-  <br />
-  Prefix:
-  <input type="text" v-model="prefix" class="border px-1 outline-none" />
+  <div class="p-4">
+    <button @click="shown = !shown">Toggle Attribution Control</button>
+    <br />
+    Shown: {{ shown }}
+    <br />
+    Prefix:
+    <input type="text" v-model="prefix" class="border px-1 outline-none" />
+  </div>
 </template>
