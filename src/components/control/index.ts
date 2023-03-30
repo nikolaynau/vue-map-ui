@@ -9,3 +9,13 @@ export {
   default as VMapZoomControl,
   type Attrs as MapZoomControlAttributes
 } from './VMapZoomControl.vue';
+
+export {
+  default as VMapScaleControl,
+  type Attrs as MapScaleControlAttributes
+} from './VMapScaleControl.vue';
+
+export {
+  default as VMapAttributionControl,
+  type Attrs as MapAttributionControlAttributes
+} from './VMapAttributionControl.vue';

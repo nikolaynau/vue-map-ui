@@ -32,5 +32,6 @@ const currentBaseLayer = ref<string | undefined>(undefined);
       <VMapGoogleTileLayer title="Google Satellite" type="satellite" />
     </VMapLayersControl>
   </VMap>
+
   <div>Current Base Layer: {{ currentBaseLayer }}</div>
 </template>

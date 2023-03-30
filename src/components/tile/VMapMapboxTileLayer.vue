@@ -32,7 +32,7 @@ defineExpose({
 <template>
   <VMapTileLayer
     ref="templateRef"
-    url="https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={access-token}"
+    url="https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}"
     :id="id"
     :access-token="accessToken"
     :title="title"

@@ -31,7 +31,7 @@ defineExpose({
 <template>
   <VMapTileLayer
     ref="templateRef"
-    url="https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey={api-key}"
+    url="https://{s}.tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey={apiKey}"
     :api-key="apiKey"
     :title="title"
     :overlay="overlay"

@@ -21,7 +21,7 @@ import {
 } from 'vue-use-leaflet';
 import { provideMap } from './composables';
 import { useAttrs, useEvents } from '../../composables';
-import { omit, pick } from '../../utils/objects';
+import { camelizeKeys, omit, pick } from '../../utils/objects';
 
 export interface Props {
   center?: LatLngExpression;
@@ -43,13 +43,13 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { center, zoom, bounds, useFly } = toRefs(props);
 const container = ref<HTMLElement | null>(null);
-const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
+const { events, attrs } = useAttrs<LeafletEventHandlerFn>(false);
 const _elementAttrs = [
   ...(props.elementAttrs ?? []),
   ...['id', 'class', 'style']
 ];
 const leafletEvents = omit(events, ['viewChanged']);
-const leafletOptions = omit(attrs, _elementAttrs);
+const leafletOptions = camelizeKeys(omit(attrs, _elementAttrs));
 const elementAttrs = pick(attrs, _elementAttrs);
 const onViewChanged = events['viewChanged'] as ViewChangedCallback;
 
