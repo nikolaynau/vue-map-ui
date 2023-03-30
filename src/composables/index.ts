@@ -1,4 +1,4 @@
-export * from './useMap';
-export * from './useLayer';
-export * from './useControl';
+export * from './useAttrs';
+export * from './useEvents';
+export * from './useRef';
 export * from './useApi';

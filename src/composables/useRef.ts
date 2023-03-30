@@ -1,5 +1,5 @@
-import { isDefined } from '@vueuse/shared';
 import { computed, ref } from 'vue';
+import { isDefined } from '@vueuse/shared';
 
 export function useRef<T = unknown, V = unknown>(fn: (obj: T) => V) {
   const templateRef = ref<T | null>(null);

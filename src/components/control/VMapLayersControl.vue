@@ -16,10 +16,11 @@ import {
   useLeafletReady,
   type LayersItemConfig
 } from 'vue-use-leaflet';
-import { useMap, provideControl, provideApi } from '../../composables';
-import { useAttrs } from '../../composables/internal';
-import { useLayersControlApi } from '../../composables/api';
-import { apiKeys } from '../../utils/injectionSymbols';
+
+import { useAttrs, provideApi } from '../../composables';
+import { provideLayersControl, layersControlApiKey } from './composables';
+import { useLayersControlApi } from './composables/useLayersControlApi';
+import { useMap } from '../map';
 
 export interface Props {
   currentBaseLayer?: string | number;
@@ -50,21 +51,22 @@ const currentOverlays = useVModel(props, 'currentOverlays', emit);
 
 const map = useMap();
 const { attrs } = useAttrs();
-const layersControl = useLeafletLayersControl(layers, {
+const control = useLeafletLayersControl(layers, {
   currentBaseLayer,
   currentOverlays,
   indexes: useIndexes.value,
   ...attrs
 });
-const api = useLayersControlApi(layers);
-const ready = useLeafletReady(layersControl);
 
-useLeafletDisplayControl(map, layersControl);
-provideControl(layersControl);
-provideApi(apiKeys.layersControlKey, api);
+const api = useLayersControlApi(layers);
+const ready = useLeafletReady(control);
+
+useLeafletDisplayControl(map, control);
+provideLayersControl(control);
+provideApi(layersControlApiKey, api);
 
 defineExpose({
-  layersControl
+  layersControl: control
 });
 </script>
 

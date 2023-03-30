@@ -19,8 +19,8 @@ import {
   useLeafletReady,
   type ViewChangedCallback
 } from 'vue-use-leaflet';
-import { provideMap } from '../../composables';
-import { useAttrs, useEvents } from '../../composables/internal';
+import { provideMap } from './composables';
+import { useAttrs, useEvents } from '../../composables';
 import { omit, pick } from '../../utils/objects';
 
 export interface Props {

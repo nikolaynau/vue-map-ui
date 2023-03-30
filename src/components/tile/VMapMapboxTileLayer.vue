@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TileLayer } from 'leaflet';
-import { useRef } from '../../composables/internal';
+import { useRef } from '../../composables';
 import {
   default as VMapTileLayer,
   type Attrs as _Attrs

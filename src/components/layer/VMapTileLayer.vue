@@ -15,9 +15,10 @@ import {
   useLeafletReady
 } from 'vue-use-leaflet';
 import { v4 as uuidv4 } from 'uuid';
-import { useMap, provideLayer, useApi } from '../../composables';
-import { useAttrs, useEvents } from '../../composables/internal';
-import { apiKeys } from '../../utils/injectionSymbols';
+import { provideTileLayer } from './composables';
+import { useAttrs, useEvents, useApi } from '../../composables';
+import { layersControlApiKey } from '../control';
+import { useMap } from '../map';
 
 export interface Props {
   url?: string;
@@ -36,34 +37,34 @@ const props = withDefaults(defineProps<Props>(), {
 const { url, title, overlay } = toRefs(props);
 const map = useMap();
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
-const tileLayer = useLeafletTileLayer(url, attrs);
-const ready = useLeafletReady(tileLayer);
-const control = useApi(apiKeys.layersControlKey);
+const layer = useLeafletTileLayer(url, attrs);
+const ready = useLeafletReady(layer);
+const controlApi = useApi(layersControlApiKey);
 
-if (control) {
+if (controlApi) {
   const uid = uuidv4();
-  control.add(uid, unref(title), tileLayer, unref(overlay));
+  controlApi.add(uid, unref(title), layer, unref(overlay));
 
   watch(title, val => {
-    control.updateName(uid, val);
+    controlApi.updateName(uid, val);
   });
 
   watch(overlay, val => {
-    control.updateOverlay(uid, val);
+    controlApi.updateOverlay(uid, val);
   });
 
   onUnmounted(() => {
-    control.remove(uid);
+    controlApi.remove(uid);
   });
 } else {
-  useLeafletDisplayLayer(map, tileLayer);
+  useLeafletDisplayLayer(map, layer);
 }
 
-useEvents(tileLayer, events);
-provideLayer(tileLayer);
+useEvents(layer, events);
+provideTileLayer(layer);
 
 defineExpose({
-  tileLayer
+  tileLayer: layer
 });
 </script>
 
