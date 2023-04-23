@@ -1,5 +1,5 @@
 import { readonly } from 'vue';
-import type { MaybeComputedRef } from '@vueuse/shared';
+import type { MaybeRefOrGetter } from '@vueuse/shared';
 import type { Layer } from 'leaflet';
 import type { LayersItemConfig } from 'vue-use-leaflet';
 
@@ -11,7 +11,7 @@ export function useLayersControlApi(layers: LayersItemIdConfig[]) {
   function add(
     id: string | number,
     name: string | undefined,
-    layer: MaybeComputedRef<Layer | null | undefined>,
+    layer: MaybeRefOrGetter<Layer | null | undefined>,
     overlay?: boolean
   ) {
     layers.push({
