@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "include": [
     "env.d.ts",
     "src/**/*",
@@ -11,6 +11,7 @@
   "compilerOptions": {
     "composite": true,
     "ignoreDeprecations": "5.0",
+    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "vue-map-ui": ["./src/index.ts"]

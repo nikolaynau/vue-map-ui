@@ -17,7 +17,7 @@ import type {
 import {
   useLeafletMap,
   useLeafletReady,
-  type ViewChangedCallback
+  type ViewChangedEvent
 } from 'vue-use-leaflet';
 import { provideMap } from './composables';
 import { useAttrs, useEvents } from '../../composables';
@@ -51,7 +51,7 @@ const _elementAttrs = [
 const leafletEvents = omit(events, ['viewChanged']);
 const leafletOptions = camelizeKeys(omit(attrs, _elementAttrs));
 const elementAttrs = pick(attrs, _elementAttrs);
-const onViewChanged = events['viewChanged'] as ViewChangedCallback;
+const onViewChanged = events['viewChanged'] as (e: ViewChangedEvent) => void;
 
 const map = useLeafletMap(container, {
   center,

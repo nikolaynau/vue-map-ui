@@ -1,5 +1,5 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.node.json",
+  "extends": "@vue/tsconfig/tsconfig.json",
   "include": [
     "vite.config.*",
     "vitest.config.*",
@@ -9,6 +9,7 @@
   "compilerOptions": {
     "composite": true,
     "ignoreDeprecations": "5.0",
+    "noEmit": true,
     "types": ["node"]
   }
 }

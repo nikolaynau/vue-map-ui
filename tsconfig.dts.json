@@ -5,6 +5,7 @@
     "composite": false,
     "outDir": "./dist/types",
     "declaration": true,
+    "noEmit": false,
     "emitDeclarationOnly": true
   }
 }
