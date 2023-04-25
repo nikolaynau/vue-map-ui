@@ -19,9 +19,9 @@ export {
 } from './VMapArcGisTileLayer.vue';
 
 export {
-  default as VMapOcmTileLayer,
-  type Attrs as MapOcmTileLayerAttributes
-} from './VMapOcmTileLayer.vue';
+  default as VMapOpenTransportTileLayer,
+  type Attrs as MapOpenTransportTileLayerAttributes
+} from './VMapOpenTransportTileLayer.vue';
 
 export {
   default as VMapGoogleTileLayer,
