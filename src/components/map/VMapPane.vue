@@ -7,8 +7,8 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { computed, toRefs, unref, watch } from 'vue';
-import { isDef, isDefined } from '@vueuse/shared';
+import { computed, toRefs, watch } from 'vue';
+import { isDefined } from '@vueuse/shared';
 import { useLeafletPane, useLeafletReady } from 'vue-use-leaflet';
 import { providePane, useMap } from '.';
 
@@ -21,22 +21,23 @@ export type Attrs = any;
 
 const props = defineProps<Props>();
 
-const { name, zIndex } = toRefs(props);
+const { name } = toRefs(props);
 const map = useMap();
-const { paneElements } = useLeafletPane(map, name, { zIndex: unref(zIndex) });
+const { paneElements } = useLeafletPane(map, name, { zIndex: props.zIndex });
 const paneElement = computed<HTMLElement | null>(
   () => paneElements.value[name.value] ?? null
 );
 const ready = useLeafletReady(paneElement);
 
-if (isDef(zIndex)) {
-  watch(zIndex, val => {
+watch(
+  () => props.zIndex,
+  val => {
     if (isDefined(paneElement)) {
       const value = isDefined(val) ? `${val}` : 'auto';
       paneElement.value.style.zIndex = value;
     }
-  });
-}
+  }
+);
 
 providePane(paneElement);
 
