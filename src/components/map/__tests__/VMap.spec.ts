@@ -71,6 +71,7 @@ describe('VMap', () => {
   it('inherit css class', () => {
     const vm = mountMapComponent({ class: 'some-class' });
     expect(vm.$el.classList.contains('some-class')).toBe(true);
+    expect(vm.$el.classList.contains('v-map')).toBe(true);
   });
 
   it('inherit css style', () => {
