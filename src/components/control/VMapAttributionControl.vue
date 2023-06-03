@@ -20,7 +20,7 @@ import { useMap } from '../map';
 
 export interface Props {
   attributions?: string[];
-  prefix?: string;
+  prefix?: string | null;
 }
 
 export type Attrs = Control.Attribution;

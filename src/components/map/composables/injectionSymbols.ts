@@ -6,3 +6,9 @@ export const mapKey = Symbol(
     ? 'Map'
     : ''
 ) as InjectionKey<Ref<Map | null>>;
+
+export const paneKey = Symbol(
+  import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
+    ? 'Pane'
+    : ''
+) as InjectionKey<Ref<HTMLElement | null>>;

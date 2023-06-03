@@ -7,7 +7,7 @@ import {
   VMapMapboxTileLayer,
   VMapArcGisAeroTileLayer,
   VMapArcGisTileLayer,
-  VMapOcmTileLayer,
+  VMapOpenTransportTileLayer,
   VMapGoogleTileLayer
 } from 'vue-map-ui';
 
@@ -25,7 +25,7 @@ const currentBaseLayer = ref<string | undefined>(undefined);
       />
       <VMapArcGisTileLayer />
       <VMapArcGisAeroTileLayer />
-      <VMapOcmTileLayer api-key="af7fd7de0ed048059413e19e7fb7d90b" />
+      <VMapOpenTransportTileLayer api-key="af7fd7de0ed048059413e19e7fb7d90b" />
       <VMapGoogleTileLayer title="Google Streets" />
       <VMapGoogleTileLayer title="Google Hybrid" type="hybrid" />
       <VMapGoogleTileLayer title="Google Terrain" type="terrain" />

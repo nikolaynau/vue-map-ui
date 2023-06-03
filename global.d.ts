@@ -11,7 +11,7 @@ declare module '@vue/runtime-core' {
     VMapArcGisTileLayer: typeof import('vue-map-ui')['VMapArcGisTileLayer'];
     VMapGoogleTileLayer: typeof import('vue-map-ui')['VMapGoogleTileLayer'];
     VMapMapboxTileLayer: typeof import('vue-map-ui')['VMapMapboxTileLayer'];
-    VMapOcmTileLayer: typeof import('vue-map-ui')['VMapOcmTileLayer'];
+    VMapOpenTransportTileLayer: typeof import('vue-map-ui')['VMapOpenTransportTileLayer'];
     VMapOsmTileLayer: typeof import('vue-map-ui')['VMapOsmTileLayer'];
   }
 }
