@@ -39,7 +39,7 @@ const types = Object.freeze({
   terrain: 'p'
 });
 
-const layers = computed<string | null>(() =>
+const lyrs = computed<string | null>(() =>
   isDefined(_layers) ? unref(_layers) : types[unref(type)] ?? null
 );
 
@@ -52,7 +52,7 @@ defineExpose({
   <VMapTileLayer
     ref="templateRef"
     url="https://{s}.google.com/vt/lyrs={lyrs}&x={x}&y={y}&z={z}"
-    :lyrs="layers"
+    :lyrs="lyrs"
     :subdomains="subdomains"
     :title="title"
     :overlay="overlay"

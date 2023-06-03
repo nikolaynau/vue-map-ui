@@ -44,13 +44,10 @@ const props = withDefaults(defineProps<Props>(), {
 const { center, zoom, bounds, useFly } = toRefs(props);
 const container = ref<HTMLElement | null>(null);
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>(false);
-const _elementAttrs = [
-  ...(props.elementAttrs ?? []),
-  ...['id', 'class', 'style']
-];
+const _elementAttrs = ['id', 'class', 'style', ...(props.elementAttrs ?? [])];
 const leafletEvents = omit(events, ['viewChanged']);
 const leafletOptions = camelizeKeys(omit(attrs, _elementAttrs));
-const elementAttrs = pick(attrs, _elementAttrs);
+const elAttrs = pick(attrs, _elementAttrs);
 const onViewChanged = events['viewChanged'] as (e: ViewChangedEvent) => void;
 
 const map = useLeafletMap(container, {
@@ -72,7 +69,7 @@ defineExpose({
 </script>
 
 <template>
-  <div v-bind="elementAttrs" class="v-map" ref="container">
+  <div v-bind="elAttrs" class="v-map" ref="container">
     <slot v-if="ready"></slot>
   </div>
 </template>
