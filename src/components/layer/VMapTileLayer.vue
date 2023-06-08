@@ -35,7 +35,6 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const { url, title, overlay } = toRefs(props);
-const map = useMap();
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
 const layer = useLeafletTileLayer(url, attrs);
 const ready = useLeafletReady(layer);
@@ -57,6 +56,7 @@ if (controlApi) {
     controlApi.remove(id);
   });
 } else {
+  const map = useMap();
   useLeafletDisplayLayer(map, layer);
 }
 
