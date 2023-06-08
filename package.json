@@ -52,6 +52,7 @@
     "build-meta": "esno scripts/gen-meta.ts",
     "build-all": "run-s build build-styles build-attrs-dts build-global-dts build-meta",
     "playground": "vite playground",
+    "build-playground": "vite build playground",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write \"src/**/*.{js,ts,vue,css}\"",
     "test": "vitest",
