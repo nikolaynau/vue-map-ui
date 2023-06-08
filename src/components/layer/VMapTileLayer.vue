@@ -42,19 +42,19 @@ const ready = useLeafletReady(layer);
 const controlApi = useApi(layersControlApiKey);
 
 if (controlApi) {
-  const uid = uuidv4();
-  controlApi.add(uid, unref(title), layer, unref(overlay));
+  const id = uuidv4();
+  controlApi.add(id, unref(title), layer, unref(overlay));
 
   watch(title, val => {
-    controlApi.updateName(uid, val);
+    controlApi.updateName(id, val);
   });
 
   watch(overlay, val => {
-    controlApi.updateOverlay(uid, val);
+    controlApi.updateOverlay(id, val);
   });
 
   onUnmounted(() => {
-    controlApi.remove(uid);
+    controlApi.remove(id);
   });
 } else {
   useLeafletDisplayLayer(map, layer);
