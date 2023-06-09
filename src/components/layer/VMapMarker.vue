@@ -8,6 +8,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { toRefs } from 'vue';
+import { useVModel } from '@vueuse/core';
 import type {
   DivIcon,
   Icon,
@@ -34,6 +35,10 @@ export interface Props {
 
 export type Attrs = MarkerOptions;
 
+export type Emits = {
+  (e: 'update:latlng', value: LatLngExpression): void;
+};
+
 const props = withDefaults(defineProps<Props>(), {
   latlng: undefined,
   icon: undefined,
@@ -42,9 +47,12 @@ const props = withDefaults(defineProps<Props>(), {
   draggable: undefined
 });
 
-const { latlng, opacity, icon, zIndexOffset, draggable } = toRefs(props);
+const emit = defineEmits<Emits>();
+
+const { opacity, icon, zIndexOffset, draggable } = toRefs(props);
 const map = useMap();
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
+const latlng = useVModel(props, 'latlng', emit);
 const marker = useLeafletMarker(latlng, {
   icon,
   opacity,
