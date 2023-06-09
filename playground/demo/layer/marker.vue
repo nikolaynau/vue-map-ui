@@ -25,7 +25,7 @@ function onClick(e: LeafletMouseEvent) {
 
   <div class="p-4">
     <div class="mb-1">Marker Position: {{ latlng }}</div>
-    <button class="block" @click="draggable = !draggable">
+    <button class="block mb-1" @click="draggable = !draggable">
       Toggle Draggable: {{ draggable }}
     </button>
     <div>Clicked: {{ clicked }}</div>
