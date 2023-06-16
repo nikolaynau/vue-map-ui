@@ -1,0 +1,4 @@
+.v-map.leaflet-container {
+  /* visual styles */
+  @apply font-sans text-map-base text-map-foreground bg-map-background;
+}

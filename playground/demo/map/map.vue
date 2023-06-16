@@ -7,7 +7,7 @@ import type { ViewChangedEvent } from 'vue-use-leaflet';
 const center = ref<LatLngExpression>([0, 0]);
 const zoom = ref(0);
 const bounds = ref<LatLngBoundsExpression | undefined>(undefined);
-const theme = ref<string | undefined>('auto');
+const theme = ref<string | undefined>('light');
 
 function onViewChanged(e: ViewChangedEvent) {
   center.value = e.center;

@@ -1,4 +1,2 @@
-.v-map {
-  /* sizes */
-  @apply w-full h-full;
-}
+@import 'styles/base';
+@import 'styles/container';

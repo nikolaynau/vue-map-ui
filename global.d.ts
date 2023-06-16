@@ -5,6 +5,7 @@ declare module '@vue/runtime-core' {
     VMapLayersControl: typeof import('vue-map-ui')['VMapLayersControl'];
     VMapScaleControl: typeof import('vue-map-ui')['VMapScaleControl'];
     VMapZoomControl: typeof import('vue-map-ui')['VMapZoomControl'];
+    VMapMarker: typeof import('vue-map-ui')['VMapMarker'];
     VMapTileLayer: typeof import('vue-map-ui')['VMapTileLayer'];
     VMap: typeof import('vue-map-ui')['VMap'];
     VMapPane: typeof import('vue-map-ui')['VMapPane'];

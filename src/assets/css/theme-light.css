@@ -1,2 +1,6 @@
 .v-map-theme--light {
+  --v-map-font-size: 0.875rem;
+  --v-map-line-height: 1.25rem;
+  --v-map-background: #dddddd;
+  --v-map-foreground: #333333;
 }
