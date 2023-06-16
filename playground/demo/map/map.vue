@@ -7,6 +7,7 @@ import type { ViewChangedEvent } from 'vue-use-leaflet';
 const center = ref<LatLngExpression>([0, 0]);
 const zoom = ref(0);
 const bounds = ref<LatLngBoundsExpression | undefined>(undefined);
+const theme = ref<string | undefined>('auto');
 
 function onViewChanged(e: ViewChangedEvent) {
   center.value = e.center;
@@ -20,6 +21,7 @@ function onViewChanged(e: ViewChangedEvent) {
     style="height: 200px"
     :center="center"
     :zoom="zoom"
+    :theme="theme"
     @view-changed="onViewChanged"
   >
     <VMapOsmTileLayer />
@@ -31,5 +33,13 @@ function onViewChanged(e: ViewChangedEvent) {
     Zoom: {{ zoom }}
     <br />
     Bounds: {{ bounds }}
+  </div>
+  <div class="px-4">
+    Theme:
+    <select v-model="theme">
+      <option value="auto">Auto</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
   </div>
 </template>

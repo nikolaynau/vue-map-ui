@@ -20,8 +20,9 @@ import {
   type ViewChangedEvent
 } from 'vue-use-leaflet';
 import { provideMap } from './composables';
-import { useAttrs, useEvents } from '../../composables';
+import { useAttrs, useEvents, useCssClass } from '../../composables';
 import { camelizeKeys, omit, pick } from '../../utils/objects';
+import { useTheme } from './composables/useTheme';
 
 export interface Props {
   center?: LatLngExpression;
@@ -29,6 +30,8 @@ export interface Props {
   bounds?: LatLngBoundsExpression;
   useFly?: boolean;
   elementAttrs?: string[];
+  theme?: string | 'light' | 'dark' | 'auto';
+  class?: any;
 }
 
 export type Attrs = MapOptions;
@@ -38,16 +41,21 @@ const props = withDefaults(defineProps<Props>(), {
   zoom: 0,
   bounds: undefined,
   useFly: false,
-  elementAttrs: undefined
+  elementAttrs: () => [],
+  theme: 'auto',
+  class: undefined
 });
 
-const { center, zoom, bounds, useFly } = toRefs(props);
+const { center, zoom, bounds, useFly, theme, class: _class } = toRefs(props);
 const container = ref<HTMLElement | null>(null);
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>(false);
-const _elementAttrs = ['id', 'class', 'style', ...(props.elementAttrs ?? [])];
+const themeCss = useTheme(theme);
+
+const _elementAttrs = ['id', 'style', ...props.elementAttrs];
 const leafletEvents = omit(events, ['viewChanged']);
 const leafletOptions = camelizeKeys(omit(attrs, _elementAttrs));
 const elAttrs = pick(attrs, _elementAttrs);
+
 const onViewChanged = events['viewChanged'] as (e: ViewChangedEvent) => void;
 
 const map = useLeafletMap(container, {
@@ -58,8 +66,11 @@ const map = useLeafletMap(container, {
   ...leafletOptions,
   onViewChanged
 });
+
 const ready = useLeafletReady(map);
 useEvents(map, leafletEvents);
+useCssClass(container, _class);
+useCssClass(container, themeCss);
 provideMap(map);
 
 defineExpose({

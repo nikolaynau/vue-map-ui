@@ -68,8 +68,9 @@ describe('VMap', () => {
     expect(vm.map?.getBounds()).toBeInstanceOf(LatLngBounds);
   });
 
-  it('inherit css class', () => {
+  it('inherit css class', async () => {
     const vm = mountMapComponent({ class: 'some-class' });
+    await nextTick();
     expect(vm.$el.classList.contains('some-class')).toBe(true);
     expect(vm.$el.classList.contains('v-map')).toBe(true);
   });
@@ -182,5 +183,21 @@ describe('VMap', () => {
     expect(ev.center).toEqual({ lat: 1, lng: 2 });
     expect(ev.zoom).toBe(3);
     expect(ev.bounds).toBeInstanceOf(LatLngBounds);
+  });
+
+  it('default theme', async () => {
+    const vm = mountMapComponent();
+    await nextTick();
+    expect(vm.$el.classList.contains('v-map-theme--light')).toBeTruthy();
+  });
+
+  it('change theme', async () => {
+    const darkVm = mountMapComponent({ theme: 'dark' });
+    await nextTick();
+    expect(darkVm.$el.classList.contains('v-map-theme--dark')).toBeTruthy();
+
+    const customVm = mountMapComponent({ theme: 'custom' });
+    await nextTick();
+    expect(customVm.$el.classList.contains('v-map-theme--custom')).toBeTruthy();
   });
 });
