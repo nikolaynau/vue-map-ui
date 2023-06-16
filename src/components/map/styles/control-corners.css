@@ -1,0 +1,19 @@
+.v-map .leaflet-top .leaflet-control {
+  /* display styles */
+  @apply mt-control-corner;
+}
+
+.v-map .leaflet-bottom .leaflet-control {
+  /* display styles */
+  @apply mb-control-corner;
+}
+
+.v-map .leaflet-left .leaflet-control {
+  /* display styles */
+  @apply ml-control-corner;
+}
+
+.v-map .leaflet-right .leaflet-control {
+  /* display styles */
+  @apply mr-control-corner;
+}

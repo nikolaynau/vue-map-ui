@@ -18,6 +18,15 @@
   --v-map-control-width: 2.5rem;
   --v-map-control-height: 2.5rem;
   --v-map-control-line-height: 2.5rem;
+  --v-map-control-font-size: 1.125rem;
+  --v-map-control-foreground: #333333;
+  --v-map-control-hover-foreground: #333333;
+  --v-map-control-background: #ffffff;
+  --v-map-control-hover-background: #f4f4f4;
+  --v-map-control-disabled-foreground: #bbbbbb;
+  --v-map-control-disabled-background: #f4f4f4;
+  --v-map-control-shadow: rgba(0, 0, 0, 0.2);
+  --v-map-control-corner-margin: 1rem;
 
   /* bar */
   --v-map-bar-border-top-radius: 0.75rem;

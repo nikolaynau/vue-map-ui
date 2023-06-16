@@ -1,4 +1,7 @@
 .v-map.leaflet-container .leaflet-control-attribution {
+  /* display styles */
+  @apply m-0;
+
   /* visual styles */
   @apply bg-attribution-background;
 }

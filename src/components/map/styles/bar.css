@@ -1,11 +1,17 @@
 .v-map .leaflet-bar {
   /* visual styles */
-  @apply shadow-none rounded-none;
+  @apply rounded-none;
 }
 
 .v-map.leaflet-touch .leaflet-bar {
   /* visual styles */
-  @apply shadow-none border-none;
+  @apply border-none;
+}
+
+.v-map .leaflet-bar,
+.v-map.leaflet-touch .leaflet-bar {
+  /* visual styles */
+  @apply shadow-control rounded-t-bar-top rounded-b-bar-bottom;
 }
 
 .v-map .leaflet-bar a {
@@ -13,7 +19,18 @@
   @apply box-border;
 
   /* visual styles */
-  @apply border-none;
+  @apply text-control-foreground bg-control-background border-none;
+}
+
+.v-map .leaflet-bar a:hover,
+.v-map .leaflet-bar a:focus {
+  /* visual styles */
+  @apply text-control-hover-foreground bg-control-hover-background;
+}
+
+.v-map .leaflet-bar a.leaflet-disabled {
+  /* visual styles */
+  @apply text-control-disabled-foreground bg-control-disabled-background;
 }
 
 .v-map .leaflet-bar a,
@@ -28,11 +45,11 @@
 .v-map .leaflet-bar a:first-child,
 .v-map.leaflet-touch .leaflet-bar a:first-child {
   /* visual styles */
-  @apply rounded-tl-bar-top rounded-tr-bar-top;
+  @apply rounded-t-bar-top;
 }
 
 .v-map .leaflet-bar a:last-child,
 .v-map.leaflet-touch .leaflet-bar a:last-child {
   /* visual styles */
-  @apply rounded-bl-bar-bottom rounded-br-bar-bottom;
+  @apply rounded-b-bar-bottom;
 }
