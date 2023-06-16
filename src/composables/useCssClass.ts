@@ -43,16 +43,12 @@ export function useCssClass(
 
   function remove(el: HTMLElement, _class?: unknown) {
     const normalizedClass = normalize(_class);
-    normalizedClass.forEach(className => {
-      el.classList.remove(className);
-    });
+    el.classList.remove(...normalizedClass);
   }
 
   function add(el: HTMLElement, _class?: unknown) {
     const normalizedClass = normalize(_class);
-    normalizedClass.forEach(className => {
-      el.classList.add(className);
-    });
+    el.classList.add(...normalizedClass);
   }
 
   function normalize(_class?: unknown): string[] {
