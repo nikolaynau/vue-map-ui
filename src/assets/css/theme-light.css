@@ -1,6 +1,25 @@
 .v-map-theme--light {
+  /* map */
   --v-map-font-size: 0.875rem;
   --v-map-line-height: 1.25rem;
   --v-map-background: #dddddd;
   --v-map-foreground: #333333;
+
+  /* link */
+  --v-map-link-foreground: #0078a8;
+  --v-map-link-highlight: rgba(51, 181, 229, 0.4);
+
+  /* attribution */
+  --v-map-attribution-foreground: #333333;
+  --v-map-attribution-background: rgba(255, 255, 255, 0.8);
+  --v-map-attribution-font-size: 0.75rem;
+
+  /* control */
+  --v-map-control-width: 2.5rem;
+  --v-map-control-height: 2.5rem;
+  --v-map-control-line-height: 2.5rem;
+
+  /* bar */
+  --v-map-bar-border-top-radius: 0.75rem;
+  --v-map-bar-border-bottom-radius: 0.75rem;
 }

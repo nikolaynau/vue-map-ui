@@ -1,0 +1,38 @@
+.v-map .leaflet-bar {
+  /* visual styles */
+  @apply shadow-none rounded-none;
+}
+
+.v-map.leaflet-touch .leaflet-bar {
+  /* visual styles */
+  @apply shadow-none border-none;
+}
+
+.v-map .leaflet-bar a {
+  /* display styles */
+  @apply box-border;
+
+  /* visual styles */
+  @apply border-none;
+}
+
+.v-map .leaflet-bar a,
+.v-map.leaflet-touch .leaflet-bar a {
+  /* visual styles */
+  @apply leading-control;
+
+  /* sizes */
+  @apply w-control h-control;
+}
+
+.v-map .leaflet-bar a:first-child,
+.v-map.leaflet-touch .leaflet-bar a:first-child {
+  /* visual styles */
+  @apply rounded-tl-bar-top rounded-tr-bar-top;
+}
+
+.v-map .leaflet-bar a:last-child,
+.v-map.leaflet-touch .leaflet-bar a:last-child {
+  /* visual styles */
+  @apply rounded-bl-bar-bottom rounded-br-bar-bottom;
+}

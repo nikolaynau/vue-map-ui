@@ -1,0 +1,7 @@
+.v-map.leaflet-container a {
+  /* visual styles */
+  @apply text-link-foreground;
+
+  /* highlight */
+  -webkit-tap-highlight-color: var(--v-map-link-highlight);
+}
