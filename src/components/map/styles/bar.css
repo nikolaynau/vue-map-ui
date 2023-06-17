@@ -11,7 +11,7 @@
 .v-map .leaflet-bar,
 .v-map.leaflet-touch .leaflet-bar {
   /* visual styles */
-  @apply shadow-control rounded-t-bar-top rounded-b-bar-bottom;
+  @apply shadow-control rounded-t-control rounded-b-control;
 }
 
 .v-map .leaflet-bar a {
@@ -45,11 +45,17 @@
 .v-map .leaflet-bar a:first-child,
 .v-map.leaflet-touch .leaflet-bar a:first-child {
   /* visual styles */
-  @apply rounded-t-bar-top;
+  @apply rounded-t-control;
 }
 
 .v-map .leaflet-bar a:last-child,
 .v-map.leaflet-touch .leaflet-bar a:last-child {
   /* visual styles */
-  @apply rounded-b-bar-bottom;
+  @apply rounded-b-control;
+}
+
+.v-map .leaflet-bar a:only-child,
+.v-map.leaflet-touch .leaflet-bar a:only-child {
+  /* visual styles */
+  @apply rounded-control-one-child;
 }

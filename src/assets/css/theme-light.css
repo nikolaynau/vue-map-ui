@@ -27,8 +27,6 @@
   --v-map-control-disabled-background: #f4f4f4;
   --v-map-control-shadow: rgba(0, 0, 0, 0.2);
   --v-map-control-corner-margin: 1rem;
-
-  /* bar */
-  --v-map-bar-border-top-radius: 0.75rem;
-  --v-map-bar-border-bottom-radius: 0.75rem;
+  --v-map-control-round: 0.75rem;
+  --v-map-control-one-child-round: 50%;
 }

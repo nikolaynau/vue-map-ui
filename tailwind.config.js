@@ -34,8 +34,8 @@ module.exports = {
         control: 'var(--v-map-control-line-height)'
       },
       borderRadius: {
-        'bar-top': 'var(--v-map-bar-border-top-radius)',
-        'bar-bottom': 'var(--v-map-bar-border-bottom-radius)'
+        control: 'var(--v-map-control-round)',
+        'control-one-child': 'var(--v-map-control-one-child-round)'
       },
       boxShadow: {
         control: '0 2px 6px var(--v-map-control-shadow)'
