@@ -2,8 +2,37 @@
 .v-map .leaflet-control-zoom-out,
 .v-map.leaflet-touch .leaflet-control-zoom-in,
 .v-map.leaflet-touch .leaflet-control-zoom-out {
+  /* display styles */
+  @apply flex items-center justify-center;
+
   /* visual styles */
-  @apply text-control select-none;
+  @apply text-0 select-none;
+}
+
+.v-map .leaflet-control-zoom-in::after,
+.v-map .leaflet-control-zoom-out::after {
+  /* display styles */
+  @apply block;
+
+  /* visual styles */
+  @apply text-control w-1em h-1em bg-current;
+
+  /* content none */
+  content: '';
+
+  /* mask */
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+.v-map .leaflet-control-zoom-in::after {
+  /* mask image */
+  mask-image: url(../../assets/icons/plus.svg);
+}
+
+.v-map .leaflet-control-zoom-out::after {
+  /* mask image */
+  mask-image: url(../../assets/icons/minus.svg);
 }
 
 /* does not support :has */

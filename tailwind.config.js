@@ -22,13 +22,16 @@ module.exports = {
       fontSize: {
         map: ['var(--v-map-font-size)', 'var(--v-map-line-height)'],
         attribution: 'var(--v-map-attribution-font-size)',
-        control: 'var(--v-map-control-font-size)'
+        control: 'var(--v-map-control-font-size)',
+        0: '0'
       },
       width: {
-        control: 'var(--v-map-control-width)'
+        control: 'var(--v-map-control-width)',
+        '1em': '1em'
       },
       height: {
-        control: 'var(--v-map-control-height)'
+        control: 'var(--v-map-control-height)',
+        '1em': '1em'
       },
       lineHeight: {
         control: 'var(--v-map-control-line-height)'
