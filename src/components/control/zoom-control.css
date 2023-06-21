@@ -5,3 +5,10 @@
   /* visual styles */
   @apply text-control select-none;
 }
+
+/* does not support :has */
+.v-map .leaflet-control-zoom.leaflet-bar,
+.v-map.leaflet-touch .leaflet-control-zoom.leaflet-bar {
+  /* visual styles */
+  @apply rounded-control;
+}
