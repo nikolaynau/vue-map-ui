@@ -17,3 +17,106 @@
   /* display styles */
   @apply mr-control-corner;
 }
+
+/* custom corners (center, htop, hbottom) */
+.v-map .leaflet-center.leaflet-left,
+.v-map .leaflet-center.leaflet-right,
+.v-map .leaflet-htop,
+.v-map .leaflet-hbottom {
+  /* display styles */
+  @apply absolute z-1000 pointer-events-none;
+}
+
+/* center, (left, right) */
+.v-map .leaflet-center.leaflet-left,
+.v-map .leaflet-center.leaflet-right {
+  /* display styles */
+  @apply top-1/2 -translate-y-1/2;
+}
+
+.v-map .leaflet-center.leaflet-left .leaflet-control,
+.v-map .leaflet-center.leaflet-right .leaflet-control {
+  /* display styles */
+  @apply mb-control-corner;
+}
+
+.v-map .leaflet-center.leaflet-left .leaflet-control:only-child,
+.v-map .leaflet-center.leaflet-right .leaflet-control:only-child {
+  /* display styles */
+  @apply mb-0;
+}
+
+.v-map
+  .leaflet-center.leaflet-left
+  .leaflet-control:not(:only-child):last-child,
+.v-map
+  .leaflet-center.leaflet-right
+  .leaflet-control:not(:only-child):last-child {
+  /* display styles */
+  @apply mb-0;
+}
+
+/* htop */
+.v-map .leaflet-htop {
+  /* display styles */
+  @apply flex flex-row top-0;
+}
+
+.v-map .leaflet-htop .leaflet-control {
+  /* display styles */
+  @apply mt-control-corner;
+}
+
+/* hbottom */
+.v-map .leaflet-hbottom {
+  /* display styles */
+  @apply flex flex-row bottom-0;
+}
+
+.v-map .leaflet-hbottom .leaflet-control {
+  /* display styles */
+  @apply mb-control-corner;
+}
+
+/* (htop, hbottom), left */
+.v-map .leaflet-htop.leaflet-left,
+.v-map .leaflet-hbottom.leaflet-left {
+  /* display styles */
+  left: calc(theme(margin.control-corner) + theme(width.control));
+}
+
+/* (htop, hbottom), right */
+.v-map .leaflet-htop.leaflet-right,
+.v-map .leaflet-hbottom.leaflet-right {
+  /* display styles */
+  right: calc(theme(margin.control-corner) + theme(width.control));
+}
+
+/* (htop, hbottom), center */
+.v-map .leaflet-htop.leaflet-center,
+.v-map .leaflet-hbottom.leaflet-center {
+  /* display styles */
+  @apply left-1/2 -translate-x-1/2;
+}
+
+.v-map .leaflet-htop.leaflet-center .leaflet-control,
+.v-map .leaflet-hbottom.leaflet-center .leaflet-control {
+  /* display styles */
+  @apply mr-control-corner;
+}
+
+.v-map .leaflet-htop.leaflet-center .leaflet-control:only-child,
+.v-map .leaflet-hbottom.leaflet-center .leaflet-control:only-child {
+  /* display styles */
+  @apply mr-0;
+}
+
+.v-map
+  .leaflet-htop.leaflet-center
+  .leaflet-control:not(:only-child):last-child,
+.v-map
+  .leaflet-hbottom.leaflet-center
+  .leaflet-control:not(:only-child):last-child {
+  /* display styles */
+  @apply mr-0;
+}

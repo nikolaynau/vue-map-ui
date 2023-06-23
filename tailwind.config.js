@@ -45,6 +45,9 @@ module.exports = {
       },
       margin: {
         'control-corner': 'var(--v-map-control-corner-margin)'
+      },
+      zIndex: {
+        1000: '1000'
       }
     }
   },

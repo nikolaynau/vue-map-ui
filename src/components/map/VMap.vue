@@ -17,6 +17,7 @@ import type {
 import {
   useLeafletMap,
   useLeafletReady,
+  useLeafletControlPosition,
   type ViewChangedEvent
 } from 'vue-use-leaflet';
 import { provideMap } from './composables';
@@ -71,6 +72,18 @@ const ready = useLeafletReady(map);
 useEvents(map, leafletEvents);
 useCssClass(container, _class);
 useCssClass(container, themeCss);
+
+useLeafletControlPosition(map, [
+  ['center', 'left'],
+  ['center', 'right'],
+  ['htop', 'left'],
+  ['htop', 'right'],
+  ['htop', 'center'],
+  ['hbottom', 'left'],
+  ['hbottom', 'right'],
+  ['hbottom', 'center']
+]);
+
 provideMap(map);
 
 defineExpose({
