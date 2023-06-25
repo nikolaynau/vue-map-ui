@@ -31,3 +31,9 @@ export const layersControlApiKey = Symbol(
     ? 'LayersControlApi'
     : ''
 ) as InjectionKey<UseLayersControlApiReturn>;
+
+export const controlPositionKey = Symbol(
+  import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
+    ? 'ControlPosition'
+    : ''
+) as InjectionKey<Ref<HTMLElement | null>>;

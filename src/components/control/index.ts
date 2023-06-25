@@ -19,3 +19,8 @@ export {
   default as VMapAttributionControl,
   type Attrs as MapAttributionControlAttributes
 } from './VMapAttributionControl.vue';
+
+export {
+  default as VMapControlPosition,
+  type Attrs as MapControlPositionAttributes
+} from './VMapControlPosition.vue';
