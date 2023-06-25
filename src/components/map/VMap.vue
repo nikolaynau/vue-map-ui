@@ -43,7 +43,7 @@ const props = withDefaults(defineProps<Props>(), {
   bounds: undefined,
   useFly: false,
   elementAttrs: () => [],
-  theme: 'auto',
+  theme: 'light',
   class: undefined
 });
 
