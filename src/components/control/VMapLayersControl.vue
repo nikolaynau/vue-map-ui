@@ -49,7 +49,6 @@ const layers: LayersItemConfig[] = reactive([]);
 const currentBaseLayer = useVModel(props, 'currentBaseLayer', emit);
 const currentOverlays = useVModel(props, 'currentOverlays', emit);
 
-const map = useMap();
 const { attrs } = useAttrs();
 const control = useLeafletLayersControl(layers, {
   currentBaseLayer,
@@ -60,8 +59,9 @@ const control = useLeafletLayersControl(layers, {
 
 const api = useLayersControlApi(layers);
 const ready = useLeafletReady(control);
-
+const map = useMap();
 useLeafletDisplayControl(map, control);
+
 provideLayersControl(control);
 provideApi(layersControlApiKey, api);
 
