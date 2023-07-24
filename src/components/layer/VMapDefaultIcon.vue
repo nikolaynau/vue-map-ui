@@ -8,20 +8,14 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { onUnmounted, toRefs, watch } from 'vue';
-import type { IconOptions, PointExpression } from 'leaflet';
-import { useLeafletIcon, useLeafletReady } from 'vue-use-leaflet';
+import type { IconOptions } from 'leaflet';
+import { useLeafletDefaultIcon, useLeafletReady } from 'vue-use-leaflet';
 import { useApi, useAttrs } from '../../composables';
 import { provideIcon, markerApiKey } from './composables';
 
 export interface Props {
   iconUrl?: string;
-  iconRetinaUrl?: string;
-  iconSize?: PointExpression;
-  iconAnchor?: PointExpression;
-  shadowUrl?: string;
-  shadowRetinaUrl?: string;
-  shadowSize?: PointExpression;
-  shadowAnchor?: PointExpression;
+  imagePath?: string;
   class?: any;
 }
 
@@ -29,11 +23,12 @@ export type Attrs = IconOptions;
 
 const props = defineProps<Props>();
 
-const { iconUrl, class: className, ...options } = toRefs(props);
+const { iconUrl, class: className } = toRefs(props);
 const { attrs } = useAttrs();
 
-const icon = useLeafletIcon(iconUrl, {
-  ...options,
+const icon = useLeafletDefaultIcon({
+  iconUrl,
+  imagePath: props.imagePath,
   className,
   ...attrs
 });
