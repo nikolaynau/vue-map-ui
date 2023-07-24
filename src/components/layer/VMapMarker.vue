@@ -8,7 +8,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { toRefs } from 'vue';
-import { useVModel } from '@vueuse/core';
+import { syncRef, toRef, useVModel } from '@vueuse/core';
 import type {
   DivIcon,
   Icon,
@@ -21,9 +21,10 @@ import {
   useLeafletDisplayLayer,
   useLeafletReady
 } from 'vue-use-leaflet';
-import { useAttrs, useEvents } from '../../composables';
+import { provideApi, useAttrs, useEvents } from '../../composables';
 import { useMap } from '../map';
-import { provideMarker } from './composables';
+import { useMarkerApi } from './composables/useMarkerApi';
+import { markerApiKey, provideMarker } from './composables';
 
 export interface Props {
   latlng?: LatLngExpression;
@@ -50,20 +51,27 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<Emits>();
 
 const { opacity, icon, zIndexOffset, draggable } = toRefs(props);
-const map = useMap();
+const _icon = toRef<Icon | DivIcon | null | undefined>(null);
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
 const latlng = useVModel(props, 'latlng', emit);
 const marker = useLeafletMarker(latlng, {
-  icon,
+  icon: _icon,
   opacity,
   zIndexOffset,
   draggable,
   ...attrs
 });
+
 const ready = useLeafletReady(marker);
+const api = useMarkerApi({ icon });
+const map = useMap();
 useLeafletDisplayLayer(map, marker);
 useEvents(marker, events);
+
+syncRef(icon, _icon, { immediate: true, direction: 'ltr' });
+
 provideMarker(marker);
+provideApi(markerApiKey, api);
 
 defineExpose({
   marker

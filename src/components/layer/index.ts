@@ -9,3 +9,8 @@ export {
   default as VMapMarker,
   type Attrs as MapMarkerAttributes
 } from './VMapMarker.vue';
+
+export {
+  default as VMapIcon,
+  type Attrs as MapIconAttributes
+} from './VMapIcon.vue';

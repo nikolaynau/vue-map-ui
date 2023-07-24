@@ -1,5 +1,6 @@
 import type { InjectionKey, Ref } from 'vue';
-import type { Marker, TileLayer } from 'leaflet';
+import type { Icon, Marker, TileLayer } from 'leaflet';
+import type { UseMarkerApiReturn } from './useMarkerApi';
 
 export const tileLayerKey = Symbol(
   import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
@@ -12,3 +13,15 @@ export const markerKey = Symbol(
     ? 'Marker'
     : ''
 ) as InjectionKey<Ref<Marker | null>>;
+
+export const iconKey = Symbol(
+  import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
+    ? 'Icon'
+    : ''
+) as InjectionKey<Ref<Icon | null>>;
+
+export const markerApiKey = Symbol(
+  import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
+    ? 'MarkerApi'
+    : ''
+) as InjectionKey<UseMarkerApiReturn>;
