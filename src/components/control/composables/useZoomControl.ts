@@ -6,6 +6,6 @@ export function provideZoomControl(control: Ref<Control.Zoom | null>) {
   provide(zoomControlKey, readonly(control));
 }
 
-export function useZoomControl(): Ref<Control.Zoom | null> {
-  return inject(zoomControlKey, undefined) as Ref<Control.Zoom | null>;
+export function useZoomControl(): Ref<Control.Zoom | null> | undefined {
+  return inject(zoomControlKey, undefined);
 }

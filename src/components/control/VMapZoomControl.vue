@@ -37,8 +37,8 @@ const control = useLeafletZoomControl({
   ...attrs
 });
 const ready = useLeafletReady(control);
-
 useLeafletDisplayControl(map, control);
+
 provideZoomControl(control);
 
 defineExpose({

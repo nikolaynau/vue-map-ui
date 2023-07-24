@@ -8,9 +8,8 @@ export function provideAttributionControl(
   provide(attributionControlKey, readonly(control));
 }
 
-export function useAttributionControl(): Ref<Control.Attribution | null> {
-  return inject(
-    attributionControlKey,
-    undefined
-  ) as Ref<Control.Attribution | null>;
+export function useAttributionControl():
+  | Ref<Control.Attribution | null>
+  | undefined {
+  return inject(attributionControlKey, undefined);
 }

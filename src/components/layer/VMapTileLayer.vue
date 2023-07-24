@@ -39,6 +39,7 @@ const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
 const layer = useLeafletTileLayer(url, attrs);
 const ready = useLeafletReady(layer);
 const controlApi = useApi(layersControlApiKey);
+useEvents(layer, events);
 
 if (controlApi) {
   const id = uuidv4();
@@ -60,7 +61,6 @@ if (controlApi) {
   useLeafletDisplayLayer(map, layer);
 }
 
-useEvents(layer, events);
 provideTileLayer(layer);
 
 defineExpose({

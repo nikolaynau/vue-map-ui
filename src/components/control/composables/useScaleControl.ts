@@ -6,6 +6,6 @@ export function provideScaleControl(control: Ref<Control.Scale | null>) {
   provide(scaleControlKey, readonly(control));
 }
 
-export function useScaleControl(): Ref<Control.Scale | null> {
-  return inject(scaleControlKey, undefined) as Ref<Control.Scale | null>;
+export function useScaleControl(): Ref<Control.Scale | null> | undefined {
+  return inject(scaleControlKey, undefined);
 }

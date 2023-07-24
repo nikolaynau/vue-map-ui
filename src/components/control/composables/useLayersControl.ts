@@ -6,6 +6,6 @@ export function provideLayersControl(control: Ref<Control.Layers | null>) {
   provide(layersControlKey, readonly(control));
 }
 
-export function useLayersControl(): Ref<Control.Layers | null> {
-  return inject(layersControlKey, undefined) as Ref<Control.Layers | null>;
+export function useLayersControl(): Ref<Control.Layers | null> | undefined {
+  return inject(layersControlKey, undefined);
 }

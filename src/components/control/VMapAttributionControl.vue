@@ -37,8 +37,8 @@ const control = useLeafletAttributionControl({
   ...attrs
 });
 const ready = useLeafletReady(control);
-
 useLeafletDisplayControl(map, control);
+
 provideAttributionControl(control);
 
 defineExpose({

@@ -5,6 +5,6 @@ export function providePane(pane: Ref<HTMLElement | null>) {
   provide(paneKey, readonly(pane) as Ref<HTMLElement | null>);
 }
 
-export function usePane(): Ref<HTMLElement | null> {
-  return inject(paneKey, undefined) as Ref<HTMLElement | null>;
+export function usePane(): Ref<HTMLElement | null> | undefined {
+  return inject(paneKey, undefined);
 }

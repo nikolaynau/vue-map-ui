@@ -50,7 +50,7 @@ describe('VMapPane', () => {
 
     const Child = defineComponent({
       setup() {
-        const pane = usePane();
+        const pane = usePane()!;
         expect(pane.value).toBeInstanceOf(HTMLElement);
         return () => null;
       }

@@ -10,6 +10,6 @@ export function provideControlPosition(
   );
 }
 
-export function useControlPosition(): Ref<HTMLElement | null> {
-  return inject(controlPositionKey, undefined) as Ref<HTMLElement | null>;
+export function useControlPosition(): Ref<HTMLElement | null> | undefined {
+  return inject(controlPositionKey, undefined);
 }

@@ -23,8 +23,8 @@ const map = useMap();
 const { attrs } = useAttrs();
 const control = useLeafletScaleControl(attrs);
 const ready = useLeafletReady(control);
-
 useLeafletDisplayControl(map, control);
+
 provideScaleControl(control);
 
 defineExpose({

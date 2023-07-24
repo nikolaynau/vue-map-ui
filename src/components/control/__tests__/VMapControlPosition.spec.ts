@@ -64,7 +64,7 @@ describe('VMapPane', () => {
 
     const Child = defineComponent({
       setup() {
-        const positionElement = useControlPosition();
+        const positionElement = useControlPosition()!;
         expect(positionElement.value).toBeInstanceOf(HTMLElement);
         return () => null;
       }
