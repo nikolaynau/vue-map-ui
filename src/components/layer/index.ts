@@ -19,3 +19,8 @@ export {
   default as VMapDefaultIcon,
   type Attrs as MapDefaultIconAttributes
 } from './VMapDefaultIcon.vue';
+
+export {
+  default as VMapDivIcon,
+  type Attrs as MapDivIconAttributes
+} from './VMapDivIcon.vue';
