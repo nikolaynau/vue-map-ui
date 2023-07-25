@@ -18,7 +18,6 @@ function increment() {
 
 <template>
   <VMap style="height: 200px">
-    {{ counter }}
     <VMapOsmTileLayer />
     <VMapMarker :latlng="[0, 0]">
       <VMapDivIcon
@@ -36,10 +35,44 @@ function increment() {
         :icon-size="[20, 20]"
         :icon-anchor="[10, 20]"
       >
-        <div class="div-icon-content">12</div>
+        <div class="div-icon-content">{{ counter }}</div>
       </VMapDivIcon>
     </VMapMarker>
-    <VMapMarker />
+    <VMapMarker :latlng="[-40, -20]">
+      <VMapDivIcon
+        v-if="inited"
+        :class="['div-icon-round', cssClass]"
+        :icon-size="[20, 20]"
+        :icon-anchor="[10, 20]"
+        update-mode="node"
+        :root-class="['a', 'b', 'c']"
+      >
+        <div class="div-icon-content">{{ counter }}</div>
+      </VMapDivIcon>
+    </VMapMarker>
+    <VMapMarker :latlng="[-60, -40]">
+      <VMapDivIcon
+        v-if="inited"
+        :class="['div-icon-round', cssClass]"
+        :icon-size="[20, 20]"
+        :icon-anchor="[10, 20]"
+        :root-class="['c', 'd']"
+        update-mode="portal"
+      >
+        <div class="div-icon-content">{{ counter }}</div>
+      </VMapDivIcon>
+    </VMapMarker>
+    <VMapMarker :latlng="[-40, -40]">
+      <VMapDivIcon
+        v-if="inited"
+        :class="['div-icon-round', cssClass]"
+        :icon-size="[20, 20]"
+        :icon-anchor="[10, 20]"
+        update-mode="none"
+      >
+        <div class="div-icon-content">{{ counter }}</div>
+      </VMapDivIcon>
+    </VMapMarker>
   </VMap>
 
   <div class="p-4">

@@ -1,6 +1,5 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
-import type { MaybeComputedElementRef } from '@vueuse/core';
 
 export default defineComponent({
   inheritAttrs: false
@@ -9,6 +8,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import {
+  markRaw,
   onMounted,
   onUnmounted,
   onUpdated,
@@ -17,7 +17,8 @@ import {
   useSlots,
   watch
 } from 'vue';
-import { isDefined, syncRef, toRef, toValue, whenever } from '@vueuse/shared';
+import { isDefined, syncRef, toRef, toValue } from '@vueuse/shared';
+import type { MaybeComputedElementRef } from '@vueuse/core';
 import type { DivIconOptions, PointExpression } from 'leaflet';
 import { useLeafletDivIcon, useLeafletReady } from 'vue-use-leaflet';
 import { useApi, useAttrs, useCssClass } from '../../composables';
@@ -25,10 +26,10 @@ import { provideDivIcon, markerApiKey } from './composables';
 
 export interface Props {
   html?: string | HTMLElement | false;
-  updateMode?: 'html' | 'node' | 'none';
   bgPos?: PointExpression;
   iconSize?: PointExpression;
   iconAnchor?: PointExpression;
+  updateMode?: 'html' | 'node' | 'portal' | 'none';
   rootClass?: any;
   knownClasses?: string[];
   class?: any;
@@ -47,15 +48,16 @@ const {
 } = toRefs(props);
 
 const _html = ref<string | HTMLElement | null | undefined>(null);
+syncRef(toRef(html), _html, { immediate: true, direction: 'ltr' });
+
 const rootEl = ref<HTMLElement | null>(null);
 
 const { attrs } = useAttrs();
 const slots = useSlots();
-debugger;
 const hasSlot = (name: string) => !!slots[name];
 const hasDefaultSlot = hasSlot('default');
 
-const icon = useLeafletDivIcon(html, {
+const icon = useLeafletDivIcon(_html, {
   ...options,
   className,
   ...attrs
@@ -77,10 +79,16 @@ if (markerApi) {
   });
 }
 
+if (hasDefaultSlot && updateMode?.value === 'portal') {
+  rootEl.value = markRaw(document.createElement('div'));
+  _html.value = rootEl.value;
+
+  useCssClass(rootEl, rootClass);
+}
+
 if (hasDefaultSlot && updateMode?.value === 'node') {
-  debugger;
-  whenever(rootEl, () => {
-    debugger;
+  onMounted(() => {
+    detach(rootEl);
     _html.value = rootEl.value;
   });
 
@@ -89,25 +97,19 @@ if (hasDefaultSlot && updateMode?.value === 'node') {
 
 if (hasDefaultSlot && (!updateMode?.value || updateMode.value === 'html')) {
   onMounted(() => {
-    debugger;
-    if (isDefined(rootEl)) {
-      _html.value = rootEl.value.innerHTML;
-      rootEl.value.parentNode?.removeChild(rootEl.value);
-    }
+    detach(rootEl);
+    update(rootEl);
   });
 
   onUpdated(() => {
-    debugger;
     update(rootEl);
   });
 }
 
-syncRef(toRef(html), _html, { immediate: true, direction: 'ltr' });
-
 function detach(el: MaybeComputedElementRef<HTMLElement | null>) {
-  if (isDefined(rootEl)) {
-    _html.value = rootEl.value.innerHTML;
-    rootEl.value.parentNode?.removeChild(rootEl.value);
+  if (isDefined(el)) {
+    const _el = toValue(el)!;
+    _el.parentNode?.removeChild(_el);
   }
 }
 
@@ -125,10 +127,13 @@ defineExpose({
 </script>
 
 <template>
-  <template v-if="ready && hasDefaultSlot">
-    <div v-if="updateMode !== 'none'" ref="rootEl">
-      <slot></slot>
+  <template v-if="hasDefaultSlot">
+    <Teleport v-if="updateMode === 'portal'" :to="rootEl">
+      <slot v-if="ready"></slot>
+    </Teleport>
+    <div v-else-if="updateMode !== 'none'" ref="rootEl">
+      <slot v-if="ready"></slot>
     </div>
-    <slot v-else></slot>
+    <slot v-else-if="ready"></slot>
   </template>
 </template>
