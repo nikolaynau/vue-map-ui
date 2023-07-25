@@ -36,9 +36,13 @@ const ready = useLeafletReady(icon);
 
 const markerApi = useApi(markerApiKey);
 if (markerApi) {
-  watch(icon, val => {
-    markerApi.setIcon(val);
-  });
+  watch(
+    icon,
+    val => {
+      markerApi.setIcon(val);
+    },
+    { immediate: true }
+  );
 
   onUnmounted(() => {
     markerApi.setIcon(null);
