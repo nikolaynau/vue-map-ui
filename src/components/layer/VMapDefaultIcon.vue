@@ -16,6 +16,7 @@ import { provideIcon, markerApiKey } from './composables';
 export interface Props {
   iconUrl?: string;
   imagePath?: string;
+  knownClasses?: string[];
   class?: any;
 }
 
@@ -23,13 +24,14 @@ export type Attrs = IconOptions;
 
 const props = defineProps<Props>();
 
-const { iconUrl, class: className } = toRefs(props);
+const { iconUrl, class: className, knownClasses } = toRefs(props);
 const { attrs } = useAttrs();
 
 const icon = useLeafletDefaultIcon({
   iconUrl,
   imagePath: props.imagePath,
   className,
+  knownClasses,
   ...attrs
 });
 const ready = useLeafletReady(icon);

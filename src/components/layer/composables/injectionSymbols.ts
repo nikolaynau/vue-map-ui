@@ -1,5 +1,5 @@
 import type { InjectionKey, Ref } from 'vue';
-import type { Icon, Marker, TileLayer } from 'leaflet';
+import type { DivIcon, Icon, Marker, TileLayer } from 'leaflet';
 import type { UseMarkerApiReturn } from './useMarkerApi';
 
 export const tileLayerKey = Symbol(
@@ -19,6 +19,12 @@ export const iconKey = Symbol(
     ? 'Icon'
     : ''
 ) as InjectionKey<Ref<Icon | null>>;
+
+export const divIconKey = Symbol(
+  import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
+    ? 'DivIcon'
+    : ''
+) as InjectionKey<Ref<DivIcon | null>>;
 
 export const markerApiKey = Symbol(
   import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'

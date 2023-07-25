@@ -22,6 +22,7 @@ export interface Props {
   shadowRetinaUrl?: string;
   shadowSize?: PointExpression;
   shadowAnchor?: PointExpression;
+  knownClasses?: string[];
   class?: any;
 }
 
