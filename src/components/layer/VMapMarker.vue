@@ -45,8 +45,9 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const { opacity, icon, zIndexOffset, draggable } = toRefs(props);
-const latlng = useVModel(props, 'latlng', emit);
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
+
+const latlng = useVModel(props, 'latlng', emit);
 
 const _icon = toRef<Icon | DivIcon | null | undefined>(null);
 syncRef(toRef(icon), _icon, { immediate: true, direction: 'ltr' });
