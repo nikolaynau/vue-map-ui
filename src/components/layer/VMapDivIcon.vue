@@ -29,7 +29,7 @@ export interface Props {
   bgPos?: PointExpression;
   iconSize?: PointExpression;
   iconAnchor?: PointExpression;
-  updateMode?: 'html' | 'node' | 'portal' | 'none';
+  renderMode?: 'html' | 'node' | 'portal' | 'none';
   rootClass?: any;
   knownClasses?: string[];
   class?: any;
@@ -42,20 +42,18 @@ const props = defineProps<Props>();
 const {
   html,
   class: className,
-  updateMode,
+  renderMode,
   rootClass,
   ...options
 } = toRefs(props);
+
+const { attrs } = useAttrs();
+const slots = useSlots() as { default: unknown };
 
 const _html = ref<string | HTMLElement | null | undefined>(null);
 syncRef(toRef(html), _html, { immediate: true, direction: 'ltr' });
 
 const rootEl = ref<HTMLElement | null>(null);
-
-const { attrs } = useAttrs();
-const slots = useSlots();
-const hasSlot = (name: string) => !!slots[name];
-const hasDefaultSlot = hasSlot('default');
 
 const icon = useLeafletDivIcon(_html, {
   ...options,
@@ -79,14 +77,14 @@ if (markerApi) {
   });
 }
 
-if (hasDefaultSlot && updateMode?.value === 'portal') {
+if (slots.default && renderMode?.value === 'portal') {
   rootEl.value = markRaw(document.createElement('div'));
   _html.value = rootEl.value;
 
   useCssClass(rootEl, rootClass);
 }
 
-if (hasDefaultSlot && updateMode?.value === 'node') {
+if (slots.default && renderMode?.value === 'node') {
   onMounted(() => {
     detach(rootEl);
     _html.value = rootEl.value;
@@ -95,7 +93,7 @@ if (hasDefaultSlot && updateMode?.value === 'node') {
   useCssClass(rootEl, rootClass);
 }
 
-if (hasDefaultSlot && (!updateMode?.value || updateMode.value === 'html')) {
+if (slots.default && (!renderMode?.value || renderMode.value === 'html')) {
   onMounted(() => {
     detach(rootEl);
     update(rootEl);
@@ -127,11 +125,11 @@ defineExpose({
 </script>
 
 <template>
-  <template v-if="hasDefaultSlot">
-    <Teleport v-if="updateMode === 'portal'" :to="rootEl">
+  <template v-if="slots.default">
+    <Teleport v-if="renderMode === 'portal'" :to="rootEl">
       <slot v-if="ready"></slot>
     </Teleport>
-    <div v-else-if="updateMode !== 'none'" ref="rootEl">
+    <div v-else-if="renderMode !== 'none'" ref="rootEl">
       <slot v-if="ready"></slot>
     </div>
     <slot v-else-if="ready"></slot>
