@@ -44,7 +44,7 @@ function increment() {
         :class="['div-icon-round', cssClass]"
         :icon-size="[20, 20]"
         :icon-anchor="[10, 20]"
-        update-mode="node"
+        render-mode="node"
         :root-class="['a', 'b', 'c']"
       >
         <div class="div-icon-content">{{ counter }}</div>
@@ -57,7 +57,7 @@ function increment() {
         :icon-size="[20, 20]"
         :icon-anchor="[10, 20]"
         :root-class="['c', 'd']"
-        update-mode="portal"
+        render-mode="portal"
       >
         <div class="div-icon-content">{{ counter }}</div>
       </VMapDivIcon>
@@ -68,7 +68,7 @@ function increment() {
         :class="['div-icon-round', cssClass]"
         :icon-size="[20, 20]"
         :icon-anchor="[10, 20]"
-        update-mode="none"
+        render-mode="none"
       >
         <div class="div-icon-content">{{ counter }}</div>
       </VMapDivIcon>
