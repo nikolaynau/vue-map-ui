@@ -17,21 +17,28 @@ module.exports = {
         'control-disabled-foreground':
           'var(--v-map-control-disabled-foreground)',
         'control-disabled-background':
-          'var(--v-map-control-disabled-background)'
+          'var(--v-map-control-disabled-background)',
+        'pin-icon-background': 'var(--v-map-pin-icon-background)',
+        'pin-icon-foreground': 'var(--v-map-pin-icon-foreground)',
+        'pin-icon-placeholder': 'var(--v-map-pin-icon-placeholder)'
       },
       fontSize: {
+        0: '0',
         map: ['var(--v-map-font-size)', 'var(--v-map-line-height)'],
         attribution: 'var(--v-map-attribution-font-size)',
         control: 'var(--v-map-control-font-size)',
-        0: '0'
+        'pin-icon': 'var(--v-map-pin-icon-font-size)',
+        'pin-icon-svg': 'var(--v-map-pin-icon-svg-font-size)'
       },
       width: {
+        '1em': '1em',
         control: 'var(--v-map-control-width)',
-        '1em': '1em'
+        'pin-icon-svg': 'var(--v-map-pin-icon-svg-width)'
       },
       height: {
+        '1em': '1em',
         control: 'var(--v-map-control-height)',
-        '1em': '1em'
+        'pin-icon-svg': 'var(--v-map-pin-icon-svg-height)'
       },
       lineHeight: {
         control: 'var(--v-map-control-line-height)'

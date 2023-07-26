@@ -29,4 +29,13 @@
   --v-map-control-corner-margin: 1rem;
   --v-map-control-round: 0.75rem;
   --v-map-control-one-child-round: 50%;
+
+  /* pin icon */
+  --v-map-pin-icon-background: inherit;
+  --v-map-pin-icon-foreground: #3863c2;
+  --v-map-pin-icon-placeholder: #ffffff;
+  --v-map-pin-icon-font-size: 0.75rem;
+  --v-map-pin-icon-svg-width: 1em;
+  --v-map-pin-icon-svg-height: 1em;
+  --v-map-pin-icon-svg-font-size: 0.875rem;
 }

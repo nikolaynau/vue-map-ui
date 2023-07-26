@@ -1,0 +1,50 @@
+.v-map-pin-icon {
+  /* visual styles */
+  @apply text-pin-icon-foreground;
+}
+
+.v-map-pin-icon__shadow {
+  /* display styles */
+  @apply absolute -bottom-px left-[10px] pointer-events-none;
+
+  /* visual styles */
+  @apply bg-no-repeat bg-contain bg-[url('../../assets/icons/pin-shadow.png')];
+
+  /* sizes */
+  @apply w-[40px] h-[28px];
+}
+
+.v-map-pin-icon__pin {
+  /* display styles */
+  @apply absolute left-0 top-0 right-0 bottom-0;
+
+  /* visual styles */
+  @apply text-pin-icon-background bg-current;
+
+  /* mask */
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-image: url(../../assets/icons/pin.svg);
+}
+
+.v-map-pin-icon__icon {
+  /* display styles */
+  @apply flex items-center justify-center absolute left-[5px] top-[5px];
+
+  /* visual styles */
+  @apply rounded-full text-pin-icon leading-none bg-pin-icon-placeholder;
+
+  /* sizes */
+  @apply w-[22px] h-[22px];
+}
+
+.v-map-pin-icon__icon svg {
+  /* display styles */
+  @apply block z-auto;
+
+  /* visual styles */
+  @apply text-pin-icon-svg leading-none fill-current;
+
+  /* sizes */
+  @apply w-pin-icon-svg h-pin-icon-svg;
+}

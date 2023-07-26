@@ -24,3 +24,8 @@ export {
   default as VMapDivIcon,
   type Attrs as MapDivIconAttributes
 } from './VMapDivIcon.vue';
+
+export {
+  default as VMapPinIcon,
+  type Attrs as MapPinIconAttributes
+} from './VMapPinIcon.vue';
