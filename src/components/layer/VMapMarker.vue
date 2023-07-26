@@ -45,10 +45,11 @@ const props = defineProps<Props>();
 const emit = defineEmits<Emits>();
 
 const { opacity, icon, zIndexOffset, draggable } = toRefs(props);
-const _icon = toRef<Icon | DivIcon | null | undefined>(null);
 const latlng = useVModel(props, 'latlng', emit);
-
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
+
+const _icon = toRef<Icon | DivIcon | null | undefined>(null);
+syncRef(toRef(icon), _icon, { immediate: true, direction: 'ltr' });
 
 const marker = useLeafletMarker(latlng, {
   icon: _icon,
@@ -63,8 +64,6 @@ const api = useMarkerApi({ icon: _icon });
 const map = useMap();
 useLeafletDisplayLayer(map, marker);
 useEvents(marker, events);
-
-syncRef(toRef(icon), _icon, { immediate: true, direction: 'ltr' });
 
 provideMarker(marker);
 provideApi(markerApiKey, api);
