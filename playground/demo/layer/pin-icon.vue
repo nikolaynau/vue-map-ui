@@ -13,6 +13,8 @@ const className = ref('custom-marker-foo');
 const color = ref('');
 const backgroundColor = ref('');
 const placeholderColor = ref('');
+const iconSize = ref<[number, number]>([32, 46]);
+const iconAnchor = ref<[number, number]>([16, 46]);
 
 const colors = reactive([
   '#e74645',
@@ -25,6 +27,11 @@ const colors = reactive([
 function genClassName() {
   className.value = `custom-marker-foo-${counter.value++}`;
 }
+
+function genIconSize() {
+  iconSize.value = [--iconSize.value[0], --iconSize.value[1]];
+  iconAnchor.value = [iconSize.value[0] / 2, iconSize.value[1]];
+}
 </script>
 
 <template>
@@ -34,6 +41,8 @@ function genClassName() {
       <VMapPinIcon
         v-if="inited"
         :class="className"
+        :icon-size="iconSize"
+        :icon-anchor="iconAnchor"
         :color="color"
         :background-color="backgroundColor"
         :placeholder-color="placeholderColor"
@@ -94,6 +103,9 @@ function genClassName() {
     </button>
     <button class="block mb-1" @click="genClassName">
       Gen Class Name: {{ className }}
+    </button>
+    <button class="block mb-1" @click="genIconSize">
+      Icon Size: {{ iconSize }}, Icon Anchor: {{ iconAnchor }}
     </button>
     <div>
       <label
