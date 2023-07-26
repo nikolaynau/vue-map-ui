@@ -1,8 +1,9 @@
-import { useAttrs as _useAttrs, camelize } from 'vue';
+import { useAttrs as _useAttrs, camelize, toRaw } from 'vue';
 import { isEmpty, lcFirst } from '../utils/strings';
 
 export function useAttrs<T = Function, U = unknown>(
-  camelizeKeys: boolean = true
+  camelizeKeys: boolean = true,
+  rawValue: boolean = true
 ) {
   const result: {
     events: Record<string, T>;
@@ -18,7 +19,9 @@ export function useAttrs<T = Function, U = unknown>(
         continue;
       }
     }
-    result.attrs[camelizeKeys ? camelize(key) : key] = attrs[key] as U;
+    result.attrs[camelizeKeys ? camelize(key) : key] = (
+      rawValue ? toRaw(attrs[key]) : attrs[key]
+    ) as U;
   }
 
   return result;
