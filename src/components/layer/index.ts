@@ -29,3 +29,8 @@ export {
   default as VMapPinIcon,
   type Attrs as MapPinIconAttributes
 } from './VMapPinIcon.vue';
+
+export {
+  default as VMapPinMarker,
+  type Attrs as MapPinMarkerAttributes
+} from './VMapPinMarker.vue';
