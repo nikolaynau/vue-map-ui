@@ -9,17 +9,17 @@ import {
 } from 'vue';
 import {
   default as VMapDivIcon,
-  type Attrs as _Attrs,
-  type Props as _Props
+  type Attrs as IconAttrs,
+  type Props as IconProps
 } from './VMapDivIcon.vue';
 
-export interface Props extends _Props {
+export interface Props extends IconProps {
   color?: string;
   backgroundColor?: string;
   placeholderColor?: string;
 }
 
-export type Attrs = _Attrs;
+export type Attrs = IconAttrs;
 
 const props = withDefaults(defineProps<Props>(), {
   iconSize: () => [32, 46],

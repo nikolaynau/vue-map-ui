@@ -1,0 +1,4 @@
+.v-map .leaflet-div-icon {
+  /* visual styles */
+  @apply bg-transparent border-none;
+}

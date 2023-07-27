@@ -24,6 +24,7 @@ function increment() {
         v-if="inited"
         :html="html"
         :class="['div-icon-round', cssClass]"
+        :class-name="{ 'custom-marker-a': true, 'custom-marker-b': false }"
         :icon-size="[20, 20]"
         :icon-anchor="[10, 20]"
       />

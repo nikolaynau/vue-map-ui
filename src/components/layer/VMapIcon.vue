@@ -10,7 +10,7 @@ export default defineComponent({
 import { onUnmounted, toRefs, watch } from 'vue';
 import type { IconOptions, PointExpression } from 'leaflet';
 import { useLeafletIcon, useLeafletReady } from 'vue-use-leaflet';
-import { useApi, useAttrs } from '../../composables';
+import { useApi, useAttrs, useMergeCss } from '../../composables';
 import { provideIcon, markerApiKey } from './composables';
 
 export interface Props {
@@ -24,18 +24,20 @@ export interface Props {
   shadowAnchor?: PointExpression;
   knownClasses?: string[];
   class?: any;
+  className?: any;
 }
 
 export type Attrs = IconOptions;
 
 const props = defineProps<Props>();
 
-const { iconUrl, class: className, ...options } = toRefs(props);
+const { iconUrl, class: _class, className, ...other } = toRefs(props);
 const { attrs } = useAttrs();
+const cssClass = useMergeCss(_class, className);
 
 const icon = useLeafletIcon(iconUrl, {
-  ...options,
-  className,
+  ...other,
+  className: cssClass,
   ...attrs
 });
 const ready = useLeafletReady(icon);

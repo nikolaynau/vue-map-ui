@@ -21,7 +21,7 @@ import { isDefined, syncRef, toRef, toValue } from '@vueuse/shared';
 import type { MaybeComputedElementRef } from '@vueuse/core';
 import type { DivIconOptions, PointExpression } from 'leaflet';
 import { useLeafletDivIcon, useLeafletReady } from 'vue-use-leaflet';
-import { useApi, useAttrs, useCssClass } from '../../composables';
+import { useApi, useAttrs, useCssClass, useMergeCss } from '../../composables';
 import { provideDivIcon, markerApiKey } from './composables';
 
 export interface Props {
@@ -33,6 +33,7 @@ export interface Props {
   rootClass?: any;
   knownClasses?: string[];
   class?: any;
+  className?: any;
 }
 
 export type Attrs = DivIconOptions;
@@ -41,10 +42,11 @@ const props = defineProps<Props>();
 
 const {
   html,
-  class: className,
+  class: _class,
+  className,
   renderMode,
   rootClass,
-  ...options
+  ...other
 } = toRefs(props);
 
 const { attrs } = useAttrs();
@@ -54,10 +56,11 @@ const _html = ref<string | HTMLElement | null | undefined>(null);
 syncRef(toRef(html), _html, { immediate: true, direction: 'ltr' });
 
 const rootEl = ref<HTMLElement | null>(null);
+const cssClass = useMergeCss(_class, className);
 
 const icon = useLeafletDivIcon(_html, {
-  ...options,
-  className,
+  ...other,
+  className: cssClass,
   ...attrs
 });
 const ready = useLeafletReady(icon);
@@ -135,3 +138,7 @@ defineExpose({
     <slot v-else-if="ready"></slot>
   </template>
 </template>
+
+<style>
+@import 'div-icon';
+</style>
