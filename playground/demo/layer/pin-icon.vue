@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
+import { toRef } from '@vueuse/shared';
 import { VMap, VMapMarker, VMapOsmTileLayer, VMapPinIcon } from 'vue-map-ui';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -11,7 +12,8 @@ const counter = ref(0);
 const inited = ref(true);
 const className = ref('custom-marker-foo');
 const color = ref('');
-const backgroundColor = ref('');
+const _backgroundColor = ref('');
+const backgroundColor = toRef(() => _backgroundColor.value || undefined);
 const placeholderColor = ref('');
 const iconSize = ref<[number, number]>([32, 46]);
 const iconAnchor = ref<[number, number]>([16, 46]);
@@ -118,8 +120,8 @@ function genIconSize() {
     </div>
     <div>
       <label
-        >Background Color ({{ backgroundColor || 'None' }}):
-        <select v-model="backgroundColor">
+        >Background Color ({{ _backgroundColor || 'None' }}):
+        <select v-model="_backgroundColor">
           <option value="">None</option>
           <option v-for="c in colors" :key="c" :value="c">{{ c }}</option>
         </select>

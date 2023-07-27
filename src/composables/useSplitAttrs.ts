@@ -11,7 +11,7 @@ export type UseSplitAttrsReturn<T = Record<string, unknown>> = {
 } & Record<string, T>;
 
 export function useSplitAttrs(
-  prefixes: string[],
+  prefixes: string[] = [],
   options: UseSplitAttrsOptions = {}
 ): UseSplitAttrsReturn {
   const { camelizeKeys, rawValue } = options;
@@ -27,7 +27,11 @@ export function useSplitAttrs(
         result[prefix] = {};
       }
       if (key.startsWith(prefix)) {
-        const attrName = lcFirst(key.slice(prefix.length));
+        const hyphenated = key[prefix.length] === '-';
+        const startIndex = hyphenated ? prefix.length + 1 : prefix.length;
+        const attrName = hyphenated
+          ? key.slice(startIndex)
+          : lcFirst(key.slice(startIndex));
         if (!isEmpty(attrName)) {
           result[prefix][camelizeKeys ? camelize(attrName) : attrName] =
             rawValue ? toRaw(attrs[key]) : attrs[key];
