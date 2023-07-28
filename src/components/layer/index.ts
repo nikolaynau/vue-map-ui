@@ -34,3 +34,13 @@ export {
   default as VMapPinMarker,
   type Attrs as MapPinMarkerAttributes
 } from './VMapPinMarker.vue';
+
+export {
+  default as VMapDivMarker,
+  type Attrs as MapDivMarkerAttributes
+} from './VMapDivMarker.vue';
+
+export {
+  default as VMapIconMarker,
+  type Attrs as MapIconMarkerAttributes
+} from './VMapIconMarker.vue';
