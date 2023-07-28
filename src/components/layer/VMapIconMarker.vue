@@ -8,8 +8,9 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { useSlots } from 'vue';
+import type { Icon, Marker } from 'leaflet';
 import type { AddPrefix } from '../../utils/types';
-import { useSplitAttrs } from '../../composables';
+import { useSplitAttrs, useTemplateRef } from '../../composables';
 import {
   default as VMapMarker,
   type Attrs as MarkerAttrs,
@@ -26,13 +27,28 @@ export type Attrs = MarkerProps &
   AddPrefix<IconProps, 'icon'> &
   AddPrefix<IconAttrs, 'icon'>;
 
-const { default: markerAttrs, icon: iconAttrs } = useSplitAttrs(['icon']);
+const attrs = useSplitAttrs(['icon']);
 const slots = useSlots() as { default: unknown };
+
+const { templateRef: markerRef, value: marker } = useTemplateRef<
+  InstanceType<typeof VMapMarker>,
+  Marker | null
+>(obj => obj.marker);
+
+const { templateRef: iconRef, value: icon } = useTemplateRef<
+  InstanceType<typeof VMapIcon>,
+  Icon | null
+>(obj => obj.icon);
+
+defineExpose({
+  marker,
+  icon
+});
 </script>
 
 <template>
-  <VMapMarker v-bind="markerAttrs">
-    <VMapIcon v-bind="iconAttrs">
+  <VMapMarker ref="markerRef" v-bind="attrs.default">
+    <VMapIcon ref="iconRef" v-bind="attrs.icon">
       <template v-if="slots.default" #default>
         <slot></slot>
       </template>

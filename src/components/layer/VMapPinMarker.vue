@@ -27,7 +27,7 @@ export type Attrs = MarkerProps &
   AddPrefix<IconProps, 'icon'> &
   AddPrefix<IconAttrs, 'icon'>;
 
-const { default: markerAttrs, icon: iconAttrs } = useSplitAttrs(['icon']);
+const attrs = useSplitAttrs(['icon']);
 const slots = useSlots() as { default: unknown };
 
 const { templateRef: markerRef, value: marker } = useTemplateRef<
@@ -47,8 +47,8 @@ defineExpose({
 </script>
 
 <template>
-  <VMapMarker ref="markerRef" v-bind="markerAttrs">
-    <VMapPinIcon ref="iconRef" v-bind="iconAttrs">
+  <VMapMarker ref="markerRef" v-bind="attrs.default">
+    <VMapPinIcon ref="iconRef" v-bind="attrs.icon">
       <template v-if="slots.default" #default>
         <slot></slot>
       </template>
