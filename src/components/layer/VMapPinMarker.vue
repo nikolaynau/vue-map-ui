@@ -10,7 +10,7 @@ export default defineComponent({
 import { useSlots } from 'vue';
 import type { DivIcon, Marker } from 'leaflet';
 import type { AddPrefix } from '../../utils/types';
-import { useSplitAttrs, useRef } from '../../composables';
+import { useSplitAttrs, useTemplateRef } from '../../composables';
 import {
   default as VMapMarker,
   type Attrs as MarkerAttrs,
@@ -30,12 +30,12 @@ export type Attrs = MarkerProps &
 const { default: markerAttrs, icon: iconAttrs } = useSplitAttrs(['icon']);
 const slots = useSlots() as { default: unknown };
 
-const { templateRef: markerRef, value: marker } = useRef<
+const { templateRef: markerRef, value: marker } = useTemplateRef<
   InstanceType<typeof VMapMarker>,
   Marker | null
 >(obj => obj.marker);
 
-const { templateRef: iconRef, value: icon } = useRef<
+const { templateRef: iconRef, value: icon } = useTemplateRef<
   InstanceType<typeof VMapPinIcon>,
   DivIcon | null
 >(obj => obj.icon);

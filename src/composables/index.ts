@@ -1,6 +1,6 @@
 export * from './useAttrs';
 export * from './useEvents';
-export * from './useRef';
+export * from './useTemplateRef';
 export * from './useApi';
 export * from './useCssClass';
 export * from './useMergeCss';

@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { defineComponent, h, ref, unref } from 'vue';
 import { mount } from '@vue/test-utils';
-import { useRef } from '../useRef';
+import { useTemplateRef } from '../useTemplateRef';
 
-describe('useRef', () => {
+describe('useTemplateRef', () => {
   const Child = defineComponent({
     setup() {
       const x = ref(1);
@@ -16,9 +16,10 @@ describe('useRef', () => {
 
   const Root = defineComponent({
     setup() {
-      const { templateRef, value } = useRef<InstanceType<typeof Child>, number>(
-        obj => obj.x
-      );
+      const { templateRef, value } = useTemplateRef<
+        InstanceType<typeof Child>,
+        number
+      >(obj => obj.x);
       return {
         templateRef,
         value
@@ -35,7 +36,9 @@ describe('useRef', () => {
   };
 
   it('should work', () => {
-    const { templateRef, value } = useRef<InstanceType<typeof A>>(obj => obj.y);
+    const { templateRef, value } = useTemplateRef<InstanceType<typeof A>>(
+      obj => obj.y
+    );
 
     expect(unref(templateRef)).toBeNull();
     expect(unref(value)).toBeNull();

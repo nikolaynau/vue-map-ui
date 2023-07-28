@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TileLayer } from 'leaflet';
-import { useRef } from '../../composables';
+import { useTemplateRef } from '../../composables';
 import {
   default as VMapTileLayer,
   type Attrs as _Attrs
@@ -19,7 +19,7 @@ withDefaults(defineProps<Props>(), {
   title: 'Mapbox'
 });
 
-const { templateRef, value: tileLayer } = useRef<
+const { templateRef, value: tileLayer } = useTemplateRef<
   InstanceType<typeof VMapTileLayer>,
   TileLayer | null
 >(obj => obj.tileLayer);

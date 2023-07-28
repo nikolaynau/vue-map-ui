@@ -8,7 +8,7 @@ import {
   type StyleValue
 } from 'vue';
 import type { DivIcon } from 'leaflet';
-import { useRef } from '../../composables';
+import { useTemplateRef } from '../../composables';
 import {
   default as VMapDivIcon,
   type Attrs as IconAttrs,
@@ -46,7 +46,7 @@ const iconStyle = computed<StyleValue>(() => ({
   backgroundColor: placeholderColor.value
 }));
 
-const { templateRef, value: icon } = useRef<
+const { templateRef, value: icon } = useTemplateRef<
   InstanceType<typeof VMapDivIcon>,
   DivIcon | null
 >(obj => obj.icon);

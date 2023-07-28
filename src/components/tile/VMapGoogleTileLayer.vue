@@ -2,7 +2,7 @@
 import { isDefined } from '@vueuse/shared';
 import type { TileLayer } from 'leaflet';
 import { computed, toRefs, unref } from 'vue';
-import { useRef } from '../../composables';
+import { useTemplateRef } from '../../composables';
 import {
   default as VMapTileLayer,
   type Attrs as _Attrs
@@ -27,7 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { type, layers: _layers } = toRefs(props);
 
-const { templateRef, value: tileLayer } = useRef<
+const { templateRef, value: tileLayer } = useTemplateRef<
   InstanceType<typeof VMapTileLayer>,
   TileLayer | null
 >(obj => obj.tileLayer);
