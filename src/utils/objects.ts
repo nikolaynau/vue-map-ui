@@ -12,3 +12,11 @@ export function camelizeKeys(
   }
   return result;
 }
+
+export function defineGetter(obj: unknown, key: string, fn: () => unknown) {
+  Object.defineProperty(obj, key, {
+    enumerable: true,
+    configurable: true,
+    get: fn
+  });
+}

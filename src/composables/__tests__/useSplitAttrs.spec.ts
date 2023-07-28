@@ -20,9 +20,9 @@ describe('useSplitAttrs', () => {
       undefined
     ],
     [
-      { 'foo-bar': 1, BarFoo: 2 },
-      { default: { fooBar: 1, BarFoo: 2 } },
-      undefined,
+      { 'foo-bar': 1, BarFoo: 2, 'a-foo-bar': 3, 'b-foo-bar': 4 },
+      { default: { fooBar: 1, BarFoo: 2 }, a: { fooBar: 3 }, b: { fooBar: 4 } },
+      ['a', 'b'],
       { camelizeKeys: true } as UseSplitAttrsOptions
     ],
     [
@@ -61,7 +61,7 @@ describe('useSplitAttrs', () => {
       undefined
     ]
   ])(
-    'should work with source: %o, events: %o, attrs: %o',
+    'should work with source: %o, expectedAttrs: %o, prefixes: %o, options: %o',
     (sourceAttrs, expectedAttrs, prefixes, options) => {
       let result: UseSplitAttrsReturn | undefined = undefined;
 
