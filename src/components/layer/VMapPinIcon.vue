@@ -7,6 +7,8 @@ import {
   useSlots,
   type StyleValue
 } from 'vue';
+import type { DivIcon } from 'leaflet';
+import { useRef } from '../../composables';
 import {
   default as VMapDivIcon,
   type Attrs as IconAttrs,
@@ -43,10 +45,20 @@ const iconStyle = computed<StyleValue>(() => ({
   color: color.value,
   backgroundColor: placeholderColor.value
 }));
+
+const { templateRef, value: icon } = useRef<
+  InstanceType<typeof VMapDivIcon>,
+  DivIcon | null
+>(obj => obj.icon);
+
+defineExpose({
+  icon
+});
 </script>
 
 <template>
   <VMapDivIcon
+    ref="templateRef"
     class="v-map-pin-icon"
     v-bind="iconProps"
     :popup-anchor="popupAnchor"

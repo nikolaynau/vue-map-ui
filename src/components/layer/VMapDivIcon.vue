@@ -123,7 +123,7 @@ function update(el: MaybeComputedElementRef<HTMLElement | null>) {
 provideDivIcon(icon);
 
 defineExpose({
-  divIcon: icon
+  icon
 });
 </script>
 
