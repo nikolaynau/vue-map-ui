@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { ref, h, defineComponent, onMounted } from 'vue';
+import { ref, h, defineComponent, onMounted, nextTick } from 'vue';
 import { DivIcon } from 'leaflet';
 import { mount } from '../../../../.test';
 import { provideApi } from '../../../composables';
@@ -70,4 +70,86 @@ describe('VMapDivIcon', () => {
     expect(markerApi.setIcon.mock.calls[0][0]).toBeInstanceOf(DivIcon);
     expect(markerApi.setIcon.mock.calls[1][0]).toBeNull();
   });
+
+  it('should work with html', async () => {
+    const rawHtml = '<div>foo</div>';
+    const html = ref<string | undefined>(undefined);
+    const icon = ref<InstanceType<typeof VMapDivIcon> | null>(null);
+
+    const Component = defineComponent({
+      setup() {
+        return () => h(VMapDivIcon, { ref: icon, html: html.value });
+      }
+    });
+
+    mount(Component);
+
+    expect(icon.value?.icon).toBeInstanceOf(DivIcon);
+    expect(icon.value?.icon?.options.html).toBe(false);
+
+    html.value = rawHtml;
+    await nextTick();
+
+    expect(icon.value?.icon?.options.html).toBe(rawHtml);
+  });
+
+  it('should work with render mode as html', async () => {
+    const icon = ref<InstanceType<typeof VMapDivIcon> | null>(null);
+    const counter = ref(0);
+
+    const Component = defineComponent({
+      setup() {
+        return () =>
+          h(VMapDivIcon, { ref: icon, renderMode: 'html' }, () =>
+            h('div', `foo${counter.value}`)
+          );
+      }
+    });
+
+    mount(Component);
+
+    await nextTick();
+    expect(icon.value?.icon?.options.html).toBe('<div>foo0</div>');
+
+    counter.value++;
+    await nextTick();
+    expect(icon.value?.icon?.options.html).toBe('<div>foo1</div>');
+  });
+
+  it.each([['node'], ['portal']])(
+    'should work with render mode as %o',
+    async renderMode => {
+      const icon = ref<InstanceType<typeof VMapDivIcon> | null>(null);
+      const counter = ref(0);
+
+      const Component = defineComponent({
+        setup() {
+          return () =>
+            h(
+              VMapDivIcon,
+              {
+                ref: icon,
+                rootClass: 'foo-bar',
+                renderMode: renderMode as 'portal' | 'node'
+              },
+              () => h('div', `foo${counter.value}`)
+            );
+        }
+      });
+
+      mount(Component);
+
+      await nextTick();
+      expect(icon.value?.icon?.options.html).toBeInstanceOf(HTMLElement);
+      expect((icon.value?.icon?.options.html as HTMLElement).outerHTML).toBe(
+        '<div class="foo-bar"><div>foo0</div></div>'
+      );
+
+      counter.value++;
+      await nextTick();
+      expect((icon.value?.icon?.options.html as HTMLElement).outerHTML).toBe(
+        '<div class="foo-bar"><div>foo1</div></div>'
+      );
+    }
+  );
 });
