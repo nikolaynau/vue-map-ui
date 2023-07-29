@@ -1,5 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
-import { ref, h, nextTick, defineComponent, onMounted, reactive } from 'vue';
+import {
+  ref,
+  h,
+  nextTick,
+  defineComponent,
+  onMounted,
+  reactive,
+  watch
+} from 'vue';
 import { Icon } from 'leaflet';
 import { mount } from '../../../../.test';
 import { provideApi } from '../../../composables';
@@ -104,5 +112,72 @@ describe('VMapIcon', () => {
 
     expect(markerApi.setIcon.mock.calls).toHaveLength(2);
     expect(markerApi.setIcon.mock.calls[1][0]).toBeInstanceOf(Icon);
+  });
+
+  it('should be work when change props', async () => {
+    const iconUrl = 'http://localhost/foo.png';
+
+    let instance: Icon | null | undefined = null;
+
+    const props = reactive<Props>({
+      iconUrl: undefined,
+      iconSize: undefined,
+      iconAnchor: undefined,
+      class: undefined,
+      className: undefined
+    });
+
+    const Component = defineComponent({
+      setup() {
+        const icon = ref<InstanceType<typeof VMapIcon> | null>(null);
+
+        watch(
+          () => icon.value?.icon,
+          val => {
+            instance = val as Icon;
+          }
+        );
+
+        return () => h(VMapIcon, { ref: icon, ...props });
+      }
+    });
+
+    mount(Component);
+
+    expect(instance).toBeNull();
+
+    props.iconUrl = iconUrl;
+    await nextTick();
+
+    instance = instance as unknown as Icon;
+    expect(instance).toBeInstanceOf(Icon);
+    expect(instance.options.iconUrl).toBe(iconUrl);
+    expect(instance.options.iconSize).toBe(undefined);
+    expect(instance.options.iconAnchor).toBe(undefined);
+    expect(instance.options.className).toBe(undefined);
+
+    const img = instance.createIcon() as HTMLImageElement;
+    expect(img.src).toBe(iconUrl);
+    expect([...img.classList]).toEqual(['leaflet-marker-icon']);
+    expect(img.style.height).toBe('');
+    expect(img.style.width).toBe('');
+    expect(img.style.marginLeft).toBe('');
+    expect(img.style.marginTop).toBe('');
+
+    props.iconSize = [10, 15];
+    props.iconAnchor = [20, 25];
+    props.class = ['a', 'b'];
+    props.className = { c: true, b: false };
+    await nextTick();
+
+    expect(instance.options.iconSize).toEqual([10, 15]);
+    expect(instance.options.iconAnchor).toEqual([20, 25]);
+    expect(instance.options.className).toBe('a b c');
+
+    expect([...img.classList]).toEqual(['leaflet-marker-icon', 'a', 'b', 'c']);
+    expect(img.style.height).toBe('15px');
+    expect(img.style.width).toBe('10px');
+    expect(img.style.marginLeft).toBe('-20px');
+    expect(img.style.marginTop).toBe('-25px');
   });
 });
