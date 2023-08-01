@@ -1,0 +1,7 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`VMapDivMarker > should be reactive attrs > change html 1`] = `"<i class=\\"icon\\">Bar</i>"`;
+
+exports[`VMapDivMarker > should be reactive attrs > init html 1`] = `"<i class=\\"icon\\">Foo</i>"`;
+
+exports[`VMapDivMarker > should be render default slot 1`] = `"<i class=\\"icon\\"></i>"`;
