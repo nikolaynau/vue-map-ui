@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`VMapPinIcon > should be render html 1`] = `"<div class=\\"v-map-pin-icon__shadow\\"></div><div class=\\"v-map-pin-icon__pin\\"></div><!--v-if-->"`;
+
+exports[`VMapPinIcon > should be render html with default slot 1`] = `"<div class=\\"v-map-pin-icon__shadow\\"></div><div class=\\"v-map-pin-icon__pin\\"></div><div class=\\"v-map-pin-icon__icon\\"><i class=\\"icon\\"></i></div>"`;
+
+exports[`VMapPinIcon > should work with background color 1`] = `"<div class=\\"v-map-pin-icon__shadow\\"></div><div class=\\"v-map-pin-icon__pin\\" style=\\"color: rgb(0, 0, 0);\\"></div><div class=\\"v-map-pin-icon__icon\\" style=\\"color: rgb(255, 255, 255);\\"><i class=\\"icon\\"></i></div>"`;
+
+exports[`VMapPinIcon > should work with color 1`] = `"<div class=\\"v-map-pin-icon__shadow\\"></div><div class=\\"v-map-pin-icon__pin\\" style=\\"color: rgb(255, 255, 255);\\"></div><div class=\\"v-map-pin-icon__icon\\" style=\\"color: rgb(255, 255, 255);\\"><i class=\\"icon\\"></i></div>"`;
+
+exports[`VMapPinIcon > should work with placeholder color 1`] = `"<div class=\\"v-map-pin-icon__shadow\\"></div><div class=\\"v-map-pin-icon__pin\\"></div><div class=\\"v-map-pin-icon__icon\\" style=\\"background-color: green;\\"><i class=\\"icon\\"></i></div>"`;
