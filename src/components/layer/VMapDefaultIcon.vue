@@ -25,13 +25,20 @@ export type Attrs = IconOptions;
 
 const props = defineProps<Props>();
 
-const { iconUrl, class: _class, className, knownClasses } = toRefs(props);
+const {
+  iconUrl,
+  imagePath,
+  class: _class,
+  className,
+  knownClasses
+} = toRefs(props);
+
 const { attrs } = useAttrs();
 const cssClass = useMergeCss(_class, className);
 
 const icon = useLeafletDefaultIcon({
   iconUrl,
-  imagePath: props.imagePath,
+  imagePath: imagePath?.value,
   className: cssClass,
   knownClasses,
   ...attrs

@@ -47,15 +47,24 @@ const props = withDefaults(defineProps<Props>(), {
   class: undefined
 });
 
-const { center, zoom, bounds, useFly, theme, class: _class } = toRefs(props);
+const {
+  center,
+  zoom,
+  bounds,
+  useFly,
+  theme,
+  elementAttrs,
+  class: _class
+} = toRefs(props);
+
 const container = ref<HTMLElement | null>(null);
 const { events, attrs } = useAttrs<LeafletEventHandlerFn>(false);
 const themeCss = useTheme(theme);
 
-const _elementAttrs = ['id', 'style', ...props.elementAttrs];
+const pickAttrs = ['id', 'style', ...elementAttrs.value];
 const leafletEvents = omit(events, ['viewChanged']);
-const leafletOptions = camelizeKeys(omit(attrs, _elementAttrs));
-const elAttrs = pick(attrs, _elementAttrs);
+const leafletOptions = camelizeKeys(omit(attrs, pickAttrs));
+const rootAttrs = pick(attrs, pickAttrs);
 
 const onViewChanged = events['viewChanged'] as (e: ViewChangedEvent) => void;
 
@@ -93,7 +102,7 @@ defineExpose({
 </script>
 
 <template>
-  <div v-bind="elAttrs" class="v-map" ref="container">
+  <div v-bind="rootAttrs" class="v-map" ref="container">
     <slot v-if="ready"></slot>
   </div>
 </template>

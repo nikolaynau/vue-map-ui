@@ -22,10 +22,10 @@ export interface Props {
 export type Attrs = any;
 
 const props = defineProps<Props>();
-const { name, class: _class } = toRefs(props);
+const { name, zIndex, class: _class } = toRefs(props);
 
 const map = useMap();
-const { paneElements } = useLeafletPane(map, name, { zIndex: props.zIndex });
+const { paneElements } = useLeafletPane(map, name, { zIndex: zIndex?.value });
 const paneElement = computed<HTMLElement | null>(
   () => paneElements.value[name.value] ?? null
 );
@@ -33,7 +33,7 @@ const ready = useLeafletReady(paneElement);
 useCssClass(paneElement, _class);
 
 watch(
-  () => props.zIndex,
+  () => zIndex?.value,
   val => {
     if (isDefined(paneElement)) {
       const value = isDefined(val) ? `${val}` : 'auto';
