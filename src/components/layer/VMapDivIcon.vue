@@ -9,7 +9,6 @@ export default defineComponent({
 <script setup lang="ts">
 import {
   markRaw,
-  onMounted,
   onUnmounted,
   onUpdated,
   ref,
@@ -88,19 +87,27 @@ if (slots.default && renderMode?.value === 'portal') {
 }
 
 if (slots.default && renderMode?.value === 'node') {
-  onMounted(() => {
-    detach(rootEl);
-    _html.value = rootEl.value;
-  });
+  watch(
+    rootEl,
+    () => {
+      detach(rootEl);
+      _html.value = rootEl.value;
+    },
+    { flush: 'sync' }
+  );
 
   useCssClass(rootEl, rootClass);
 }
 
 if (slots.default && (!renderMode?.value || renderMode.value === 'html')) {
-  onMounted(() => {
-    detach(rootEl);
-    update(rootEl);
-  });
+  watch(
+    rootEl,
+    () => {
+      detach(rootEl);
+      update(rootEl);
+    },
+    { flush: 'sync' }
+  );
 
   onUpdated(() => {
     update(rootEl);
