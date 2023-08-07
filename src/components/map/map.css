@@ -1,4 +1,4 @@
-@import 'styles/container';
-@import 'styles/link';
-@import 'styles/bar';
-@import 'styles/control-corners';
+@import 'map-container';
+@import 'map-link';
+@import 'map-bar';
+@import 'map-control-corners';
