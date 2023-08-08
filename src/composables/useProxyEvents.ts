@@ -11,8 +11,16 @@ export function useProxyEvents<Name extends string>(
 ) {
   return useLeafletEvent(target, events, (ev: LeafletEvent) => {
     const attrKey = `on${ucFirst(ev.type)}`;
-    if (typeof attrs[attrKey] === 'function') {
-      (attrs[attrKey] as LeafletEventHandlerFn)(ev);
+    if (attrs[attrKey]) {
+      if (typeof attrs[attrKey] === 'function') {
+        (attrs[attrKey] as LeafletEventHandlerFn)(ev);
+      } else if (Array.isArray(attrs[attrKey])) {
+        (attrs[attrKey] as Function[]).forEach(fn => {
+          if (typeof fn === 'function') {
+            (fn as LeafletEventHandlerFn)(ev);
+          }
+        });
+      }
     } else {
       emit(ev.type as Name, ev);
     }

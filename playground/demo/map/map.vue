@@ -3,6 +3,7 @@ import type { LatLngBoundsExpression, LatLngExpression } from 'leaflet';
 import { ref } from 'vue';
 import { VMap, VMapOsmTileLayer } from 'vue-map-ui';
 import type { ViewChangedEvent } from 'vue-use-leaflet';
+import VMap2 from '../../../src/components/map/VMap2.vue';
 
 const center = ref<LatLngExpression>([0, 0]);
 const zoom = ref(0);
@@ -26,6 +27,23 @@ function onViewChanged(e: ViewChangedEvent) {
   >
     <VMapOsmTileLayer />
   </VMap>
+  <VMap2
+    style="height: 200px"
+    :center="center"
+    :zoom="zoom"
+    :theme="theme"
+    test-A
+    foo-bar
+    barFoo
+    Bar-Bar
+    @foo-bar="null"
+    @fooBarBar="null"
+    @FooBar="null"
+    scroll-wheel-zoom="center"
+    @view-changed="onViewChanged"
+  >
+    <VMapOsmTileLayer />
+  </VMap2>
 
   <div class="p-4">
     Center: {{ center }}
