@@ -1,6 +1,6 @@
 import type { MaybeRefOrGetter } from '@vueuse/shared';
 import type { Evented, LeafletEvent, LeafletEventHandlerFn } from 'leaflet';
-import { ucFirst } from '../utils/strings';
+import { ucFirst } from '../../utils/strings';
 import { useLeafletEvent } from 'vue-use-leaflet';
 
 export function useProxyEvents<Name extends string>(

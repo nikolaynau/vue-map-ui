@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { defineComponent, h } from 'vue';
 import { mount } from '../../../.test';
-import { useAttrs, type UseAttrsReturn } from '../useAttrs';
+import { useAttrs, type UseAttrsReturn } from '../old/useAttrs';
 
 describe('useAttrs', () => {
   const fn = () => {};

@@ -7,14 +7,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import {
-  getCurrentInstance,
-  ref,
-  toRef,
-  useAttrs,
-  camelize,
-  type ComponentInternalInstance
-} from 'vue';
+import { getCurrentInstance, ref, useAttrs } from 'vue';
 import type {
   MapOptions,
   LatLngBoundsExpression,
@@ -29,9 +22,9 @@ import {
 } from 'vue-use-leaflet';
 import { provideMap } from './composables';
 import { useTheme } from './composables/useTheme';
-import { useCssClass, useProxyEvents } from '../../composables';
-import { ucFirst } from '../../utils/strings';
-debugger;
+import { useCssClass, useProxyEvents } from '../../composables/internal';
+import { hasEvent, pickProps } from '../../utils/props';
+
 export interface Props extends MapOptions {
   center?: LatLngExpression;
   zoom?: number;
@@ -62,26 +55,33 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<Emits>();
 
 const container = ref<HTMLElement | null>(null);
-const themeCss = useTheme(toRef(props, 'theme'));
 const instance = getCurrentInstance()!;
 const attrs = useAttrs();
 const hasViewChanged = hasEvent(instance, 'view-changed');
-const { props: other, events } = propValues(instance, props, {
-  omit: ['center', 'zoom', 'bounds', 'useFly']
-});
+const {
+  refs: { center, zoom, bounds, useFly, theme, class: cssClass },
+  values: other,
+  events
+} = pickProps(
+  instance,
+  props,
+  ['center', 'zoom', 'bounds', 'useFly', 'id', 'theme', 'class', 'style'],
+  ['view-changed']
+);
 
 const map = useLeafletMap(container, {
-  center: toRef(props, 'center'),
-  zoom: toRef(props, 'zoom'),
-  bounds: toRef(props, 'bounds'),
-  useFly: toRef(props, 'useFly'),
+  center,
+  zoom,
+  bounds,
+  useFly,
   onViewChanged: hasViewChanged ? e => emit('view-changed', e) : undefined,
   ...other
 });
 
+const themeCss = useTheme(theme);
 const ready = useLeafletReady(map);
 useProxyEvents(map, events, attrs, emit);
-useCssClass(container, toRef(props, 'class'));
+useCssClass(container, cssClass);
 useCssClass(container, themeCss);
 
 useLeafletControlPosition(map, [
@@ -101,21 +101,6 @@ defineExpose({
   container,
   map
 });
-
-function hasEvent(instance: ComponentInternalInstance, eventName: string) {
-  debugger;
-  const key = `on${ucFirst(camelize(eventName))}`;
-  const { props } = instance.vnode;
-  return props && key in props;
-}
-
-function propValues<T extends object, K extends keyof T>(
-  instance: ComponentInternalInstance,
-  props: T,
-  options: { omit?: K[] } = {}
-): { props: Record<string, unknown>; events: string[] } {
-  return { props: {}, events: [] };
-}
 </script>
 
 <template>
