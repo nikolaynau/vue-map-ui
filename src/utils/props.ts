@@ -22,19 +22,20 @@ export function pickProps<T extends object, K extends keyof T>(
   props: T,
   keys: readonly K[],
   omitEvents: string[] = [],
-  reactiveOtherProps: boolean = false
-): { refs: { [P in K]: Ref<T[P]> }; otherProps: Omit<T, K>; events: string[] } {
+  reactiveOther: boolean = false,
+  noRefs: boolean = false
+): { refs: { [P in K]: Ref<T[P]> }; other: Omit<T, K>; events: string[] } {
   const refs: Record<string, Ref<unknown>> = {};
-  const otherProps: Record<string, unknown> = reactiveOtherProps
-    ? reactive({})
-    : {};
+  const other: Record<string, unknown> = reactiveOther ? reactive({}) : {};
   const events: string[] = [];
   const keySet = new Set(keys);
   const omitEventSet = new Set(omitEvents.map(camelize));
 
-  for (let i = 0; i < keys.length; i++) {
-    const key = keys[i];
-    refs[key as string] = toRef(props, key);
+  if (!noRefs) {
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      refs[key as string] = toRef(props, key);
+    }
   }
 
   const vNodeProps = instance.vnode.props;
@@ -48,7 +49,7 @@ export function pickProps<T extends object, K extends keyof T>(
       } else {
         const propKey = lcFirst(camelize(key));
         if (!keySet.has(propKey as K) && propKey in props) {
-          otherProps[propKey] = reactiveOtherProps
+          other[propKey] = reactiveOther
             ? toRef(props, propKey as K)
             : toRaw(props[propKey as K]);
         }
@@ -56,5 +57,5 @@ export function pickProps<T extends object, K extends keyof T>(
     }
   }
 
-  return { refs: refs as any, otherProps: otherProps as any, events };
+  return { refs: refs as any, other: other as any, events };
 }

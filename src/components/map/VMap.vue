@@ -59,7 +59,7 @@ const instance = getCurrentInstance()!;
 const hasViewChanged = hasEvent(instance, 'view-changed');
 const {
   refs: { center, zoom, bounds, useFly, theme, class: cssClass },
-  otherProps,
+  other,
   events
 } = pickProps(
   instance,
@@ -74,7 +74,7 @@ const map = useLeafletMap(container, {
   bounds,
   useFly,
   onViewChanged: hasViewChanged ? e => emit('view-changed', e) : undefined,
-  ...otherProps
+  ...other
 });
 
 const themeCss = useTheme(theme);

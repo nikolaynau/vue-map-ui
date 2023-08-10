@@ -61,11 +61,11 @@ const emit = defineEmits<Emits>();
 const instance = getCurrentInstance()!;
 const {
   refs: { url, title, overlay },
-  otherProps,
+  other,
   events
 } = pickProps(instance, props, ['url', 'title', 'overlay']);
 
-const layer = useLeafletTileLayer(url, otherProps);
+const layer = useLeafletTileLayer(url, other);
 const ready = useLeafletReady(layer);
 const controlApi = useApi(layersControlApiKey);
 
