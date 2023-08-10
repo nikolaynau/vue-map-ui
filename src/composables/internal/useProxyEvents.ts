@@ -7,7 +7,7 @@ export function useProxyEvents<Name extends string>(
   target: MaybeRefOrGetter<Evented | null | undefined> | undefined,
   events: string[],
   attrs: Record<string, unknown>,
-  emit: (name: Name, ...args: any[]) => void
+  emit?: (name: Name, ...args: any[]) => void
 ) {
   return useLeafletEvent(target, events, (ev: LeafletEvent) => {
     const attrKey = `on${ucFirst(ev.type)}`;
@@ -22,7 +22,7 @@ export function useProxyEvents<Name extends string>(
         });
       }
     } else {
-      emit(ev.type as Name, ev);
+      emit?.(ev.type as Name, ev);
     }
   });
 }
