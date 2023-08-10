@@ -35,8 +35,14 @@ describe('VMapTileLayer', () => {
     });
   }
 
-  it('should render with default props', () => {
-    const vm = mount(VMapTileLayer);
+  it('should not render when url is null', () => {
+    const vm = mount(
+      defineComponent({
+        setup() {
+          return () => h(VMapTileLayer, { url: null });
+        }
+      })
+    );
     expect(vm.$el.nodeType).toBe(Node.COMMENT_NODE);
   });
 

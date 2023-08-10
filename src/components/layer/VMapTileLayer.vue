@@ -7,39 +7,70 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { watch, toRefs, unref, onUnmounted } from 'vue';
-import type { LeafletEventHandlerFn, TileLayerOptions } from 'leaflet';
+import { watch, useAttrs, unref, onUnmounted, getCurrentInstance } from 'vue';
+import type {
+  LeafletEvent,
+  PopupEvent,
+  TileErrorEvent,
+  TileEvent,
+  TileLayerOptions,
+  TooltipEvent
+} from 'leaflet';
 import {
   useLeafletTileLayer,
   useLeafletDisplayLayer,
   useLeafletReady
 } from 'vue-use-leaflet';
 import { v4 as uuidv4 } from 'uuid';
-import { provideTileLayer } from './composables';
-import { useAttrs, useEvents, useApi } from '../../composables';
-import { layersControlApiKey } from '../control';
+import { useApi } from '../../composables';
+import { useProxyEvents } from '../../composables/internal';
+import { layersControlApiKey } from '../control/composables';
+import { pickProps } from '../../utils/props';
 import { useMap } from '../map';
+import { provideTileLayer } from './composables';
 
-export interface Props {
-  url?: string;
+export interface Props extends TileLayerOptions {
+  url: string | null;
   title?: string;
   overlay?: boolean;
 }
 
-export type Attrs = TileLayerOptions;
+export type Emits = {
+  (type: 'tileabort', event: TileEvent): void;
+  (type: 'loading', event: LeafletEvent): void;
+  (type: 'tileunload', event: TileEvent): void;
+  (type: 'tileloadstart', event: TileEvent): void;
+  (type: 'tileerror', event: TileErrorEvent): void;
+  (type: 'tileload', event: TileEvent): void;
+  (type: 'load', event: LeafletEvent): void;
+  (type: 'add', event: LeafletEvent): void;
+  (type: 'remove', event: LeafletEvent): void;
+  (type: 'popupopen', event: PopupEvent): void;
+  (type: 'popupclose', event: PopupEvent): void;
+  (type: 'tooltipopen', event: TooltipEvent): void;
+  (type: 'tooltipclose', event: TooltipEvent): void;
+};
 
 const props = withDefaults(defineProps<Props>(), {
-  url: undefined,
   title: undefined,
   overlay: false
 });
 
-const { url, title, overlay } = toRefs(props);
-const { events, attrs } = useAttrs<LeafletEventHandlerFn>();
-const layer = useLeafletTileLayer(url, attrs);
+const emit = defineEmits<Emits>();
+
+const instance = getCurrentInstance()!;
+const {
+  refs: { url, title, overlay },
+  otherProps,
+  events
+} = pickProps(instance, props, ['url', 'title', 'overlay']);
+
+const layer = useLeafletTileLayer(url, otherProps);
 const ready = useLeafletReady(layer);
 const controlApi = useApi(layersControlApiKey);
-useEvents(layer, events);
+
+const attrs = useAttrs();
+useProxyEvents(layer, events, attrs, emit);
 
 if (controlApi) {
   const id = uuidv4();

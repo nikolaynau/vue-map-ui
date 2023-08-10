@@ -1,22 +1,18 @@
 <script setup lang="ts">
+import { computed, unref, getCurrentInstance } from 'vue';
 import { isDefined } from '@vueuse/shared';
-import type { TileLayer } from 'leaflet';
-import { computed, toRefs, unref } from 'vue';
-import { useTemplateRef } from '../../composables';
-import {
-  default as VMapTileLayer,
-  type Attrs as _Attrs
-} from '../layer/VMapTileLayer.vue';
+import type { TileLayer, TileLayerOptions } from 'leaflet';
+import { useTemplateRef } from '../../composables/internal';
+import { pickProps } from '../../utils/props';
+import VMapTileLayer from '../layer/VMapTileLayer.vue';
 
-export interface Props {
+export interface Props extends TileLayerOptions {
   type?: 'hybrid' | 'satellite' | 'streets' | 'terrain';
   layers?: string;
   subdomains?: string[];
   title?: string;
   overlay?: boolean;
 }
-
-export type Attrs = _Attrs;
 
 const props = withDefaults(defineProps<Props>(), {
   title: 'Google',
@@ -25,7 +21,17 @@ const props = withDefaults(defineProps<Props>(), {
   subdomains: () => ['mt0', 'mt1', 'mt2', 'mt3']
 });
 
-const { type, layers: _layers } = toRefs(props);
+const instance = getCurrentInstance()!;
+const {
+  refs: { layers, type },
+  otherProps
+} = pickProps(
+  instance,
+  props,
+  ['type', 'layers', 'subdomains', 'title', 'overlay'],
+  [],
+  true
+);
 
 const { templateRef, value: tileLayer } = useTemplateRef<
   InstanceType<typeof VMapTileLayer>,
@@ -40,7 +46,7 @@ const types = Object.freeze({
 });
 
 const lyrs = computed<string | null>(() =>
-  isDefined(_layers) ? unref(_layers) : types[unref(type)] ?? null
+  isDefined(layers) ? unref(layers) : types[unref(type)] ?? null
 );
 
 defineExpose({
@@ -50,6 +56,7 @@ defineExpose({
 
 <template>
   <VMapTileLayer
+    v-bind="otherProps"
     ref="templateRef"
     url="https://{s}.google.com/vt/lyrs={lyrs}&x={x}&y={y}&z={z}"
     :lyrs="lyrs"

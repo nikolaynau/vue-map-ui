@@ -1,29 +1,6 @@
-export {
-  default as VMapOsmTileLayer,
-  type Attrs as MapOsmTileLayerAttributes
-} from './VMapOsmTileLayer.vue';
-
-export {
-  default as VMapMapboxTileLayer,
-  type Attrs as MapMapboxTileLayerAttributes
-} from './VMapMapboxTileLayer.vue';
-
-export {
-  default as VMapArcGisAeroTileLayer,
-  type Attrs as MapArcGisAeroTileLayerAttributes
-} from './VMapArcGisAeroTileLayer.vue';
-
-export {
-  default as VMapArcGisTileLayer,
-  type Attrs as MapArcGisTileLayerAttributes
-} from './VMapArcGisTileLayer.vue';
-
-export {
-  default as VMapOpenTransportTileLayer,
-  type Attrs as MapOpenTransportTileLayerAttributes
-} from './VMapOpenTransportTileLayer.vue';
-
-export {
-  default as VMapGoogleTileLayer,
-  type Attrs as MapGoogleTileLayerAttributes
-} from './VMapGoogleTileLayer.vue';
+export { default as VMapOsmTileLayer } from './VMapOsmTileLayer.vue';
+export { default as VMapMapboxTileLayer } from './VMapMapboxTileLayer.vue';
+export { default as VMapArcGisAeroTileLayer } from './VMapArcGisAeroTileLayer.vue';
+export { default as VMapArcGisTileLayer } from './VMapArcGisTileLayer.vue';
+export { default as VMapOpenTransportTileLayer } from './VMapOpenTransportTileLayer.vue';
+export { default as VMapGoogleTileLayer } from './VMapGoogleTileLayer.vue';

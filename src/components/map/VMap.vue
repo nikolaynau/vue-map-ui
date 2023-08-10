@@ -56,11 +56,10 @@ const emit = defineEmits<Emits>();
 
 const container = ref<HTMLElement | null>(null);
 const instance = getCurrentInstance()!;
-const attrs = useAttrs();
 const hasViewChanged = hasEvent(instance, 'view-changed');
 const {
   refs: { center, zoom, bounds, useFly, theme, class: cssClass },
-  values: other,
+  otherProps,
   events
 } = pickProps(
   instance,
@@ -75,11 +74,12 @@ const map = useLeafletMap(container, {
   bounds,
   useFly,
   onViewChanged: hasViewChanged ? e => emit('view-changed', e) : undefined,
-  ...other
+  ...otherProps
 });
 
 const themeCss = useTheme(theme);
 const ready = useLeafletReady(map);
+const attrs = useAttrs();
 useProxyEvents(map, events, attrs, emit);
 useCssClass(container, cssClass);
 useCssClass(container, themeCss);

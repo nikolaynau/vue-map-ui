@@ -1,21 +1,27 @@
 <script setup lang="ts">
-import type { TileLayer } from 'leaflet';
-import { useTemplateRef } from '../../composables';
-import {
-  default as VMapTileLayer,
-  type Attrs as _Attrs
-} from '../layer/VMapTileLayer.vue';
+import { getCurrentInstance } from 'vue';
+import type { TileLayer, TileLayerOptions } from 'leaflet';
+import { useTemplateRef } from '../../composables/internal';
+import { pickProps } from '../../utils/props';
+import VMapTileLayer from '../layer/VMapTileLayer.vue';
 
-export interface Props {
+export interface Props extends TileLayerOptions {
   title?: string;
   overlay?: boolean;
 }
 
-export type Attrs = _Attrs;
-
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   title: 'Arc Gis'
 });
+
+const instance = getCurrentInstance()!;
+const { otherProps } = pickProps(
+  instance,
+  props,
+  ['title', 'overlay'],
+  [],
+  true
+);
 
 const { templateRef, value: tileLayer } = useTemplateRef<
   InstanceType<typeof VMapTileLayer>,
@@ -29,6 +35,7 @@ defineExpose({
 
 <template>
   <VMapTileLayer
+    v-bind="otherProps"
     ref="templateRef"
     url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
     :title="title"
