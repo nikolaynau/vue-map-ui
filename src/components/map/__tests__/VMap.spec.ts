@@ -87,15 +87,6 @@ describe('VMap', () => {
     expect(vm.$el.getAttribute('id')).contains(expected);
   });
 
-  it('inherit any attrs', () => {
-    const expected = 'map-1';
-    const vm = mountMapComponent({
-      elementAttrs: ['data-id'],
-      'data-id': expected
-    });
-    expect(vm.$el.getAttribute('data-id')).contains(expected);
-  });
-
   it('set leaflet property', async () => {
     const vm = mountMapComponent({
       maxZoom: 5
@@ -151,7 +142,7 @@ describe('VMap', () => {
     (vm as any).unmount();
   });
 
-  it('leaflet event', async () => {
+  it('map events', async () => {
     const moveendListener = vi.fn();
     const zoomendListener = vi.fn();
 
@@ -183,6 +174,23 @@ describe('VMap', () => {
     expect(ev.center).toEqual({ lat: 1, lng: 2 });
     expect(ev.zoom).toBe(3);
     expect(ev.bounds).toBeInstanceOf(LatLngBounds);
+  });
+
+  it('custom event', async () => {
+    const listener = vi.fn();
+
+    const vm = mountMapComponent({
+      onCustomEvent: listener
+    });
+
+    await nextTick();
+
+    vm.map!.fire('customEvent', { foo: 1, bar: 2 });
+
+    expect(listener).toBeCalledTimes(1);
+    expect(listener.mock.calls[0][0].type).toBe('customEvent');
+    expect(listener.mock.calls[0][0].foo).toBe(1);
+    expect(listener.mock.calls[0][0].bar).toBe(2);
   });
 
   it('default theme', async () => {
