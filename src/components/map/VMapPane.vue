@@ -10,7 +10,7 @@ export default defineComponent({
 import { computed, toRefs, watch } from 'vue';
 import { isDefined } from '@vueuse/shared';
 import { useLeafletPane, useLeafletReady } from 'vue-use-leaflet';
-import { useCssClass } from '../../composables';
+import { useCssClass } from '../../composables/internal';
 import { providePane, useMap } from './composables';
 
 export interface Props {
@@ -18,8 +18,6 @@ export interface Props {
   zIndex?: number;
   class?: any;
 }
-
-export type Attrs = any;
 
 const props = defineProps<Props>();
 const { name, zIndex, class: _class } = toRefs(props);
