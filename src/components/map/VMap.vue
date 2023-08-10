@@ -7,12 +7,12 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { ref, toRefs } from 'vue';
+import { getCurrentInstance, ref, useAttrs } from 'vue';
 import type {
   MapOptions,
   LatLngBoundsExpression,
   LatLngExpression,
-  LeafletEventHandlerFn
+  LayersControlEvent
 } from 'leaflet';
 import {
   useLeafletMap,
@@ -21,65 +21,67 @@ import {
   type ViewChangedEvent
 } from 'vue-use-leaflet';
 import { provideMap } from './composables';
-import { useAttrs, useEvents, useCssClass } from '../../composables';
-import { camelizeKeys, omit, pick } from '../../utils/objects';
 import { useTheme } from './composables/useTheme';
+import { useCssClass, useProxyEvents } from '../../composables/internal';
+import { hasEvent, pickProps } from '../../utils/props';
 
-export interface Props {
+export interface Props extends MapOptions {
   center?: LatLngExpression;
   zoom?: number;
   bounds?: LatLngBoundsExpression;
   useFly?: boolean;
-  elementAttrs?: string[];
   theme?: string | 'light' | 'dark' | 'auto';
+  id?: any;
   class?: any;
+  style?: any;
 }
 
-export type Attrs = MapOptions;
+export type Emits = {
+  (type: 'view-changed', event: ViewChangedEvent): void;
+  (type: 'baselayerchange', event: LayersControlEvent): void;
+};
 
 const props = withDefaults(defineProps<Props>(), {
   center: () => [0, 0],
   zoom: 0,
   bounds: undefined,
   useFly: false,
-  elementAttrs: () => [],
   theme: 'light',
-  class: undefined
+  id: undefined,
+  class: undefined,
+  style: undefined
 });
 
-const {
-  center,
-  zoom,
-  bounds,
-  useFly,
-  theme,
-  elementAttrs,
-  class: _class
-} = toRefs(props);
+const emit = defineEmits<Emits>();
 
 const container = ref<HTMLElement | null>(null);
-const { events, attrs } = useAttrs<LeafletEventHandlerFn>(false);
-const themeCss = useTheme(theme);
-
-const pickAttrs = ['id', 'style', ...elementAttrs.value];
-const leafletEvents = omit(events, ['viewChanged']);
-const leafletOptions = camelizeKeys(omit(attrs, pickAttrs));
-const rootAttrs = pick(attrs, pickAttrs);
-
-const onViewChanged = events['viewChanged'] as (e: ViewChangedEvent) => void;
+const instance = getCurrentInstance()!;
+const attrs = useAttrs();
+const hasViewChanged = hasEvent(instance, 'view-changed');
+const {
+  refs: { center, zoom, bounds, useFly, theme, class: cssClass },
+  values: other,
+  events
+} = pickProps(
+  instance,
+  props,
+  ['center', 'zoom', 'bounds', 'useFly', 'id', 'theme', 'class', 'style'],
+  ['view-changed']
+);
 
 const map = useLeafletMap(container, {
   center,
   zoom,
   bounds,
   useFly,
-  ...leafletOptions,
-  onViewChanged
+  onViewChanged: hasViewChanged ? e => emit('view-changed', e) : undefined,
+  ...other
 });
 
+const themeCss = useTheme(theme);
 const ready = useLeafletReady(map);
-useEvents(map, leafletEvents);
-useCssClass(container, _class);
+useProxyEvents(map, events, attrs, emit);
+useCssClass(container, cssClass);
 useCssClass(container, themeCss);
 
 useLeafletControlPosition(map, [
@@ -102,7 +104,7 @@ defineExpose({
 </script>
 
 <template>
-  <div v-bind="rootAttrs" class="v-map" ref="container">
+  <div ref="container" class="v-map" :id="id" :style="style">
     <slot v-if="ready"></slot>
   </div>
 </template>
