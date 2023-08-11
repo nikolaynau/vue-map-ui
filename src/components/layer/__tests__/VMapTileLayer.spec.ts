@@ -1,5 +1,13 @@
-import { describe, it, expect } from 'vitest';
-import { ref, unref, h, nextTick, defineComponent, type Ref } from 'vue';
+import { describe, it, expect, vi } from 'vitest';
+import {
+  ref,
+  unref,
+  h,
+  nextTick,
+  defineComponent,
+  onMounted,
+  type Ref
+} from 'vue';
 import { TileLayer, type Coords } from 'leaflet';
 import { mount } from '../../../../.test';
 import { VMap } from '../../../components/map';
@@ -94,6 +102,7 @@ describe('VMapTileLayer', () => {
     const mapRef = ref<InstanceType<typeof VMap> | null>(null);
     const tileLayerRef = ref<InstanceType<typeof VMapTileLayer> | null>(null);
     const isRender = ref(true);
+
     mount(
       wrapComponent(
         () => h(VMapTileLayer, { url: testUrl, ref: 'tileLayerRef' }),
@@ -119,5 +128,62 @@ describe('VMapTileLayer', () => {
     expect(unref(tileLayerRef)).toBeNull();
     expectTileLayer(tileLayer);
     expect(unref(mapRef)?.map!.hasLayer(tileLayer!)).toBeFalsy();
+  });
+
+  it('should be passed custom attrs', () => {
+    expect.assertions(2);
+
+    const Component = defineComponent({
+      setup() {
+        const tileLayer = ref<InstanceType<typeof VMapTileLayer> | null>(null);
+
+        onMounted(() => {
+          const options = tileLayer.value?.tileLayer?.options;
+          expect((options as any).fooBar).toBe('fooBar');
+          expect((options as any).bar).toBe('bar');
+        });
+
+        return () =>
+          h(VMapTileLayer, {
+            url: testUrl,
+            ref: tileLayer,
+            fooBar: 'fooBar',
+            bar: 'bar'
+          });
+      }
+    });
+
+    mount(Component);
+  });
+
+  it('should be passed custom events', () => {
+    expect.assertions(1);
+
+    const listener = vi.fn();
+
+    const Component = defineComponent({
+      setup() {
+        const tileLayer = ref<InstanceType<typeof VMapTileLayer> | null>(null);
+
+        onMounted(() => {
+          tileLayer.value?.tileLayer?.fire('load');
+          tileLayer.value?.tileLayer?.fire('tileload');
+          tileLayer.value?.tileLayer?.fire('customEvent');
+
+          expect(listener).toBeCalledTimes(3);
+        });
+
+        return () =>
+          h(VMapTileLayer, {
+            url: testUrl,
+            ref: tileLayer,
+            onLoad: listener,
+            onTileload: listener,
+            onCustomEvent: listener
+          });
+      }
+    });
+
+    mount(Component);
   });
 });

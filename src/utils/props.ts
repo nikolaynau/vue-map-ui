@@ -8,11 +8,14 @@ import {
 } from 'vue';
 import { isEmpty, lcFirst, ucFirst } from './strings';
 
+const EVENT_PREFIX = 'on';
+const AFTER_EVENT_PREFIX_INDEX = EVENT_PREFIX.length + 1;
+
 export function hasEvent(
   instance: ComponentInternalInstance,
   eventName: string
 ): boolean {
-  const key = `on${ucFirst(camelize(eventName))}`;
+  const key = `${EVENT_PREFIX}${ucFirst(camelize(eventName))}`;
   const { props } = instance.vnode;
   return !!(props && key in props);
 }
@@ -41,7 +44,7 @@ export function pickProps<T extends object, K extends keyof T>(
   const vNodeProps = instance.vnode.props;
   if (vNodeProps) {
     for (const key in vNodeProps) {
-      if (key.startsWith('on')) {
+      if (key.startsWith(EVENT_PREFIX) && key[AFTER_EVENT_PREFIX_INDEX]) {
         const eventName = lcFirst(key.slice(2));
         if (!isEmpty(eventName) && !omitEventSet.has(eventName)) {
           events.push(eventName);
@@ -58,4 +61,25 @@ export function pickProps<T extends object, K extends keyof T>(
   }
 
   return { refs: refs as any, other: other as any, events };
+}
+
+export function pickAttrs<T = unknown>(
+  attrs: Record<string, T>,
+  options: {
+    camelizeKeys?: boolean;
+    rawValue?: boolean;
+  } = {}
+): Record<string, T> {
+  const { camelizeKeys = true, rawValue = true } = options;
+  const result: Record<string, T> = {};
+
+  for (const key in attrs) {
+    if (!(key.startsWith(EVENT_PREFIX) && key[AFTER_EVENT_PREFIX_INDEX])) {
+      result[camelizeKeys ? camelize(key) : key] = (
+        rawValue ? toRaw(attrs[key]) : attrs[key]
+      ) as T;
+    }
+  }
+
+  return result;
 }

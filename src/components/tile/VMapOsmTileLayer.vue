@@ -1,21 +1,28 @@
 <script setup lang="ts">
-import type { TileLayer } from 'leaflet';
-import { useTemplateRef } from '../../composables';
-import {
-  default as VMapTileLayer,
-  type Attrs as _Attrs
-} from '../layer/VMapTileLayer.vue';
+import { getCurrentInstance } from 'vue';
+import type { TileLayer, TileLayerOptions } from 'leaflet';
+import { useTemplateRef } from '../../composables/internal';
+import { pickProps } from '../../utils/props';
+import VMapTileLayer from '../layer/VMapTileLayer.vue';
 
-export interface Props {
+export interface Props extends TileLayerOptions {
   title?: string;
   overlay?: boolean;
 }
 
-export type Attrs = _Attrs;
-
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
   title: 'Open Street Map'
 });
+
+const instance = getCurrentInstance()!;
+const { other } = pickProps(
+  instance,
+  props,
+  ['title', 'overlay'],
+  [],
+  true,
+  true
+);
 
 const { templateRef, value: tileLayer } = useTemplateRef<
   InstanceType<typeof VMapTileLayer>,
@@ -33,6 +40,7 @@ defineExpose({
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
     :title="title"
     :overlay="overlay"
+    v-bind="other"
   >
     <slot></slot>
   </VMapTileLayer>

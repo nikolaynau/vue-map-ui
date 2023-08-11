@@ -25,7 +25,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useApi } from '../../composables';
 import { useProxyEvents } from '../../composables/internal';
 import { layersControlApiKey } from '../control/composables';
-import { pickProps } from '../../utils/props';
+import { pickProps, pickAttrs } from '../../utils/props';
 import { useMap } from '../map';
 import { provideTileLayer } from './composables';
 
@@ -65,11 +65,11 @@ const {
   events
 } = pickProps(instance, props, ['url', 'title', 'overlay']);
 
-const layer = useLeafletTileLayer(url, other);
+const attrs = useAttrs();
+const layer = useLeafletTileLayer(url, Object.assign(other, pickAttrs(attrs)));
 const ready = useLeafletReady(layer);
 const controlApi = useApi(layersControlApiKey);
 
-const attrs = useAttrs();
 useProxyEvents(layer, events, attrs, emit);
 
 if (controlApi) {

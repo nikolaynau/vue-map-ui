@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { defineComponent, getCurrentInstance, h, nextTick, ref } from 'vue';
 import { mount } from '../../../.test';
-import { hasEvent, pickProps } from '../props';
+import { hasEvent, pickAttrs, pickProps } from '../props';
 
 describe('props', () => {
   describe('hasEvent', () => {
@@ -325,5 +325,21 @@ describe('props', () => {
         })
       );
     });
+  });
+
+  describe('pickAttrs', () => {
+    it.each([
+      [{}, {}],
+      [
+        { foo: 1, bar: 2, 'foo-bar': 3, barFoo: 4, on: 5, onFoo: 6, onBar: 7 },
+        { foo: 1, bar: 2, fooBar: 3, barFoo: 4, on: 5 }
+      ]
+    ])(
+      'should work with source: %o, result: %o',
+      (sourceAttrs, expectedAttrs) => {
+        const result = pickAttrs(sourceAttrs);
+        expect(result).toStrictEqual(expectedAttrs);
+      }
+    );
   });
 });

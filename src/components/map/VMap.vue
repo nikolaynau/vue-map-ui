@@ -23,7 +23,7 @@ import {
 import { provideMap } from './composables';
 import { useTheme } from './composables/useTheme';
 import { useCssClass, useProxyEvents } from '../../composables/internal';
-import { hasEvent, pickProps } from '../../utils/props';
+import { hasEvent, pickAttrs, pickProps } from '../../utils/props';
 
 export interface Props extends MapOptions {
   center?: LatLngExpression;
@@ -56,7 +56,6 @@ const emit = defineEmits<Emits>();
 
 const container = ref<HTMLElement | null>(null);
 const instance = getCurrentInstance()!;
-const hasViewChanged = hasEvent(instance, 'view-changed');
 const {
   refs: { center, zoom, bounds, useFly, theme, class: cssClass },
   other,
@@ -68,18 +67,22 @@ const {
   ['view-changed']
 );
 
+const attrs = useAttrs();
+const hasViewChanged = hasEvent(instance, 'view-changed');
+
 const map = useLeafletMap(container, {
   center,
   zoom,
   bounds,
   useFly,
   onViewChanged: hasViewChanged ? e => emit('view-changed', e) : undefined,
-  ...other
+  ...other,
+  ...pickAttrs(attrs)
 });
 
 const themeCss = useTheme(theme);
 const ready = useLeafletReady(map);
-const attrs = useAttrs();
+
 useProxyEvents(map, events, attrs, emit);
 useCssClass(container, cssClass);
 useCssClass(container, themeCss);
