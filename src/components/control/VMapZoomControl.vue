@@ -8,7 +8,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getCurrentInstance, useAttrs } from 'vue';
-import type { Control } from 'leaflet';
+import type { ControlPosition } from 'leaflet';
 import {
   useLeafletZoomControl,
   useLeafletDisplayControl,
@@ -18,13 +18,16 @@ import { useMap } from '../map/composables/useMap';
 import { pickAttrs, pickProps } from '../../utils/props';
 import { provideZoomControl } from './composables/useZoomControl';
 
-export interface Props extends Control.ZoomOptions {
+export interface Props {
   disabled?: boolean;
+  zoomInText?: string | undefined;
+  zoomInTitle?: string | undefined;
+  zoomOutText?: string | undefined;
+  zoomOutTitle?: string | undefined;
+  position?: ControlPosition | undefined;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  disabled: false
-});
+const props = defineProps<Props>();
 
 const instance = getCurrentInstance()!;
 const {

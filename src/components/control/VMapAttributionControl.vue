@@ -8,7 +8,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { getCurrentInstance, useAttrs } from 'vue';
-import type { Control } from 'leaflet';
+import type { ControlPosition } from 'leaflet';
 import {
   useLeafletAttributionControl,
   useLeafletDisplayControl,
@@ -18,9 +18,10 @@ import { pickAttrs, pickProps } from '../../utils/props';
 import { useMap } from '../map/composables/useMap';
 import { provideAttributionControl } from './composables/useAttributionControl';
 
-export interface Props extends Omit<Control.AttributionOptions, 'prefix'> {
+export interface Props {
   attributions?: string[];
-  prefix?: string | null;
+  prefix?: string | boolean | null;
+  position?: ControlPosition;
 }
 
 const props = defineProps<Props>();
@@ -35,7 +36,7 @@ const map = useMap();
 const attrs = useAttrs();
 const control = useLeafletAttributionControl({
   attributions,
-  prefix,
+  prefix: prefix as any,
   ...other,
   ...pickAttrs(attrs)
 });

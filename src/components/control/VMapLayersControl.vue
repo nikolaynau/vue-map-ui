@@ -8,7 +8,7 @@ export default defineComponent({
 
 <script setup lang="ts">
 import { reactive, useAttrs, getCurrentInstance } from 'vue';
-import type { Control } from 'leaflet';
+import type { ControlPosition, Layer } from 'leaflet';
 import { useVModel } from '@vueuse/core';
 import {
   useLeafletLayersControl,
@@ -23,10 +23,21 @@ import { provideLayersControl } from './composables/useLayersControl';
 import { layersControlApiKey } from './composables/injectionSymbols';
 import { useLayersControlApi } from './composables/useLayersControlApi';
 
-export interface Props extends Control.LayersOptions {
+export interface Props {
   currentBaseLayer?: string | number;
   currentOverlays?: string[] | number[];
   useIndexes?: boolean;
+  collapsed?: boolean;
+  autoZIndex?: boolean;
+  hideSingleBase?: boolean;
+  sortLayers?: boolean;
+  sortFunction?: (
+    layerA: Layer,
+    layerB: Layer,
+    nameA: string,
+    nameB: string
+  ) => number;
+  position?: ControlPosition;
 }
 
 export type Emits = {
@@ -37,7 +48,9 @@ export type Emits = {
 const props = withDefaults(defineProps<Props>(), {
   currentBaseLayer: 0,
   currentOverlays: undefined,
-  useIndexes: false
+  useIndexes: false,
+  sortFunction: undefined,
+  position: undefined
 });
 
 const emit = defineEmits<Emits>();
