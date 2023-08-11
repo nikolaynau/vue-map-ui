@@ -12,7 +12,16 @@ import type {
   MapOptions,
   LatLngBoundsExpression,
   LatLngExpression,
-  LayersControlEvent
+  LayersControlEvent,
+  LayerEvent,
+  LeafletEvent,
+  ResizeEvent,
+  LeafletKeyboardEvent,
+  LeafletMouseEvent,
+  LocationEvent,
+  PopupEvent,
+  TooltipEvent,
+  ZoomAnimEvent
 } from 'leaflet';
 import {
   useLeafletMap,
@@ -40,6 +49,41 @@ export interface Props extends MapOptions {
 export type Emits = {
   (type: 'view-changed', event: ViewChangedEvent): void;
   (type: 'baselayerchange', event: LayersControlEvent): void;
+  (type: 'overlayadd', event: LayersControlEvent): void;
+  (type: 'overlayremove', event: LayersControlEvent): void;
+  (type: 'layeradd', event: LayerEvent): void;
+  (type: 'layerremove', event: LayerEvent): void;
+  (type: 'zoomlevelschange', event: LeafletEvent): void;
+  (type: 'resize', event: ResizeEvent): void;
+  (type: 'unload', event: LeafletEvent): void;
+  (type: 'viewreset', event: LeafletEvent): void;
+  (type: 'load', event: LeafletEvent): void;
+  (type: 'zoomstart', event: LeafletEvent): void;
+  (type: 'movestart', event: LeafletEvent): void;
+  (type: 'zoom', event: LeafletEvent): void;
+  (type: 'move', event: LeafletEvent): void;
+  (type: 'zoomend', event: LeafletEvent): void;
+  (type: 'moveend', event: LeafletEvent): void;
+  (type: 'popupopen', event: PopupEvent): void;
+  (type: 'popupclose', event: PopupEvent): void;
+  (type: 'autopanstart', event: LeafletEvent): void;
+  (type: 'tooltipopen', event: TooltipEvent): void;
+  (type: 'tooltipclose', event: TooltipEvent): void;
+  (type: 'locationerror', event: ErrorEvent): void;
+  (type: 'locationfound', event: LocationEvent): void;
+  (type: 'click', event: LeafletMouseEvent): void;
+  (type: 'dblclick', event: LeafletMouseEvent): void;
+  (type: 'mousedown', event: LeafletMouseEvent): void;
+  (type: 'mouseup', event: LeafletMouseEvent): void;
+  (type: 'mouseover', event: LeafletMouseEvent): void;
+  (type: 'mouseout', event: LeafletMouseEvent): void;
+  (type: 'mousemove', event: LeafletMouseEvent): void;
+  (type: 'contextmenu', event: LeafletMouseEvent): void;
+  (type: 'keypress', event: LeafletKeyboardEvent): void;
+  (type: 'keydown', event: LeafletKeyboardEvent): void;
+  (type: 'keyup', event: LeafletKeyboardEvent): void;
+  (type: 'preclick', event: LeafletMouseEvent): void;
+  (type: 'zoomanim', event: ZoomAnimEvent): void;
 };
 
 const props = withDefaults(defineProps<Props>(), {
