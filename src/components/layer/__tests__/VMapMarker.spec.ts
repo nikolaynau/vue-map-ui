@@ -31,8 +31,14 @@ describe('VMapMarker', () => {
     });
   }
 
-  it('should not render when not passed latlng prop', () => {
-    const vm = mount(VMapMarker);
+  it('should not render when latlng is null', () => {
+    const vm = mount(
+      defineComponent({
+        setup() {
+          return () => h(VMapMarker, { latlng: null });
+        }
+      })
+    );
     expect(vm.$el.nodeType).toBe(Node.COMMENT_NODE);
   });
 
