@@ -2,7 +2,7 @@
 import { computed, unref, getCurrentInstance } from 'vue';
 import { isDefined } from '@vueuse/shared';
 import type { TileLayer, TileLayerOptions } from 'leaflet';
-import { useTemplateRef } from '../../composables/internal';
+import { useTemplateRef } from '../../composables/internal/useTemplateRef';
 import { pickProps } from '../../utils/props';
 import VMapTileLayer from '../layer/VMapTileLayer.vue';
 

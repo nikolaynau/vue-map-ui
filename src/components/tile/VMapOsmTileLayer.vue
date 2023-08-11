@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getCurrentInstance } from 'vue';
 import type { TileLayer, TileLayerOptions } from 'leaflet';
-import { useTemplateRef } from '../../composables/internal';
+import { useTemplateRef } from '../../composables/internal/useTemplateRef';
 import { pickProps } from '../../utils/props';
 import VMapTileLayer from '../layer/VMapTileLayer.vue';
 

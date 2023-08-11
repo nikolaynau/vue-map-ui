@@ -1,26 +1,7 @@
 export * from './composables';
 
-export {
-  default as VMapLayersControl,
-  type Attrs as MapLayersControlAttributes
-} from './VMapLayersControl.vue';
-
-export {
-  default as VMapZoomControl,
-  type Attrs as MapZoomControlAttributes
-} from './VMapZoomControl.vue';
-
-export {
-  default as VMapScaleControl,
-  type Attrs as MapScaleControlAttributes
-} from './VMapScaleControl.vue';
-
-export {
-  default as VMapAttributionControl,
-  type Attrs as MapAttributionControlAttributes
-} from './VMapAttributionControl.vue';
-
-export {
-  default as VMapControlPosition,
-  type Attrs as MapControlPositionAttributes
-} from './VMapControlPosition.vue';
+export { default as VMapLayersControl } from './VMapLayersControl.vue';
+export { default as VMapZoomControl } from './VMapZoomControl.vue';
+export { default as VMapScaleControl } from './VMapScaleControl.vue';
+export { default as VMapAttributionControl } from './VMapAttributionControl.vue';
+export { default as VMapControlPosition } from './VMapControlPosition.vue';

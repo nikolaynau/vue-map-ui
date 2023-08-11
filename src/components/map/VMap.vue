@@ -20,10 +20,11 @@ import {
   useLeafletControlPosition,
   type ViewChangedEvent
 } from 'vue-use-leaflet';
-import { provideMap } from './composables';
-import { useTheme } from './composables/useTheme';
-import { useCssClass, useProxyEvents } from '../../composables/internal';
+import { useProxyEvents } from '../../composables/internal/useProxyEvents';
+import { useCssClass } from '../../composables/internal/useCssClass';
 import { hasEvent, pickAttrs, pickProps } from '../../utils/props';
+import { useTheme } from './composables/useTheme';
+import { provideMap } from './composables/useMap';
 
 export interface Props extends MapOptions {
   center?: LatLngExpression;

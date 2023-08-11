@@ -9,19 +9,17 @@ export default defineComponent({
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import { useLeafletControlPosition, useLeafletReady } from 'vue-use-leaflet';
-import { provideControlPosition } from './composables';
-import { useMap } from '../map';
-import { useCssClass } from '../../composables';
+import { useMap } from '../map/composables/useMap';
+import { useCssClass } from '../../composables/internal/useCssClass';
+import { provideControlPosition } from './composables/useControlPosition';
 
 export interface Props {
   position?: [string, string];
   class?: any;
 }
 
-export type Attrs = any;
-
 const props = defineProps<Props>();
-const { position, class: _class } = toRefs(props);
+const { position, class: cssClass } = toRefs(props);
 
 const map = useMap();
 const { positionElements } = useLeafletControlPosition(map, position);
@@ -36,7 +34,7 @@ const positionElement = computed<HTMLElement | null>(() =>
   positionKey.value ? positionElements.value[positionKey.value] ?? null : null
 );
 const ready = useLeafletReady(positionElement);
-useCssClass(positionElement, _class);
+useCssClass(positionElement, cssClass);
 
 provideControlPosition(positionElement);
 

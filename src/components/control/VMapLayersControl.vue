@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { toRefs, reactive } from 'vue';
+import { reactive, useAttrs, getCurrentInstance } from 'vue';
 import type { Control } from 'leaflet';
 import { useVModel } from '@vueuse/core';
 import {
@@ -16,19 +16,18 @@ import {
   useLeafletReady,
   type LayersItemConfig
 } from 'vue-use-leaflet';
-
-import { useAttrs, provideApi } from '../../composables';
-import { provideLayersControl, layersControlApiKey } from './composables';
+import { provideApi } from '../../composables/useApi';
+import { useMap } from '../map/composables/useMap';
+import { pickAttrs, pickProps } from '../../utils/props';
+import { provideLayersControl } from './composables/useLayersControl';
+import { layersControlApiKey } from './composables/injectionSymbols';
 import { useLayersControlApi } from './composables/useLayersControlApi';
-import { useMap } from '../map';
 
-export interface Props {
+export interface Props extends Control.LayersOptions {
   currentBaseLayer?: string | number;
   currentOverlays?: string[] | number[];
   useIndexes?: boolean;
 }
-
-export type Attrs = Control.LayersOptions;
 
 export type Emits = {
   (e: 'update:currentBaseLayer', value: string | number): void;
@@ -43,23 +42,32 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<Emits>();
 
-const { useIndexes } = toRefs(props);
+const instance = getCurrentInstance()!;
+const {
+  refs: { useIndexes },
+  other
+} = pickProps(instance, props, [
+  'currentBaseLayer',
+  'currentOverlays',
+  'useIndexes'
+]);
 
 const layers: LayersItemConfig[] = reactive([]);
 const currentBaseLayer = useVModel(props, 'currentBaseLayer', emit);
 const currentOverlays = useVModel(props, 'currentOverlays', emit);
 
-const { attrs } = useAttrs();
+const map = useMap();
+const attrs = useAttrs();
 const control = useLeafletLayersControl(layers, {
   currentBaseLayer,
   currentOverlays,
   indexes: useIndexes.value,
-  ...attrs
+  ...other,
+  ...pickAttrs(attrs)
 });
 
 const api = useLayersControlApi(layers);
 const ready = useLeafletReady(control);
-const map = useMap();
 useLeafletDisplayControl(map, control);
 
 provideLayersControl(control);

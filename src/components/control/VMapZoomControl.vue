@@ -7,34 +7,37 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { getCurrentInstance, useAttrs } from 'vue';
 import type { Control } from 'leaflet';
 import {
   useLeafletZoomControl,
   useLeafletDisplayControl,
   useLeafletReady
 } from 'vue-use-leaflet';
-import { provideZoomControl } from './composables';
-import { useAttrs } from '../../composables';
-import { useMap } from '../map';
+import { useMap } from '../map/composables/useMap';
+import { pickAttrs, pickProps } from '../../utils/props';
+import { provideZoomControl } from './composables/useZoomControl';
 
-export interface Props {
+export interface Props extends Control.ZoomOptions {
   disabled?: boolean;
 }
-
-export type Attrs = Control.ZoomOptions;
 
 const props = withDefaults(defineProps<Props>(), {
   disabled: false
 });
 
-const { disabled } = toRefs(props);
+const instance = getCurrentInstance()!;
+const {
+  refs: { disabled },
+  other
+} = pickProps(instance, props, ['disabled']);
 
 const map = useMap();
-const { attrs } = useAttrs();
+const attrs = useAttrs();
 const control = useLeafletZoomControl({
   disabled,
-  ...attrs
+  ...other,
+  ...pickAttrs(attrs)
 });
 const ready = useLeafletReady(control);
 useLeafletDisplayControl(map, control);

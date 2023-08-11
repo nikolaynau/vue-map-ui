@@ -22,12 +22,12 @@ import {
   useLeafletReady
 } from 'vue-use-leaflet';
 import { v4 as uuidv4 } from 'uuid';
-import { useApi } from '../../composables';
-import { useProxyEvents } from '../../composables/internal';
-import { layersControlApiKey } from '../control/composables';
+import { useApi } from '../../composables/useApi';
+import { useProxyEvents } from '../../composables/internal/useProxyEvents';
+import { layersControlApiKey } from '../control/composables/injectionSymbols';
 import { pickProps, pickAttrs } from '../../utils/props';
-import { useMap } from '../map';
-import { provideTileLayer } from './composables';
+import { useMap } from '../map/composables/useMap';
+import { provideTileLayer } from './composables/useTileLayer';
 
 export interface Props extends TileLayerOptions {
   url: string | null;

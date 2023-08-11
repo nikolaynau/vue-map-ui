@@ -10,8 +10,9 @@ export default defineComponent({
 import { computed, toRefs, watch } from 'vue';
 import { isDefined } from '@vueuse/shared';
 import { useLeafletPane, useLeafletReady } from 'vue-use-leaflet';
-import { useCssClass } from '../../composables/internal';
-import { providePane, useMap } from './composables';
+import { useCssClass } from '../../composables/internal/useCssClass';
+import { useMap } from './composables/useMap';
+import { providePane } from './composables/usePane';
 
 export interface Props {
   name: string;

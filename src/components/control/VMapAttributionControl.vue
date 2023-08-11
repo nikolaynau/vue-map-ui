@@ -7,34 +7,37 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { toRefs } from 'vue';
+import { getCurrentInstance, useAttrs } from 'vue';
 import type { Control } from 'leaflet';
 import {
   useLeafletAttributionControl,
   useLeafletDisplayControl,
   useLeafletReady
 } from 'vue-use-leaflet';
-import { provideAttributionControl } from './composables';
-import { useAttrs } from '../../composables';
-import { useMap } from '../map';
+import { pickAttrs, pickProps } from '../../utils/props';
+import { useMap } from '../map/composables/useMap';
+import { provideAttributionControl } from './composables/useAttributionControl';
 
-export interface Props {
+export interface Props extends Omit<Control.AttributionOptions, 'prefix'> {
   attributions?: string[];
   prefix?: string | null;
 }
 
-export type Attrs = Control.Attribution;
-
 const props = defineProps<Props>();
 
-const { attributions, prefix } = toRefs(props);
+const instance = getCurrentInstance()!;
+const {
+  refs: { attributions, prefix },
+  other
+} = pickProps(instance, props, ['attributions', 'prefix']);
 
 const map = useMap();
-const { attrs } = useAttrs();
+const attrs = useAttrs();
 const control = useLeafletAttributionControl({
   attributions,
   prefix,
-  ...attrs
+  ...other,
+  ...pickAttrs(attrs)
 });
 const ready = useLeafletReady(control);
 useLeafletDisplayControl(map, control);

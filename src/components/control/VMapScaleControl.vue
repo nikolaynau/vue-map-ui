@@ -7,21 +7,24 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import { useAttrs } from 'vue';
 import type { Control } from 'leaflet';
 import {
   useLeafletDisplayControl,
   useLeafletReady,
   useLeafletScaleControl
 } from 'vue-use-leaflet';
-import { provideScaleControl } from './composables';
-import { useAttrs } from '../../composables';
-import { useMap } from '../map';
+import { useMap } from '../map/composables/useMap';
+import { pickAttrs } from '../../utils/props';
+import { provideScaleControl } from './composables/useScaleControl';
 
-export type Attrs = Control.ScaleOptions;
+export type Props = Control.ScaleOptions;
+
+const props = defineProps<Props>();
 
 const map = useMap();
-const { attrs } = useAttrs();
-const control = useLeafletScaleControl(attrs);
+const attrs = useAttrs();
+const control = useLeafletScaleControl({ ...props, ...pickAttrs(attrs) });
 const ready = useLeafletReady(control);
 useLeafletDisplayControl(map, control);
 
