@@ -7,14 +7,17 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { onUnmounted, toRefs, watch } from 'vue';
+import { getCurrentInstance, onUnmounted, watch, useAttrs } from 'vue';
 import type { IconOptions, PointExpression } from 'leaflet';
 import { useLeafletIcon, useLeafletReady } from 'vue-use-leaflet';
-import { useApi, useAttrs, useMergeCss } from '../../composables';
-import { provideIcon, markerApiKey } from './composables';
+import { useApi } from '../../composables/useApi';
+import { useMergeCss } from '../../composables/internal/useMergeCss';
+import { pickAttrs, pickProps } from '../../utils/props';
+import { provideIcon } from './composables/useIcon';
+import { markerApiKey } from './composables/injectionSymbols';
 
-export interface Props {
-  iconUrl?: string;
+export interface Props extends Omit<IconOptions, 'iconUrl'> {
+  iconUrl: string | null;
   iconRetinaUrl?: string;
   iconSize?: PointExpression;
   iconAnchor?: PointExpression;
@@ -27,18 +30,34 @@ export interface Props {
   className?: any;
 }
 
-export type Attrs = IconOptions;
-
 const props = defineProps<Props>();
 
-const { iconUrl, class: _class, className, ...other } = toRefs(props);
-const { attrs } = useAttrs();
+const instance = getCurrentInstance()!;
+const {
+  refs: { iconUrl, class: _class, className, ...more },
+  other
+} = pickProps(instance, props, [
+  'iconUrl',
+  'iconRetinaUrl',
+  'iconSize',
+  'iconAnchor',
+  'shadowUrl',
+  'shadowRetinaUrl',
+  'shadowSize',
+  'shadowAnchor',
+  'knownClasses',
+  'class',
+  'className'
+]);
+
+const attrs = useAttrs();
 const cssClass = useMergeCss(_class, className);
 
 const icon = useLeafletIcon(iconUrl, {
-  ...other,
+  ...more,
   className: cssClass,
-  ...attrs
+  ...other,
+  ...pickAttrs(attrs)
 });
 const ready = useLeafletReady(icon);
 
