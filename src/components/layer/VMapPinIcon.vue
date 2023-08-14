@@ -1,39 +1,66 @@
 <script setup lang="ts">
 import {
   computed,
-  reactive,
   ref,
-  toRefs,
   useSlots,
+  getCurrentInstance,
   type StyleValue
 } from 'vue';
-import type { DivIcon } from 'leaflet';
-import { useTemplateRef } from '../../composables';
-import {
-  default as VMapDivIcon,
-  type Attrs as IconAttrs,
-  type Props as IconProps
-} from './VMapDivIcon.vue';
+import type { DivIcon, DivIconOptions, PointExpression } from 'leaflet';
+import { useTemplateRef } from '../../composables/internal/useTemplateRef';
+import { pickProps } from '../../utils/props';
+import VMapDivIcon from './VMapDivIcon.vue';
 
-export interface Props extends IconProps {
+export interface Props extends DivIconOptions {
   color?: string;
   backgroundColor?: string;
   placeholderColor?: string;
+  html?: string | HTMLElement | false;
+  bgPos?: PointExpression;
+  iconSize?: PointExpression;
+  iconAnchor?: PointExpression;
+  renderMode?: 'html' | 'node' | 'portal' | 'none';
+  rootClass?: any;
+  knownClasses?: string[];
+  class?: any;
+  className?: any;
 }
 
-export type Attrs = IconAttrs;
-
 const props = withDefaults(defineProps<Props>(), {
-  iconSize: () => [32, 46],
-  iconAnchor: () => [16, 46],
   color: undefined,
   backgroundColor: undefined,
-  placeholderColor: undefined
+  placeholderColor: undefined,
+  html: undefined,
+  bgPos: undefined,
+  iconSize: () => [32, 46],
+  iconAnchor: () => [16, 46],
+  popupAnchor: () => [0, -50],
+  renderMode: undefined,
+  rootClass: undefined,
+  knownClasses: undefined,
+  class: undefined,
+  className: undefined
 });
 
-const { color, backgroundColor, placeholderColor, ..._iconProps } =
-  toRefs(props);
-const iconProps = reactive(_iconProps);
+const instance = getCurrentInstance()!;
+const {
+  refs: { color, backgroundColor, placeholderColor },
+  other
+} = pickProps(
+  instance,
+  props,
+  [
+    'color',
+    'backgroundColor',
+    'placeholderColor',
+    'iconSize',
+    'iconAnchor',
+    'popupAnchor'
+  ],
+  [],
+  true
+);
+
 const slots = useSlots() as { default: unknown };
 const popupAnchor = ref([0, -50]);
 
@@ -60,8 +87,10 @@ defineExpose({
   <VMapDivIcon
     ref="templateRef"
     class="v-map-pin-icon"
-    v-bind="iconProps"
+    :icon-size="iconSize"
+    :icon-anchor="iconAnchor"
     :popup-anchor="popupAnchor"
+    v-bind="other"
   >
     <div class="v-map-pin-icon__shadow"></div>
     <div class="v-map-pin-icon__pin" :style="pinStyle"></div>
