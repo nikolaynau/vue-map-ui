@@ -9,7 +9,17 @@ export default defineComponent({
 <script setup lang="ts">
 import { getCurrentInstance, useAttrs } from 'vue';
 import { syncRef, toRef, useVModel } from '@vueuse/core';
-import type { DivIcon, Icon, LatLngExpression, MarkerOptions } from 'leaflet';
+import type {
+  DivIcon,
+  DragEndEvent,
+  Icon,
+  LatLngExpression,
+  LeafletEvent,
+  LeafletMouseEvent,
+  MarkerOptions,
+  PopupEvent,
+  TooltipEvent
+} from 'leaflet';
 import {
   useLeafletMarker,
   useLeafletDisplayLayer,
@@ -32,7 +42,26 @@ export interface Props extends MarkerOptions {
 }
 
 export type Emits = {
-  (e: 'update:latlng', value: LatLngExpression): void;
+  (type: 'update:latlng', value: LatLngExpression): void;
+  (type: 'move', event: LeafletEvent): void;
+  (type: 'dragstart', event: LeafletEvent): void;
+  (type: 'movestart', event: LeafletEvent): void;
+  (type: 'drag', event: LeafletEvent): void;
+  (type: 'dragend', event: DragEndEvent): void;
+  (type: 'moveend', event: LeafletEvent): void;
+  (type: 'click', event: LeafletMouseEvent): void;
+  (type: 'dblclick', event: LeafletMouseEvent): void;
+  (type: 'mousedown', event: LeafletMouseEvent): void;
+  (type: 'mouseup', event: LeafletMouseEvent): void;
+  (type: 'mouseover', event: LeafletMouseEvent): void;
+  (type: 'mouseout', event: LeafletMouseEvent): void;
+  (type: 'contextmenu', event: LeafletMouseEvent): void;
+  (type: 'add', event: LeafletEvent): void;
+  (type: 'remove', event: LeafletEvent): void;
+  (type: 'popupopen', event: PopupEvent): void;
+  (type: 'popupclose', event: PopupEvent): void;
+  (type: 'tooltipopen', event: TooltipEvent): void;
+  (type: 'tooltipclose', event: TooltipEvent): void;
 };
 
 const props = defineProps<Props>();

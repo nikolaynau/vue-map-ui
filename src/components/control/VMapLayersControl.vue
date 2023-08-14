@@ -41,8 +41,8 @@ export interface Props {
 }
 
 export type Emits = {
-  (e: 'update:currentBaseLayer', value: string | number): void;
-  (e: 'update:currentOverlays', value: string[] | number[]): void;
+  (type: 'update:currentBaseLayer', value: string | number): void;
+  (type: 'update:currentOverlays', value: string[] | number[]): void;
 };
 
 const props = withDefaults(defineProps<Props>(), {
