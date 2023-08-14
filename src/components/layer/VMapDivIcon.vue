@@ -8,11 +8,12 @@ export default defineComponent({
 
 <script setup lang="ts">
 import {
+  getCurrentInstance,
+  useAttrs,
   markRaw,
   onUnmounted,
   onUpdated,
   ref,
-  toRefs,
   useSlots,
   watch
 } from 'vue';
@@ -20,10 +21,14 @@ import { isDefined, syncRef, toRef, toValue } from '@vueuse/shared';
 import type { MaybeComputedElementRef } from '@vueuse/core';
 import type { DivIconOptions, PointExpression } from 'leaflet';
 import { useLeafletDivIcon, useLeafletReady } from 'vue-use-leaflet';
-import { useApi, useAttrs, useCssClass, useMergeCss } from '../../composables';
-import { provideDivIcon, markerApiKey } from './composables';
+import { useApi } from '../../composables/useApi';
+import { useCssClass } from '../../composables/internal/useCssClass';
+import { useMergeCss } from '../../composables/internal/useMergeCss';
+import { pickAttrs, pickProps } from '../../utils/props';
+import { provideDivIcon } from './composables/useDivIcon';
+import { markerApiKey } from './composables/injectionSymbols';
 
-export interface Props {
+export interface Props extends DivIconOptions {
   html?: string | HTMLElement | false;
   bgPos?: PointExpression;
   iconSize?: PointExpression;
@@ -35,20 +40,25 @@ export interface Props {
   className?: any;
 }
 
-export type Attrs = DivIconOptions;
-
 const props = defineProps<Props>();
 
+const instance = getCurrentInstance()!;
 const {
-  html,
-  class: _class,
-  className,
-  renderMode,
-  rootClass,
-  ...other
-} = toRefs(props);
+  refs: { html, class: _class, className, renderMode, rootClass, ...more },
+  other
+} = pickProps(instance, props, [
+  'html',
+  'bgPos',
+  'iconSize',
+  'iconAnchor',
+  'renderMode',
+  'rootClass',
+  'knownClasses',
+  'class',
+  'className'
+]);
 
-const { attrs } = useAttrs();
+const attrs = useAttrs();
 const slots = useSlots() as { default: unknown };
 
 const _html = ref<string | HTMLElement | null | undefined>(null);
@@ -58,9 +68,10 @@ const rootEl = ref<HTMLElement | null>(null);
 const cssClass = useMergeCss(_class, className);
 
 const icon = useLeafletDivIcon(_html, {
-  ...other,
   className: cssClass,
-  ...attrs
+  ...more,
+  ...other,
+  ...pickAttrs(attrs)
 });
 const ready = useLeafletReady(icon);
 

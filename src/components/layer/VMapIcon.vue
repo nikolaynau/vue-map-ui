@@ -54,8 +54,8 @@ const attrs = useAttrs();
 const cssClass = useMergeCss(_class, className);
 
 const icon = useLeafletIcon(iconUrl, {
-  ...more,
   className: cssClass,
+  ...more,
   ...other,
   ...pickAttrs(attrs)
 });
