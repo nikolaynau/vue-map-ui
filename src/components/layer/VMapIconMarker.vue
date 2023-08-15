@@ -9,23 +9,10 @@ export default defineComponent({
 <script setup lang="ts">
 import { useSlots } from 'vue';
 import type { Icon, Marker } from 'leaflet';
-import type { AddPrefix } from '../../utils/types';
-import { useSplitAttrs, useTemplateRef } from '../../composables';
-import {
-  default as VMapMarker,
-  type Attrs as MarkerAttrs,
-  type Props as MarkerProps
-} from './VMapMarker.vue';
-import {
-  default as VMapIcon,
-  type Attrs as IconAttrs,
-  type Props as IconProps
-} from './VMapIcon.vue';
-
-export type Attrs = MarkerProps &
-  MarkerAttrs &
-  AddPrefix<IconProps, 'icon'> &
-  AddPrefix<IconAttrs, 'icon'>;
+import { useSplitAttrs } from '../../composables/internal/useSplitAttrs';
+import { useTemplateRef } from '../../composables/internal/useTemplateRef';
+import VMapMarker from './VMapMarker.vue';
+import VMapIcon from './VMapIcon.vue';
 
 const attrs = useSplitAttrs(['icon']);
 const slots = useSlots() as { default: unknown };
