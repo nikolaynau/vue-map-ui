@@ -103,7 +103,7 @@ const container = ref<HTMLElement | null>(null);
 const instance = getCurrentInstance()!;
 const {
   refs: { center, zoom, bounds, useFly, theme, class: cssClass },
-  other,
+  rest,
   events
 } = pickProps(
   instance,
@@ -121,7 +121,7 @@ const map = useLeafletMap(container, {
   bounds,
   useFly,
   onViewChanged: hasViewChanged ? e => emit('view-changed', e) : undefined,
-  ...other,
+  ...rest,
   ...pickAttrs(attrs)
 });
 

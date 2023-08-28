@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<Props>(), {
 const instance = getCurrentInstance()!;
 const {
   refs: { layers, type },
-  other
+  rest
 } = pickProps(
   instance,
   props,
@@ -62,7 +62,7 @@ defineExpose({
     :subdomains="subdomains"
     :title="title"
     :overlay="overlay"
-    v-bind="other"
+    v-bind="rest"
   >
     <slot></slot>
   </VMapTileLayer>

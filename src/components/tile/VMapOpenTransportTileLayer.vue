@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const instance = getCurrentInstance()!;
-const { other } = pickProps(
+const { rest } = pickProps(
   instance,
   props,
   ['apiKey', 'title', 'overlay'],
@@ -42,7 +42,7 @@ defineExpose({
     :api-key="apiKey"
     :title="title"
     :overlay="overlay"
-    v-bind="other"
+    v-bind="rest"
   >
     <slot></slot>
   </VMapTileLayer>

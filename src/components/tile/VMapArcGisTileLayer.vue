@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const instance = getCurrentInstance()!;
-const { other } = pickProps(
+const { rest } = pickProps(
   instance,
   props,
   ['title', 'overlay'],
@@ -40,7 +40,7 @@ defineExpose({
     url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}"
     :title="title"
     :overlay="overlay"
-    v-bind="other"
+    v-bind="rest"
   >
     <slot></slot>
   </VMapTileLayer>

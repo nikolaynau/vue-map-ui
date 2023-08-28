@@ -29,7 +29,7 @@ const props = defineProps<Props>();
 const instance = getCurrentInstance()!;
 const {
   refs: { attributions, prefix },
-  other
+  rest
 } = pickProps(instance, props, ['attributions', 'prefix']);
 
 const map = useMap();
@@ -37,7 +37,7 @@ const attrs = useAttrs();
 const control = useLeafletAttributionControl({
   attributions,
   prefix: prefix as any,
-  ...other,
+  ...rest,
   ...pickAttrs(attrs)
 });
 const ready = useLeafletReady(control);

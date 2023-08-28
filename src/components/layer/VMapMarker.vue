@@ -71,7 +71,7 @@ const emit = defineEmits<Emits>();
 const instance = getCurrentInstance()!;
 const {
   refs: { icon, opacity, zIndexOffset, draggable },
-  other,
+  rest,
   events
 } = pickProps(
   instance,
@@ -90,7 +90,7 @@ const marker = useLeafletMarker(latlng, {
   opacity,
   zIndexOffset,
   draggable,
-  ...other,
+  ...rest,
   ...pickAttrs(attrs)
 });
 

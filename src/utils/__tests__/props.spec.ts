@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { defineComponent, getCurrentInstance, h, nextTick, ref } from 'vue';
 import { mount } from '../../../.test';
-import { hasEvent, pickAttrs, pickProps } from '../props';
+import { hasEvent, pickAttrs, pickProps, splitProps } from '../props';
 
 describe('props', () => {
   describe('hasEvent', () => {
@@ -54,14 +54,11 @@ describe('props', () => {
         },
         setup(props) {
           const instance = getCurrentInstance()!;
-          const { refs, other, events } = pickProps(instance, props, [
-            'a',
-            'b'
-          ]);
+          const { refs, rest, events } = pickProps(instance, props, ['a', 'b']);
 
           expect(refs.a.value).toBe(1);
           expect(refs.b.value).toBe('foo');
-          expect(other).toStrictEqual({ c: true });
+          expect(rest).toStrictEqual({ c: true });
           expect(events).toStrictEqual([]);
 
           return () => null;
@@ -93,14 +90,11 @@ describe('props', () => {
         },
         setup(props) {
           const instance = getCurrentInstance()!;
-          const { refs, other, events } = pickProps(instance, props, [
-            'a',
-            'b'
-          ]);
+          const { refs, rest, events } = pickProps(instance, props, ['a', 'b']);
 
           expect(refs.a.value).toBe(2);
           expect(refs.b.value).toBe('bar');
-          expect(other).toStrictEqual({});
+          expect(rest).toStrictEqual({});
           expect(events).toStrictEqual([]);
 
           return () => null;
@@ -136,10 +130,10 @@ describe('props', () => {
         },
         setup(props) {
           const instance = getCurrentInstance()!;
-          const { refs, other, events } = pickProps(instance, props, ['a']);
+          const { refs, rest, events } = pickProps(instance, props, ['a']);
 
           expect(refs.a.value).toBe(1);
-          expect(other).toStrictEqual({ b: 'foo', c: true });
+          expect(rest).toStrictEqual({ b: 'foo', c: true });
           expect(events).toStrictEqual([]);
 
           return () => null;
@@ -167,7 +161,7 @@ describe('props', () => {
         },
         setup(props) {
           const instance = getCurrentInstance()!;
-          const { refs, other, events } = pickProps(
+          const { refs, rest, events } = pickProps(
             instance,
             props,
             ['a'],
@@ -175,7 +169,7 @@ describe('props', () => {
           );
 
           expect(refs.a.value).toBe(1);
-          expect(other).toStrictEqual({});
+          expect(rest).toStrictEqual({});
           expect(events).toStrictEqual(['foo', 'bar', 'fooBar']);
 
           return () => null;
@@ -232,17 +226,17 @@ describe('props', () => {
       );
 
       expect((result!.refs as any).a.value).toBe(0);
-      expect((result!.other as any).b).toBe('foo');
+      expect((result!.rest as any).b).toBe('foo');
 
       a.value = 1;
       b.value = 'bar';
       await nextTick();
 
       expect((result!.refs as any).a.value).toBe(1);
-      expect((result!.other as any).b).toBe('foo');
+      expect((result!.rest as any).b).toBe('foo');
     });
 
-    it('should reactive other props when enabled', async () => {
+    it('should reactive other props', async () => {
       const a = ref(0);
       const b = ref('foo');
       let result: ReturnType<typeof pickProps> | undefined = undefined;
@@ -275,17 +269,17 @@ describe('props', () => {
       );
 
       expect((result!.refs as any).a.value).toBe(0);
-      expect((result!.other as any).b).toBe('foo');
+      expect((result!.rest as any).b).toBe('foo');
 
       a.value = 1;
       b.value = 'bar';
       await nextTick();
 
       expect((result!.refs as any).a.value).toBe(1);
-      expect((result!.other as any).b).toBe('bar');
+      expect((result!.rest as any).b).toBe('bar');
     });
 
-    it('should return no refs when enabled', () => {
+    it('should return no refs', () => {
       expect.assertions(2);
 
       const Child = defineComponent({
@@ -301,7 +295,7 @@ describe('props', () => {
         },
         setup(props) {
           const instance = getCurrentInstance()!;
-          const { refs, other } = pickProps(
+          const { refs, rest } = pickProps(
             instance,
             props,
             ['a'],
@@ -311,7 +305,7 @@ describe('props', () => {
           );
 
           expect(Object.keys(refs)).toHaveLength(0);
-          expect(other).toStrictEqual({ b: 'foo' });
+          expect(rest).toStrictEqual({ b: 'foo' });
 
           return () => null;
         }
@@ -341,5 +335,183 @@ describe('props', () => {
         expect(result).toStrictEqual(expectedAttrs);
       }
     );
+  });
+
+  describe('splitProps', () => {
+    it('should split props', () => {
+      expect.assertions(2);
+
+      const Child = defineComponent({
+        props: {
+          foo: {
+            type: Number,
+            default: 0
+          },
+          bar: {
+            type: String,
+            default: undefined
+          },
+          baz: {
+            type: Boolean,
+            default: false
+          },
+          ba: {
+            type: String,
+            default: undefined
+          }
+        },
+        setup(props) {
+          const instance = getCurrentInstance()!;
+          const { matching, rest } = splitProps(instance, props, 'ba');
+
+          expect(matching).toStrictEqual({ bar: 'foo', baz: true });
+          expect(rest).toStrictEqual({ foo: 1, ba: 'ba' });
+
+          return () => null;
+        }
+      });
+
+      mount(
+        defineComponent({
+          setup() {
+            return () =>
+              h(Child, { foo: 1, bar: 'foo', baz: true, ba: 'ba', qux: 'bar' });
+          }
+        })
+      );
+    });
+
+    it('should exclude props', () => {
+      expect.assertions(2);
+
+      const Child = defineComponent({
+        props: {
+          foo: {
+            type: Number,
+            default: 0
+          },
+          bar: {
+            type: String,
+            default: undefined
+          },
+          baz: {
+            type: Boolean,
+            default: false
+          }
+        },
+        setup(props) {
+          const instance = getCurrentInstance()!;
+          const { matching, rest } = splitProps(instance, props, 'ba', ['baz']);
+
+          expect(matching).toStrictEqual({ bar: 'foo' });
+          expect(rest).toStrictEqual({ foo: 1 });
+
+          return () => null;
+        }
+      });
+
+      mount(
+        defineComponent({
+          setup() {
+            return () =>
+              h(Child, { foo: 1, bar: 'foo', baz: true, qux: 'bar' });
+          }
+        })
+      );
+    });
+
+    it('should reactive rest props', async () => {
+      const foo = ref('foo');
+      const bar = ref('bar');
+      let result: ReturnType<typeof splitProps> | undefined = undefined;
+
+      const Child = defineComponent({
+        props: {
+          foo: {
+            type: String,
+            default: undefined
+          },
+          bar: {
+            type: String,
+            default: undefined
+          }
+        },
+        setup(props) {
+          const instance = getCurrentInstance()!;
+          result = splitProps(instance, props, 'fo', [], true);
+
+          return () => null;
+        }
+      });
+
+      mount(
+        defineComponent({
+          setup() {
+            return () => h(Child, { foo: foo.value, bar: bar.value });
+          }
+        })
+      );
+
+      expect(result!.matching.foo).toBe('foo');
+      expect(result!.rest.bar).toBe('bar');
+
+      foo.value = 'baz';
+      bar.value = 'qux';
+      await nextTick();
+
+      expect(result!.matching.foo).toBe('baz');
+      expect(result!.rest.bar).toBe('qux');
+    });
+
+    it('should remove prefix', () => {
+      expect.assertions(2);
+
+      const Child = defineComponent({
+        props: {
+          foo: {
+            type: Number,
+            default: 0
+          },
+          bar: {
+            type: String,
+            default: undefined
+          },
+          baz: {
+            type: Boolean,
+            default: false
+          },
+          ba: {
+            type: String,
+            default: undefined
+          }
+        },
+        setup(props) {
+          const instance = getCurrentInstance()!;
+          const { matching, rest } = splitProps(
+            instance,
+            props,
+            'ba',
+            [],
+            false,
+            true,
+            ['baz']
+          );
+
+          expect(matching).toStrictEqual({ r: 'foo', baz: true });
+          expect(rest).toStrictEqual({ foo: 1, ba: 'ba' });
+
+          return () => null;
+        }
+      });
+
+      mount(
+        defineComponent({
+          setup() {
+            return () =>
+              h(Child, { foo: 1, bar: 'foo', baz: true, ba: 'ba', qux: 'bar' });
+          }
+        })
+      );
+    });
   });
 });

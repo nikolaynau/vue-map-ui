@@ -45,7 +45,7 @@ const props = withDefaults(defineProps<Props>(), {
 const instance = getCurrentInstance()!;
 const {
   refs: { color, backgroundColor, placeholderColor },
-  other
+  rest
 } = pickProps(
   instance,
   props,
@@ -90,7 +90,7 @@ defineExpose({
     :icon-size="iconSize"
     :icon-anchor="iconAnchor"
     :popup-anchor="popupAnchor"
-    v-bind="other"
+    v-bind="rest"
   >
     <div class="v-map-pin-icon__shadow"></div>
     <div class="v-map-pin-icon__pin" :style="pinStyle"></div>

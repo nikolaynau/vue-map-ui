@@ -58,7 +58,7 @@ const emit = defineEmits<Emits>();
 const instance = getCurrentInstance()!;
 const {
   refs: { useIndexes },
-  other
+  rest
 } = pickProps(instance, props, [
   'currentBaseLayer',
   'currentOverlays',
@@ -75,7 +75,7 @@ const control = useLeafletLayersControl(layers, {
   currentBaseLayer,
   currentOverlays,
   indexes: useIndexes.value,
-  ...other,
+  ...rest,
   ...pickAttrs(attrs)
 });
 

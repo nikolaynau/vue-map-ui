@@ -29,7 +29,7 @@ const props = defineProps<Props>();
 const instance = getCurrentInstance()!;
 const {
   refs: { iconUrl, imagePath, class: _class, className, knownClasses, ...more },
-  other
+  rest
 } = pickProps(instance, props, [
   'iconUrl',
   'imagePath',
@@ -54,7 +54,7 @@ const icon = useLeafletDefaultIcon({
   className: cssClass,
   knownClasses,
   ...more,
-  ...other,
+  ...rest,
   ...pickAttrs(attrs)
 });
 const ready = useLeafletReady(icon);

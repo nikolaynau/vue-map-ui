@@ -35,7 +35,7 @@ const props = defineProps<Props>();
 const instance = getCurrentInstance()!;
 const {
   refs: { iconUrl, class: _class, className, ...more },
-  other
+  rest
 } = pickProps(instance, props, [
   'iconUrl',
   'iconRetinaUrl',
@@ -56,7 +56,7 @@ const cssClass = useMergeCss(_class, className);
 const icon = useLeafletIcon(iconUrl, {
   className: cssClass,
   ...more,
-  ...other,
+  ...rest,
   ...pickAttrs(attrs)
 });
 const ready = useLeafletReady(icon);

@@ -25,11 +25,11 @@ export function pickProps<T extends object, K extends keyof T>(
   props: T,
   keys: readonly K[],
   omitEvents: string[] = [],
-  reactiveOther: boolean = false,
+  restReactive: boolean = false,
   noRefs: boolean = false
-): { refs: { [P in K]: Ref<T[P]> }; other: Omit<T, K>; events: string[] } {
+): { refs: { [P in K]: Ref<T[P]> }; rest: Omit<T, K>; events: string[] } {
   const refs: Record<string, Ref<unknown>> = {};
-  const other: Record<string, unknown> = reactiveOther ? reactive({}) : {};
+  const rest: Record<string, unknown> = restReactive ? reactive({}) : {};
   const events: string[] = [];
   const keySet = new Set(keys);
   const omitEventSet = new Set(omitEvents.map(camelize));
@@ -52,7 +52,7 @@ export function pickProps<T extends object, K extends keyof T>(
       } else {
         const propKey = lcFirst(camelize(key));
         if (!keySet.has(propKey as K) && propKey in props) {
-          other[propKey] = reactiveOther
+          rest[propKey] = restReactive
             ? toRef(props, propKey as K)
             : toRaw(props[propKey as K]);
         }
@@ -60,7 +60,7 @@ export function pickProps<T extends object, K extends keyof T>(
     }
   }
 
-  return { refs: refs as any, other: other as any, events };
+  return { refs: refs as any, rest: rest as any, events };
 }
 
 export function pickAttrs<T = unknown>(
@@ -78,6 +78,49 @@ export function pickAttrs<T = unknown>(
       result[camelizeKeys ? camelize(key) : key] = (
         rawValue ? toRaw(attrs[key]) : attrs[key]
       ) as T;
+    }
+  }
+
+  return result;
+}
+
+export function splitProps<T extends object, E extends keyof T = never>(
+  instance: ComponentInternalInstance,
+  props: T,
+  prefix: string,
+  exclude: E[] = [],
+  isReactive: boolean = false,
+  removePrefix: boolean = false,
+  expludeRemovePrefix: E[] = []
+): { matching: Record<string, any>; rest: Record<string, any> } {
+  const result: { matching: Record<string, any>; rest: Record<string, any> } = {
+    matching: isReactive ? reactive({}) : {},
+    rest: isReactive ? reactive({}) : {}
+  };
+  const excludeSet = new Set(exclude);
+  const expludeRemovePrefixSet = new Set(expludeRemovePrefix);
+  const prefixLength = prefix.length;
+
+  const vNodeProps = instance.vnode.props;
+  if (vNodeProps) {
+    for (const key in vNodeProps) {
+      if (!(key.startsWith(EVENT_PREFIX) && key[AFTER_EVENT_PREFIX_INDEX])) {
+        let propKey = lcFirst(camelize(key));
+        if (!excludeSet.has(propKey as E) && propKey in props) {
+          const value = isReactive
+            ? toRef(props, propKey as E)
+            : toRaw(props[propKey as E]);
+
+          if (propKey.startsWith(prefix) && propKey[prefixLength]) {
+            if (removePrefix && !expludeRemovePrefixSet.has(propKey as E)) {
+              propKey = lcFirst(propKey.slice(prefixLength));
+            }
+            result.matching[propKey] = value;
+          } else {
+            result.rest[propKey] = value;
+          }
+        }
+      }
     }
   }
 

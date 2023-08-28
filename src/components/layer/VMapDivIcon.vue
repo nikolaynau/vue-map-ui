@@ -45,7 +45,7 @@ const props = defineProps<Props>();
 const instance = getCurrentInstance()!;
 const {
   refs: { html, class: _class, className, renderMode, rootClass, ...more },
-  other
+  rest
 } = pickProps(instance, props, [
   'html',
   'bgPos',
@@ -70,7 +70,7 @@ const cssClass = useMergeCss(_class, className);
 const icon = useLeafletDivIcon(_html, {
   className: cssClass,
   ...more,
-  ...other,
+  ...rest,
   ...pickAttrs(attrs)
 });
 const ready = useLeafletReady(icon);
