@@ -53,7 +53,3 @@ defineExpose({
 <template>
   <slot v-if="ready"></slot>
 </template>
-
-<style>
-@import 'attribution-control';
-</style>
