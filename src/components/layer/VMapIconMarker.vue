@@ -45,6 +45,7 @@ const splitted = splitProps(
   true,
   ['iconRetinaUrl', 'iconSize', 'iconAnchor']
 );
+
 const slots = useSlots() as { default: unknown };
 
 const { templateRef: markerRef, value: marker } = useTemplateRef<
