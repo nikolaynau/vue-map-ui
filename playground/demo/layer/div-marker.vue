@@ -25,15 +25,15 @@ function increment() {
       :icon-html="html"
       :icon-class="['div-icon-round', cssClass]"
       :icon-class-name="{ 'custom-marker-a': true, 'custom-marker-b': false }"
-      :icon-icon-size="[20, 20]"
-      :icon-icon-anchor="[10, 20]"
+      :icon-size="[20, 20]"
+      :icon-anchor="[10, 20]"
     />
     <VMapDivMarker
       v-if="inited"
       :latlng="[-20, -20]"
       :icon-class="['div-icon-round', cssClass]"
-      :icon-icon-size="[20, 20]"
-      :icon-icon-anchor="[10, 20]"
+      :icon-size="[20, 20]"
+      :icon-anchor="[10, 20]"
     >
       <div class="div-icon-content">{{ counter }}</div>
     </VMapDivMarker>
@@ -41,8 +41,8 @@ function increment() {
       v-if="inited"
       :latlng="[-40, -20]"
       :icon-class="['div-icon-round', cssClass]"
-      :icon-icon-size="[20, 20]"
-      :icon-icon-anchor="[10, 20]"
+      :icon-size="[20, 20]"
+      :icon-anchor="[10, 20]"
       icon-render-mode="node"
       :icon-root-class="['a', 'b', 'c']"
     >
@@ -52,8 +52,8 @@ function increment() {
       v-if="inited"
       :latlng="[-60, -40]"
       :icon-class="['div-icon-round', cssClass]"
-      :icon-icon-size="[20, 20]"
-      :icon-icon-anchor="[10, 20]"
+      :icon-size="[20, 20]"
+      :icon-anchor="[10, 20]"
       :icon-root-class="['c', 'd']"
       icon-render-mode="portal"
     >
@@ -63,8 +63,8 @@ function increment() {
       v-if="inited"
       :latlng="[-40, -40]"
       :icon-class="['div-icon-round', cssClass]"
-      :icon-icon-size="[20, 20]"
-      :icon-icon-anchor="[10, 20]"
+      :icon-size="[20, 20]"
+      :icon-anchor="[10, 20]"
       icon-render-mode="none"
     >
       <div class="div-icon-content">{{ counter }}</div>

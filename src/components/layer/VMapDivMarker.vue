@@ -1,33 +1,54 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
-import { useSlots } from 'vue';
-import type { DivIcon, Marker } from 'leaflet';
-import type { AddPrefix } from '../../utils/types';
-import { useSplitAttrs, useTemplateRef } from '../../composables';
-import {
-  default as VMapMarker,
-  type Attrs as MarkerAttrs,
-  type Props as MarkerProps
-} from './VMapMarker.vue';
-import {
-  default as VMapDivIcon,
-  type Attrs as IconAttrs,
-  type Props as IconProps
-} from './VMapDivIcon.vue';
+import { getCurrentInstance, useSlots } from 'vue';
+import type {
+  CrossOrigin,
+  DivIcon,
+  LatLngExpression,
+  Marker,
+  MarkerOptions,
+  PointExpression
+} from 'leaflet';
+import { useTemplateRef } from '../../composables/internal/useTemplateRef';
+import { splitProps } from '../../utils/props';
+import VMapMarker from './VMapMarker.vue';
+import VMapDivIcon from './VMapDivIcon.vue';
 
-export type Attrs = MarkerProps &
-  MarkerAttrs &
-  AddPrefix<IconProps, 'icon'> &
-  AddPrefix<IconAttrs, 'icon'>;
+export interface Props extends MarkerOptions {
+  latlng: LatLngExpression | null;
+  iconColor?: string;
+  iconBackgroundColor?: string;
+  iconPlaceholderColor?: string;
+  iconHtml?: string | HTMLElement | false;
+  iconBgPos?: PointExpression;
+  iconRenderMode?: 'html' | 'node' | 'portal' | 'none';
+  iconRootClass?: any;
+  iconUrl?: string;
+  iconRetinaUrl?: string;
+  iconSize?: PointExpression;
+  iconAnchor?: PointExpression;
+  iconShadowUrl?: string;
+  iconShadowRetinaUrl?: string;
+  iconShadowSize?: PointExpression;
+  iconShadowAnchor?: PointExpression;
+  iconKnownClasses?: string[];
+  iconClass?: any;
+  iconClassName?: any;
+  iconCrossOrigin?: CrossOrigin | boolean;
+  iconPopupAnchor?: PointExpression;
+  iconTooltipAnchor?: PointExpression;
+  iconPane?: string;
+  iconAttribution?: string;
+}
 
-const attrs = useSplitAttrs(['icon']);
+const props = defineProps<Props>();
+
+const instance = getCurrentInstance()!;
+const splitted = splitProps(instance, props, 'icon', ['latlng'], true, true, [
+  'iconRetinaUrl',
+  'iconSize',
+  'iconAnchor'
+]);
+
 const slots = useSlots() as { default: unknown };
 
 const { templateRef: markerRef, value: marker } = useTemplateRef<
@@ -47,8 +68,8 @@ defineExpose({
 </script>
 
 <template>
-  <VMapMarker ref="markerRef" v-bind="attrs.default">
-    <VMapDivIcon ref="iconRef" v-bind="attrs.icon">
+  <VMapMarker ref="markerRef" :latlng="latlng" v-bind="splitted.rest">
+    <VMapDivIcon ref="iconRef" v-bind="splitted.matching">
       <template v-if="slots.default" #default>
         <slot></slot>
       </template>
