@@ -22,9 +22,9 @@ function setClassName() {
       v-if="inited"
       :latlng="[0, 0]"
       :icon-class="cssClass"
-      :icon-icon-url="iconUrl"
-      :icon-icon-size="[32, 42]"
-      :icon-icon-anchor="[16, 42]"
+      :icon-url="iconUrl"
+      :icon-size="[32, 42]"
+      :icon-anchor="[16, 42]"
     />
   </VMap>
 

@@ -1,20 +1,50 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
-import { useSlots } from 'vue';
-import type { Icon, Marker } from 'leaflet';
-import { useSplitAttrs } from '../../composables/internal/useSplitAttrs';
+import { getCurrentInstance, useSlots } from 'vue';
+import type {
+  CrossOrigin,
+  Icon,
+  LatLngExpression,
+  Marker,
+  MarkerOptions,
+  PointExpression
+} from 'leaflet';
 import { useTemplateRef } from '../../composables/internal/useTemplateRef';
+import { splitProps } from '../../utils/props';
 import VMapMarker from './VMapMarker.vue';
 import VMapIcon from './VMapIcon.vue';
 
-const attrs = useSplitAttrs(['icon']);
+export interface Props extends MarkerOptions {
+  latlng: LatLngExpression | null;
+  iconUrl: string | null;
+  iconRetinaUrl?: string;
+  iconSize?: PointExpression;
+  iconAnchor?: PointExpression;
+  iconShadowUrl?: string;
+  iconShadowRetinaUrl?: string;
+  iconShadowSize?: PointExpression;
+  iconShadowAnchor?: PointExpression;
+  iconKnownClasses?: string[];
+  iconClass?: any;
+  iconClassName?: any;
+  iconCrossOrigin?: CrossOrigin | boolean;
+  iconPopupAnchor?: PointExpression;
+  iconTooltipAnchor?: PointExpression;
+  iconPane?: string;
+  iconAttribution?: string;
+}
+
+const props = defineProps<Props>();
+
+const instance = getCurrentInstance()!;
+const splitted = splitProps(
+  instance,
+  props,
+  'icon',
+  ['latlng', 'iconUrl'],
+  true,
+  true,
+  ['iconRetinaUrl', 'iconSize', 'iconAnchor']
+);
 const slots = useSlots() as { default: unknown };
 
 const { templateRef: markerRef, value: marker } = useTemplateRef<
@@ -34,8 +64,8 @@ defineExpose({
 </script>
 
 <template>
-  <VMapMarker ref="markerRef" v-bind="attrs.default">
-    <VMapIcon ref="iconRef" v-bind="attrs.icon">
+  <VMapMarker ref="markerRef" :latlng="latlng" v-bind="splitted.rest">
+    <VMapIcon ref="iconRef" :icon-url="iconUrl" v-bind="splitted.matching">
       <template v-if="slots.default" #default>
         <slot></slot>
       </template>
