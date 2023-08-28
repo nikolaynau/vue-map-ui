@@ -87,7 +87,7 @@ describe('VMapIcon', () => {
     };
 
     const props = reactive<Props>({
-      iconUrl: undefined
+      iconUrl: null
     });
 
     const RootComponent = defineComponent({
@@ -120,7 +120,7 @@ describe('VMapIcon', () => {
     let instance: Icon | null | undefined = null;
 
     const props = reactive<Props>({
-      iconUrl: undefined,
+      iconUrl: null,
       iconSize: undefined,
       iconAnchor: undefined,
       class: undefined,

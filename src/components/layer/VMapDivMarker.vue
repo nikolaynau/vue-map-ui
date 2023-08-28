@@ -15,9 +15,6 @@ import VMapDivIcon from './VMapDivIcon.vue';
 
 export interface Props extends MarkerOptions {
   latlng: LatLngExpression | null;
-  iconColor?: string;
-  iconBackgroundColor?: string;
-  iconPlaceholderColor?: string;
   iconHtml?: string | HTMLElement | false;
   iconBgPos?: PointExpression;
   iconRenderMode?: 'html' | 'node' | 'portal' | 'none';

@@ -3,7 +3,7 @@ import { ref, reactive, h, defineComponent, onMounted, nextTick } from 'vue';
 import { Icon, Marker } from 'leaflet';
 import { mount } from '../../../../.test';
 import { useIcon, useMarker } from '../composables';
-import VMapIconMarker, { type Attrs } from '../VMapIconMarker.vue';
+import VMapIconMarker from '../VMapIconMarker.vue';
 
 describe('VMapIconMarker', () => {
   it('should be expose instances', () => {
@@ -20,7 +20,7 @@ describe('VMapIconMarker', () => {
 
         return () =>
           h(VMapIconMarker, {
-            ...({ latlng: [0, 0], iconIconUrl: 'foo.png' } as Attrs),
+            ...({ latlng: [0, 0], iconUrl: 'foo.png' } as any),
             ref: marker
           });
       }
@@ -30,9 +30,9 @@ describe('VMapIconMarker', () => {
   });
 
   it('should be reactive attrs', async () => {
-    const props = reactive<Attrs>({
+    const props = reactive<any>({
       latlng: [0, 0],
-      iconIconUrl: 'http://localhost/foo.png'
+      iconUrl: 'http://localhost/foo.png'
     });
 
     const marker = ref<InstanceType<typeof VMapIconMarker> | null>(null);
@@ -53,7 +53,7 @@ describe('VMapIconMarker', () => {
     );
 
     props.latlng = [1, 2];
-    props.iconIconUrl = 'http://localhost/bar.png';
+    props.iconUrl = 'http://localhost/bar.png';
     await nextTick();
 
     expect(marker.value?.marker?.getLatLng()).toEqual({ lat: 1, lng: 2 });
@@ -83,7 +83,7 @@ describe('VMapIconMarker', () => {
             {
               ref: marker,
               latlng: [0, 0],
-              iconIconUrl: 'http://localhost/foo.png'
+              iconUrl: 'http://localhost/foo.png'
             },
             () => h(Child)
           );

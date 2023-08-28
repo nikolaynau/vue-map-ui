@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { ref, reactive, h, defineComponent, onMounted, nextTick } from 'vue';
 import { DivIcon, Marker } from 'leaflet';
 import { mount } from '../../../../.test';
-import VMapDivMarker, { type Attrs } from '../VMapDivMarker.vue';
+import VMapDivMarker from '../VMapDivMarker.vue';
 
 describe('VMapDivMarker', () => {
   it('should be expose instances', () => {
@@ -25,7 +25,7 @@ describe('VMapDivMarker', () => {
   });
 
   it('should be reactive attrs', async () => {
-    const props = reactive<Attrs>({
+    const props = reactive<any>({
       latlng: [0, 0],
       iconHtml: '<i class="icon">Foo</i>'
     });
