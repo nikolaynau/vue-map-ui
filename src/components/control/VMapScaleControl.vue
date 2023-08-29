@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { useAttrs } from 'vue';
+import { useAttrs, getCurrentInstance } from 'vue';
 import type { ControlPosition } from 'leaflet';
 import {
   useLeafletDisplayControl,
@@ -15,7 +15,7 @@ import {
   useLeafletScaleControl
 } from 'vue-use-leaflet';
 import { useMap } from '../map/composables/useMap';
-import { pickAttrs } from '../../utils/props';
+import { pickAttrs, pickProps } from '../../utils/props';
 import { provideScaleControl } from './composables/useScaleControl';
 
 export interface Props {
@@ -28,9 +28,12 @@ export interface Props {
 
 const props = defineProps<Props>();
 
+const instance = getCurrentInstance()!;
+const { rest } = pickProps(instance, props, []);
+
 const map = useMap();
 const attrs = useAttrs();
-const control = useLeafletScaleControl({ ...props, ...pickAttrs(attrs) });
+const control = useLeafletScaleControl({ ...rest, ...pickAttrs(attrs) });
 const ready = useLeafletReady(control);
 useLeafletDisplayControl(map, control);
 
