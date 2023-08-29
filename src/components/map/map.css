@@ -2,4 +2,5 @@
 @import 'map-link';
 @import 'map-bar';
 @import 'map-control-corners';
-@import 'map-attribution';
+@import 'map-attribution-control';
+@import 'map-zoom-control';

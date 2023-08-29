@@ -55,7 +55,3 @@ defineExpose({
 <template>
   <slot v-if="ready"></slot>
 </template>
-
-<style>
-@import 'zoom-control';
-</style>
