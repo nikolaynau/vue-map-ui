@@ -8,5 +8,10 @@
 
 .v-map .leaflet-control-attribution {
   /* visual styles */
-  @apply text-attribution text-attribution-foreground;
+  @apply text-attribution text-attribution-foreground rounded-t-attribution;
+}
+
+.v-map .leaflet-control-attribution a {
+  /* visual styles */
+  @apply no-underline;
 }

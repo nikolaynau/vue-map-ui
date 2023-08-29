@@ -45,7 +45,8 @@ module.exports = {
       },
       borderRadius: {
         control: 'var(--v-map-control-round)',
-        'control-one-child': 'var(--v-map-control-one-child-round)'
+        'control-one-child': 'var(--v-map-control-one-child-round)',
+        attribution: 'var(--v-map-attribution-border-radius)'
       },
       boxShadow: {
         control: '0 2px 6px var(--v-map-control-shadow)'

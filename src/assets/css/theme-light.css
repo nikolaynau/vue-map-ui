@@ -11,8 +11,9 @@
 
   /* attribution */
   --v-map-attribution-foreground: #333333;
-  --v-map-attribution-background: rgba(255, 255, 255, 0.8);
-  --v-map-attribution-font-size: 0.75rem;
+  --v-map-attribution-background: #ffffff;
+  --v-map-attribution-font-size: 0.625rem;
+  --v-map-attribution-border-radius: 4px;
 
   /* control */
   --v-map-control-width: 2.5rem;
