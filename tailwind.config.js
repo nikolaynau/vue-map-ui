@@ -10,6 +10,9 @@ module.exports = {
         'link-highlight': 'var(--v-map-link-highlight)',
         'attribution-foreground': 'var(--v-map-attribution-foreground)',
         'attribution-background': 'var(--v-map-attribution-background)',
+        'scale-foreground': 'var(--v-map-scale-foreground)',
+        'scale-background': 'var(--v-map-scale-background)',
+        'scale-border': 'var(--v-map-scale-border)',
         'control-foreground': 'var(--v-map-control-foreground)',
         'control-hover-foreground': 'var(--v-map-control-hover-foreground)',
         'control-background': 'var(--v-map-control-background)',
@@ -26,6 +29,7 @@ module.exports = {
         0: '0',
         map: ['var(--v-map-font-size)', 'var(--v-map-line-height)'],
         attribution: 'var(--v-map-attribution-font-size)',
+        scale: 'var(--v-map-scale-font-size)',
         control: 'var(--v-map-control-font-size)',
         'pin-icon': 'var(--v-map-pin-icon-font-size)',
         'pin-icon-svg': 'var(--v-map-pin-icon-svg-font-size)'

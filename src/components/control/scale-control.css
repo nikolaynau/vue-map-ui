@@ -1,0 +1,7 @@
+.v-map .leaflet-control-scale-line {
+  /* visual styles */
+  @apply text-scale font-semibold text-center text-scale-foreground bg-scale-background border-scale-border;
+
+  /* text shadow */
+  text-shadow: none;
+}

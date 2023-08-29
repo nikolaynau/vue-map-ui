@@ -6,9 +6,9 @@ const shown = ref(true);
 </script>
 
 <template>
-  <VMap style="height: 200px">
+  <VMap style="height: 200px" :attribution-control="false">
     <VMapOsmTileLayer />
-    <VMapScaleControl v-if="shown" />
+    <VMapScaleControl v-if="shown" :metric="true" :imperial="false" />
   </VMap>
 
   <div class="p-4">

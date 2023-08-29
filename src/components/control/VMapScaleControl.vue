@@ -26,14 +26,24 @@ export interface Props {
   position?: ControlPosition;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  maxWidth: undefined,
+  position: 'bottomleft'
+});
 
 const instance = getCurrentInstance()!;
-const { rest } = pickProps(instance, props, []);
+const {
+  refs: { position },
+  rest
+} = pickProps(instance, props, ['position']);
 
 const map = useMap();
 const attrs = useAttrs();
-const control = useLeafletScaleControl({ ...rest, ...pickAttrs(attrs) });
+const control = useLeafletScaleControl({
+  position: position.value,
+  ...rest,
+  ...pickAttrs(attrs)
+});
 const ready = useLeafletReady(control);
 useLeafletDisplayControl(map, control);
 
@@ -47,3 +57,7 @@ defineExpose({
 <template>
   <slot v-if="ready"></slot>
 </template>
+
+<style>
+@import 'scale-control';
+</style>

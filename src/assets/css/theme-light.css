@@ -9,12 +9,6 @@
   --v-map-link-foreground: #0078a8;
   --v-map-link-highlight: rgba(51, 181, 229, 0.4);
 
-  /* attribution */
-  --v-map-attribution-foreground: #333333;
-  --v-map-attribution-background: #ffffff;
-  --v-map-attribution-font-size: 0.625rem;
-  --v-map-attribution-border-radius: 4px;
-
   /* control */
   --v-map-control-width: 2.5rem;
   --v-map-control-height: 2.5rem;
@@ -30,6 +24,18 @@
   --v-map-control-corner-margin: 1rem;
   --v-map-control-round: 0.75rem;
   --v-map-control-one-child-round: 50%;
+
+  /* attribution control */
+  --v-map-attribution-foreground: #333333;
+  --v-map-attribution-background: #ffffff;
+  --v-map-attribution-font-size: 0.625rem;
+  --v-map-attribution-border-radius: 4px;
+
+  /* scale control */
+  --v-map-scale-foreground: #333333;
+  --v-map-scale-background: #ffffff;
+  --v-map-scale-font-size: 0.6875rem;
+  --v-map-scale-border: #333333;
 
   /* pin icon */
   --v-map-pin-icon-background: inherit;
