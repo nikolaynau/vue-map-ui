@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { VMap, VMapOsmTileLayer, VMapScaleControl } from 'vue-map-ui';
+import {
+  VMap,
+  VMapAttributionControl,
+  VMapOsmTileLayer,
+  VMapScaleControl,
+  VMapZoomControl
+} from 'vue-map-ui';
 
 const shown = ref(true);
 </script>
 
 <template>
-  <VMap style="height: 200px" :attribution-control="false">
+  <VMap style="height: 200px">
     <VMapOsmTileLayer />
-    <VMapScaleControl v-if="shown" :metric="true" :imperial="false" />
+    <VMapZoomControl />
+
+    <VMapAttributionControl />
+    <VMapScaleControl v-if="shown" />
   </VMap>
 
   <div class="p-4">

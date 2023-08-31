@@ -82,14 +82,14 @@
 .v-map .leaflet-htop.leaflet-left,
 .v-map .leaflet-hbottom.leaflet-left {
   /* display styles */
-  left: calc(theme(margin.control-corner) + theme(width.control));
+  @apply left-control-position-horizontal-left;
 }
 
 /* (htop, hbottom), right */
 .v-map .leaflet-htop.leaflet-right,
 .v-map .leaflet-hbottom.leaflet-right {
   /* display styles */
-  right: calc(theme(margin.control-corner) + theme(width.control));
+  @apply right-control-position-horizontal-right;
 }
 
 /* (htop, hbottom), center */

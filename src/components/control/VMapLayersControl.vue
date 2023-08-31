@@ -19,6 +19,7 @@ import {
 import { provideApi } from '../../composables/useApi';
 import { useMap } from '../map/composables/useMap';
 import { pickAttrs, pickProps } from '../../utils/props';
+import type { ExtraControlPosition } from '../../utils/types';
 import { provideLayersControl } from './composables/useLayersControl';
 import { layersControlApiKey } from './composables/injectionSymbols';
 import { useLayersControlApi } from './composables/useLayersControlApi';
@@ -37,7 +38,7 @@ export interface Props {
     nameA: string,
     nameB: string
   ) => number;
-  position?: ControlPosition;
+  position?: ControlPosition | ExtraControlPosition;
 }
 
 export type Emits = {

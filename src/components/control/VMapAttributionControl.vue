@@ -15,16 +15,21 @@ import {
   useLeafletReady
 } from 'vue-use-leaflet';
 import { pickAttrs, pickProps } from '../../utils/props';
+import type { ExtraControlPosition } from '../../utils/types';
 import { useMap } from '../map/composables/useMap';
 import { provideAttributionControl } from './composables/useAttributionControl';
 
 export interface Props {
   attributions?: string[];
   prefix?: string | boolean | null;
-  position?: ControlPosition;
+  position?: ControlPosition | ExtraControlPosition;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  attributions: undefined,
+  prefix: undefined,
+  position: 'bottomright'
+});
 
 const instance = getCurrentInstance()!;
 const {
@@ -34,6 +39,7 @@ const {
 
 const map = useMap();
 const attrs = useAttrs();
+
 const control = useLeafletAttributionControl({
   attributions,
   prefix: prefix as any,

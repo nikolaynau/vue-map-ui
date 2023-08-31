@@ -16,34 +16,39 @@ import {
 } from 'vue-use-leaflet';
 import { useMap } from '../map/composables/useMap';
 import { pickAttrs, pickProps } from '../../utils/props';
+import type { ExtraControlPosition } from '../../utils/types';
 import { provideScaleControl } from './composables/useScaleControl';
+import { useModernScale } from './composables/useModernScale';
 
 export interface Props {
   maxWidth?: number;
   metric?: boolean;
   imperial?: boolean;
   updateWhenIdle?: boolean;
-  position?: ControlPosition;
+  position?: ControlPosition | ExtraControlPosition;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   maxWidth: undefined,
-  position: 'bottomleft'
+  imperial: false,
+  position: 'bottomright'
 });
 
 const instance = getCurrentInstance()!;
 const {
-  refs: { position },
+  refs: { position, imperial },
   rest
-} = pickProps(instance, props, ['position']);
+} = pickProps(instance, props, ['position', 'imperial']);
 
 const map = useMap();
 const attrs = useAttrs();
 const control = useLeafletScaleControl({
   position: position.value,
+  imperial: imperial.value,
   ...rest,
   ...pickAttrs(attrs)
 });
+useModernScale(control);
 const ready = useLeafletReady(control);
 useLeafletDisplayControl(map, control);
 

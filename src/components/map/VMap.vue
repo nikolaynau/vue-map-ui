@@ -94,7 +94,9 @@ const props = withDefaults(defineProps<Props>(), {
   theme: 'light',
   id: undefined,
   class: undefined,
-  style: undefined
+  style: undefined,
+  zoomControl: false,
+  attributionControl: false
 });
 
 const emit = defineEmits<Emits>();
@@ -102,13 +104,33 @@ const emit = defineEmits<Emits>();
 const container = ref<HTMLElement | null>(null);
 const instance = getCurrentInstance()!;
 const {
-  refs: { center, zoom, bounds, useFly, theme, class: cssClass },
+  refs: {
+    center,
+    zoom,
+    bounds,
+    useFly,
+    theme,
+    class: cssClass,
+    zoomControl,
+    attributionControl
+  },
   rest,
   events
 } = pickProps(
   instance,
   props,
-  ['center', 'zoom', 'bounds', 'useFly', 'id', 'theme', 'class', 'style'],
+  [
+    'center',
+    'zoom',
+    'bounds',
+    'useFly',
+    'id',
+    'theme',
+    'class',
+    'style',
+    'zoomControl',
+    'attributionControl'
+  ],
   ['view-changed']
 );
 
@@ -120,6 +142,8 @@ const map = useLeafletMap(container, {
   zoom,
   bounds,
   useFly,
+  zoomControl: zoomControl.value,
+  attributionControl: attributionControl.value,
   onViewChanged: hasViewChanged ? e => emit('view-changed', e) : undefined,
   ...rest,
   ...pickAttrs(attrs)

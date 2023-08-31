@@ -16,29 +16,37 @@ import {
 } from 'vue-use-leaflet';
 import { useMap } from '../map/composables/useMap';
 import { pickAttrs, pickProps } from '../../utils/props';
+import type { ExtraControlPosition } from '../../utils/types';
 import { provideZoomControl } from './composables/useZoomControl';
 
 export interface Props {
   disabled?: boolean;
-  zoomInText?: string | undefined;
-  zoomInTitle?: string | undefined;
-  zoomOutText?: string | undefined;
-  zoomOutTitle?: string | undefined;
-  position?: ControlPosition | undefined;
+  zoomInText?: string;
+  zoomInTitle?: string;
+  zoomOutText?: string;
+  zoomOutTitle?: string;
+  position?: ControlPosition | ExtraControlPosition;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+  position: 'centerright',
+  zoomInText: undefined,
+  zoomInTitle: undefined,
+  zoomOutText: undefined,
+  zoomOutTitle: undefined
+});
 
 const instance = getCurrentInstance()!;
 const {
-  refs: { disabled },
+  refs: { disabled, position },
   rest
-} = pickProps(instance, props, ['disabled']);
+} = pickProps(instance, props, ['disabled', 'position']);
 
 const map = useMap();
 const attrs = useAttrs();
 const control = useLeafletZoomControl({
   disabled,
+  position: position.value,
   ...rest,
   ...pickAttrs(attrs)
 });

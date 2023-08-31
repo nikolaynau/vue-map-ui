@@ -13,6 +13,7 @@ module.exports = {
         'scale-foreground': 'var(--v-map-scale-foreground)',
         'scale-background': 'var(--v-map-scale-background)',
         'scale-border': 'var(--v-map-scale-border)',
+        'scale-border-highlight': 'var(--v-map-scale-border-highlight)',
         'control-foreground': 'var(--v-map-control-foreground)',
         'control-hover-foreground': 'var(--v-map-control-hover-foreground)',
         'control-background': 'var(--v-map-control-background)',
@@ -33,6 +34,12 @@ module.exports = {
         control: 'var(--v-map-control-font-size)',
         'pin-icon': 'var(--v-map-pin-icon-font-size)',
         'pin-icon-svg': 'var(--v-map-pin-icon-svg-font-size)'
+      },
+      spacing: {
+        'control-position-horizontal-left':
+          'var(--v-map-control-position-horizontal-left)',
+        'control-position-horizontal-right':
+          'var(--v-map-control-position-horizontal-right)'
       },
       width: {
         '1em': '1em',

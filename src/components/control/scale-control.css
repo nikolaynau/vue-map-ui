@@ -1,7 +1,56 @@
+/* reset styles */
 .v-map .leaflet-control-scale-line {
   /* visual styles */
-  @apply text-scale font-semibold text-center text-scale-foreground bg-scale-background border-scale-border;
+  @apply bg-transparent border-none p-0 m-0;
 
   /* text shadow */
   text-shadow: none;
+}
+
+.v-map .leaflet-control-scale-line {
+  /* display styles */
+  @apply relative flex justify-center;
+}
+
+.v-map .leaflet-control-scale-line__label {
+  /* display styles */
+  @apply relative z-[3];
+
+  /* visual styles */
+  @apply py-[0.125rem] px-1 text-scale font-semibold text-scale-foreground bg-scale-background rounded;
+}
+
+.v-map .leaflet-control-scale-line__line {
+  /* display styles */
+  @apply absolute z-[1] left-0 right-0 top-1/2 -translate-y-1/2;
+
+  /* visual styles */
+  @apply border-[3px] border-solid border-scale-border-highlight rounded-[3px];
+}
+
+.v-map .leaflet-control-scale-line__line::after {
+  /* display styles */
+  @apply absolute -top-px -left-px -right-px;
+
+  /* visual styles */
+  @apply border border-solid border-scale-border rounded-[1px];
+
+  /* empty content */
+  content: '';
+}
+
+.v-map .leaflet-control-scale-line__edge {
+  /* display styles */
+  @apply absolute z-[2] left-0 right-0 top-1/2 -translate-y-1/2;
+
+  /* visual styles */
+  @apply border-l-2 border-r-2 border-solid border-scale-border;
+
+  /* sizes */
+  @apply h-[8px];
+}
+
+.v-map .leaflet-control-scale-line:not(:first-child) {
+  /* visual styles */
+  @apply mt-[2px];
 }

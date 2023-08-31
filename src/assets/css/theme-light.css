@@ -36,6 +36,7 @@
   --v-map-scale-background: #ffffff;
   --v-map-scale-font-size: 0.6875rem;
   --v-map-scale-border: #333333;
+  --v-map-scale-border-highlight: rgba(255, 255, 255, 0.6);
 
   /* pin icon */
   --v-map-pin-icon-background: inherit;
@@ -45,4 +46,8 @@
   --v-map-pin-icon-svg-width: 1em;
   --v-map-pin-icon-svg-height: 1em;
   --v-map-pin-icon-svg-font-size: 0.875rem;
+
+  /* control position */
+  --v-map-control-position-horizontal-left: 0;
+  --v-map-control-position-horizontal-right: 0;
 }
