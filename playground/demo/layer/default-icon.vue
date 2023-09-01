@@ -4,7 +4,9 @@ import {
   VMap,
   VMapMarker,
   VMapOsmTileLayer,
-  VMapDefaultIcon
+  VMapDefaultIcon,
+  VMapZoomControl,
+  VMapAttributionControl
 } from 'vue-map-ui';
 
 const inited = ref(true);
@@ -18,6 +20,8 @@ function setClassName() {
 <template>
   <VMap style="height: 200px">
     <VMapOsmTileLayer />
+    <VMapZoomControl />
+    <VMapAttributionControl />
     <VMapMarker :latlng="[0, 0]">
       <VMapDefaultIcon v-if="inited" :class="cssClass" image-path="/" />
     </VMapMarker>

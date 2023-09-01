@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import { VMap, VMapOsmTileLayer, VMapDivMarker } from 'vue-map-ui';
+import {
+  VMap,
+  VMapOsmTileLayer,
+  VMapDivMarker,
+  VMapZoomControl,
+  VMapAttributionControl
+} from 'vue-map-ui';
 
 const counter = ref(0);
 const html = computed(() => `<div>${counter.value}</div>`);
@@ -19,6 +25,8 @@ function increment() {
 <template>
   <VMap style="height: 200px">
     <VMapOsmTileLayer />
+    <VMapZoomControl />
+    <VMapAttributionControl />
     <VMapDivMarker
       v-if="inited"
       :latlng="[0, 0]"

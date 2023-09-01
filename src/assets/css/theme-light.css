@@ -37,6 +37,7 @@
   --v-map-scale-font-size: 0.6875rem;
   --v-map-scale-border: #333333;
   --v-map-scale-border-highlight: rgba(255, 255, 255, 0.6);
+  --v-map-scale-max-width: 100px;
 
   /* pin icon */
   --v-map-pin-icon-background: inherit;

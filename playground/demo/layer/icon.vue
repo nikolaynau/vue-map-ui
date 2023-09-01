@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { VMap, VMapMarker, VMapOsmTileLayer, VMapIcon } from 'vue-map-ui';
+import {
+  VMap,
+  VMapMarker,
+  VMapOsmTileLayer,
+  VMapIcon,
+  VMapZoomControl,
+  VMapAttributionControl
+} from 'vue-map-ui';
 
 const inited = ref(true);
 const cssClass = ref('custom-marker-foo');
@@ -18,6 +25,8 @@ function setClassName() {
 <template>
   <VMap style="height: 200px">
     <VMapOsmTileLayer />
+    <VMapZoomControl />
+    <VMapAttributionControl />
     <VMapMarker :latlng="[0, 0]">
       <VMapIcon
         v-if="inited"

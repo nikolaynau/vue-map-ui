@@ -1,0 +1,10 @@
+.v-map
+  .leaflet-bottom.leaflet-right
+  .leaflet-control-scale
+  + .leaflet-control-attribution {
+  /* display styles */
+  margin-right: calc(
+    theme(spacing.scale-max-width) + 2 * theme(margin.control-corner)
+  );
+  margin-top: -1em;
+}

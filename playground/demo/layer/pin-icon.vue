@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
 import { toRef } from '@vueuse/shared';
-import { VMap, VMapMarker, VMapOsmTileLayer, VMapPinIcon } from 'vue-map-ui';
+import {
+  VMap,
+  VMapAttributionControl,
+  VMapMarker,
+  VMapOsmTileLayer,
+  VMapPinIcon,
+  VMapZoomControl
+} from 'vue-map-ui';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faCloud, faHouse, faArrowUp } from '@fortawesome/free-solid-svg-icons';
@@ -39,6 +46,8 @@ function genIconSize() {
 <template>
   <VMap style="height: 300px" :zoom="1">
     <VMapOsmTileLayer />
+    <VMapZoomControl />
+    <VMapAttributionControl />
     <VMapMarker :latlng="[0, 0]">
       <VMapPinIcon
         v-if="inited"

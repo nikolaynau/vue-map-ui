@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { VMap, VMapMapboxTileLayer } from 'vue-map-ui';
+import {
+  VMap,
+  VMapAttributionControl,
+  VMapMapboxTileLayer,
+  VMapZoomControl
+} from 'vue-map-ui';
 </script>
 
 <template>
@@ -9,5 +14,7 @@ import { VMap, VMapMapboxTileLayer } from 'vue-map-ui';
       id="streets-v9"
       access-token="pk.eyJ1IjoiYWx0YXJpY2thIiwiYSI6ImNpa3BidXNoaTExMWh1Mm02YTY1ZXlvZXkifQ.fRS4SvpNrcqc7ZFKQSUJxA"
     />
+    <VMapZoomControl />
+    <VMapAttributionControl />
   </VMap>
 </template>

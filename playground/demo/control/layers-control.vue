@@ -8,7 +8,9 @@ import {
   VMapArcGisAeroTileLayer,
   VMapArcGisTileLayer,
   VMapOpenTransportTileLayer,
-  VMapGoogleTileLayer
+  VMapGoogleTileLayer,
+  VMapZoomControl,
+  VMapAttributionControl
 } from 'vue-map-ui';
 
 const currentBaseLayer = ref<string | undefined>(undefined);
@@ -16,6 +18,8 @@ const currentBaseLayer = ref<string | undefined>(undefined);
 
 <template>
   <VMap style="height: 400px">
+    <VMapZoomControl />
+    <VMapAttributionControl />
     <VMapLayersControl v-model:current-base-layer="currentBaseLayer">
       <VMapOsmTileLayer />
       <VMapMapboxTileLayer

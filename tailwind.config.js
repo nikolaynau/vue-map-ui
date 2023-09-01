@@ -39,7 +39,8 @@ module.exports = {
         'control-position-horizontal-left':
           'var(--v-map-control-position-horizontal-left)',
         'control-position-horizontal-right':
-          'var(--v-map-control-position-horizontal-right)'
+          'var(--v-map-control-position-horizontal-right)',
+        'scale-max-width': 'var(--v-map-scale-max-width)'
       },
       width: {
         '1em': '1em',

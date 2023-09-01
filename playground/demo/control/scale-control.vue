@@ -15,7 +15,6 @@ const shown = ref(true);
   <VMap style="height: 200px">
     <VMapOsmTileLayer />
     <VMapZoomControl />
-
     <VMapAttributionControl />
     <VMapScaleControl v-if="shown" />
   </VMap>

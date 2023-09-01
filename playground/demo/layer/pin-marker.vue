@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
-import { VMap, VMapOsmTileLayer, VMapPinMarker } from 'vue-map-ui';
+import {
+  VMap,
+  VMapAttributionControl,
+  VMapOsmTileLayer,
+  VMapPinMarker,
+  VMapZoomControl
+} from 'vue-map-ui';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { faArrowDown } from '@fortawesome/free-solid-svg-icons';
@@ -25,6 +31,8 @@ function onChangePosition() {
 <template>
   <VMap style="height: 200px" :zoom="1">
     <VMapOsmTileLayer />
+    <VMapZoomControl />
+    <VMapAttributionControl />
     <VMapPinMarker :latlng="[0, 0]" />
     <VMapPinMarker
       :latlng="[-25, -20]"

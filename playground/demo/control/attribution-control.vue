@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { VMap, VMapOsmTileLayer, VMapAttributionControl } from 'vue-map-ui';
+import {
+  VMap,
+  VMapOsmTileLayer,
+  VMapAttributionControl,
+  VMapZoomControl
+} from 'vue-map-ui';
 
 const shown = ref(true);
 const prefix = ref<string | undefined>(undefined);
@@ -10,6 +15,7 @@ const attributions = ref(['Attribution 1', 'Attribution 2']);
 <template>
   <VMap style="height: 200px" :attribution-control="false">
     <VMapOsmTileLayer attribution="Open Street Map" />
+    <VMapZoomControl />
     <VMapAttributionControl
       v-if="shown"
       :prefix="prefix"

@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import type { LatLngBoundsExpression, LatLngExpression } from 'leaflet';
 import { ref } from 'vue';
-import { VMap, VMapOsmTileLayer } from 'vue-map-ui';
+import {
+  VMap,
+  VMapAttributionControl,
+  VMapOsmTileLayer,
+  VMapZoomControl
+} from 'vue-map-ui';
 import type { ViewChangedEvent } from 'vue-use-leaflet';
 
 const center = ref<LatLngExpression>([0, 0]);
@@ -25,6 +30,8 @@ function onViewChanged(e: ViewChangedEvent) {
     @view-changed="onViewChanged"
   >
     <VMapOsmTileLayer />
+    <VMapZoomControl />
+    <VMapAttributionControl />
   </VMap>
 
   <div class="p-4">

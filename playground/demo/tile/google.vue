@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { VMap, VMapLayersControl, VMapGoogleTileLayer } from 'vue-map-ui';
+import {
+  VMap,
+  VMapLayersControl,
+  VMapGoogleTileLayer,
+  VMapZoomControl,
+  VMapAttributionControl
+} from 'vue-map-ui';
 </script>
 
 <template>
@@ -10,5 +16,7 @@ import { VMap, VMapLayersControl, VMapGoogleTileLayer } from 'vue-map-ui';
       <VMapGoogleTileLayer title="Google Terrain" type="terrain" />
       <VMapGoogleTileLayer title="Google Satellite" type="satellite" />
     </VMapLayersControl>
+    <VMapZoomControl />
+    <VMapAttributionControl />
   </VMap>
 </template>
