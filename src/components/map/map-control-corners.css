@@ -59,7 +59,7 @@
 /* htop */
 .v-map .leaflet-htop {
   /* display styles */
-  @apply flex flex-row top-0;
+  @apply flex flex-row items-start top-0;
 }
 
 .v-map .leaflet-htop .leaflet-control {
@@ -70,7 +70,7 @@
 /* hbottom */
 .v-map .leaflet-hbottom {
   /* display styles */
-  @apply flex flex-row bottom-0;
+  @apply flex flex-row items-end bottom-0;
 }
 
 .v-map .leaflet-hbottom .leaflet-control {
