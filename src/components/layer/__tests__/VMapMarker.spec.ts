@@ -1,8 +1,19 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { ref, unref, h, nextTick, defineComponent, type Ref } from 'vue';
-import { type LatLngExpression, Marker } from 'leaflet';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import {
+  ref,
+  unref,
+  h,
+  nextTick,
+  defineComponent,
+  type Ref,
+  watch,
+  markRaw
+} from 'vue';
+import { type LatLngExpression, Marker, Icon } from 'leaflet';
 import { mount } from '../../../../.test';
-import { VMap } from '../../map';
+import { VMap, provideMap } from '../../map';
+import { useApi } from '../../../composables/useApi';
+import { markerApiKey } from '../composables/injectionSymbols';
 import VMapMarker from '../VMapMarker.vue';
 
 describe('VMapMarker', () => {
@@ -149,5 +160,101 @@ describe('VMapMarker', () => {
     expect(unref(markerRef)).toBeNull();
     expect(marker).toBeInstanceOf(Marker);
     expect(unref(mapRef)?.map!.hasLayer(marker!)).toBeFalsy();
+  });
+
+  it('should not be added to the map until the icon in the slot is created', async () => {
+    let has = false;
+    const map = {
+      addLayer: vi.fn().mockImplementation(() => {
+        has = true;
+      }),
+      removeLayer: vi.fn().mockImplementation(() => {
+        has = false;
+      }),
+      hasLayer: () => has
+    };
+
+    const marker = ref<InstanceType<typeof VMapMarker> | null>(null);
+    const icon = ref<Icon | null>(null);
+
+    const Child = defineComponent({
+      setup() {
+        const markerApi = useApi(markerApiKey);
+        watch(icon, val => {
+          markerApi?.setIcon(val as Icon);
+        });
+        return () => null;
+      }
+    });
+
+    const Root = defineComponent({
+      setup() {
+        provideMap(ref(map as any));
+        return () =>
+          h(VMapMarker, { latlng: [0, 0], ref: marker }, () => h(Child));
+      }
+    });
+
+    mount(Root);
+
+    expect(marker.value).not.toBeNull();
+    expect(map.addLayer).not.toBeCalled();
+    expect(marker.value?.marker?.options.icon).toBeInstanceOf(Icon.Default);
+
+    icon.value = markRaw(new Icon({ iconUrl: 'foo.png' }));
+    await nextTick();
+
+    expect(map.removeLayer).toBeCalledTimes(0);
+    expect(map.addLayer).toBeCalledTimes(1);
+    expect(marker.value?.marker?.options.icon?.options.iconUrl).toBe('foo.png');
+
+    icon.value = null;
+    await nextTick();
+
+    expect(map.addLayer).toBeCalledTimes(1);
+    expect(map.removeLayer).toBeCalledTimes(1);
+    expect(marker.value?.marker?.options.icon).toBeInstanceOf(Icon.Default);
+    expect(marker.value?.marker?.options.icon?.options.iconUrl).not.toBe(
+      'foo.png'
+    );
+  });
+
+  it('should be added to the map when pass icon via prop', async () => {
+    let has = false;
+    const map = {
+      addLayer: vi.fn().mockImplementation(() => {
+        has = true;
+      }),
+      removeLayer: vi.fn().mockImplementation(() => {
+        has = false;
+      }),
+      hasLayer: () => has
+    };
+
+    const marker = ref<InstanceType<typeof VMapMarker> | null>(null);
+    const icon = ref<Icon | null>(null);
+
+    const Root = defineComponent({
+      setup() {
+        provideMap(ref(map as any));
+        return () =>
+          h(VMapMarker, {
+            latlng: [0, 0],
+            icon: icon.value as Icon,
+            ref: marker
+          });
+      }
+    });
+
+    mount(Root);
+
+    expect(map.addLayer).toBeCalledTimes(1);
+    expect(marker.value?.marker?.options.icon).toBeInstanceOf(Icon.Default);
+
+    icon.value = markRaw(new Icon({ iconUrl: 'foo.png' }));
+    await nextTick();
+
+    expect(map.addLayer).toBeCalledTimes(1);
+    expect(marker.value?.marker?.options.icon?.options.iconUrl).toBe('foo.png');
   });
 });

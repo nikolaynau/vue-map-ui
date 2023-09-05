@@ -7,7 +7,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { getCurrentInstance, useAttrs } from 'vue';
+import { getCurrentInstance, useAttrs, useSlots } from 'vue';
 import { syncRef, toRef, useVModel } from '@vueuse/core';
 import type {
   DivIcon,
@@ -23,7 +23,8 @@ import type {
 import {
   useLeafletMarker,
   useLeafletDisplayLayer,
-  useLeafletReady
+  useLeafletReady,
+  useLeafletDeps
 } from 'vue-use-leaflet';
 import { provideApi } from '../../composables/useApi';
 import { useProxyEvents } from '../../composables/internal/useProxyEvents';
@@ -81,6 +82,7 @@ const {
 );
 
 const attrs = useAttrs();
+const slots = useSlots() as { default: unknown };
 const latlng = useVModel(props, 'latlng', emit);
 const _icon = toRef<Icon | DivIcon | null | undefined>(null);
 syncRef(toRef(icon), _icon, { immediate: true, direction: 'ltr' });
@@ -97,7 +99,10 @@ const marker = useLeafletMarker(latlng, {
 const map = useMap();
 const ready = useLeafletReady(marker);
 const api = useMarkerApi({ icon: _icon });
-useLeafletDisplayLayer(map, marker);
+
+const target = slots.default ? useLeafletDeps(marker, _icon) : marker;
+useLeafletDisplayLayer(map, target);
+
 useProxyEvents(marker, events, attrs, emit);
 
 provideMarker(marker);
