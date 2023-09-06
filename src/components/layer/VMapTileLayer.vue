@@ -35,7 +35,12 @@ export interface Props extends TileLayerOptions {
   overlay?: boolean;
 }
 
-export type Emits = {
+const props = withDefaults(defineProps<Props>(), {
+  title: undefined,
+  overlay: false
+});
+
+const emit = defineEmits<{
   (type: 'tileabort', event: TileEvent): void;
   (type: 'loading', event: LeafletEvent): void;
   (type: 'tileunload', event: TileEvent): void;
@@ -49,14 +54,7 @@ export type Emits = {
   (type: 'popupclose', event: PopupEvent): void;
   (type: 'tooltipopen', event: TooltipEvent): void;
   (type: 'tooltipclose', event: TooltipEvent): void;
-};
-
-const props = withDefaults(defineProps<Props>(), {
-  title: undefined,
-  overlay: false
-});
-
-const emit = defineEmits<Emits>();
+}>();
 
 const instance = getCurrentInstance()!;
 const {

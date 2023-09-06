@@ -42,7 +42,9 @@ export interface Props extends MarkerOptions {
   draggable?: boolean;
 }
 
-export type Emits = {
+const props = defineProps<Props>();
+
+const emit = defineEmits<{
   (type: 'update:latlng', value: LatLngExpression): void;
   (type: 'move', event: LeafletEvent): void;
   (type: 'dragstart', event: LeafletEvent): void;
@@ -63,11 +65,7 @@ export type Emits = {
   (type: 'popupclose', event: PopupEvent): void;
   (type: 'tooltipopen', event: TooltipEvent): void;
   (type: 'tooltipclose', event: TooltipEvent): void;
-};
-
-const props = defineProps<Props>();
-
-const emit = defineEmits<Emits>();
+}>();
 
 const instance = getCurrentInstance()!;
 const {

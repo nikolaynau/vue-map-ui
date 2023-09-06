@@ -46,8 +46,21 @@ export interface Props extends MapOptions {
   style?: any;
 }
 
-export type Emits = {
-  (type: 'view-changed', event: ViewChangedEvent): void;
+const props = withDefaults(defineProps<Props>(), {
+  center: () => [0, 0],
+  zoom: 0,
+  bounds: undefined,
+  useFly: false,
+  theme: 'light',
+  id: undefined,
+  class: undefined,
+  style: undefined,
+  zoomControl: false,
+  attributionControl: false
+});
+
+const emit = defineEmits<{
+  (type: 'viewChanged', event: ViewChangedEvent): void;
   (type: 'baselayerchange', event: LayersControlEvent): void;
   (type: 'overlayadd', event: LayersControlEvent): void;
   (type: 'overlayremove', event: LayersControlEvent): void;
@@ -84,22 +97,7 @@ export type Emits = {
   (type: 'keyup', event: LeafletKeyboardEvent): void;
   (type: 'preclick', event: LeafletMouseEvent): void;
   (type: 'zoomanim', event: ZoomAnimEvent): void;
-};
-
-const props = withDefaults(defineProps<Props>(), {
-  center: () => [0, 0],
-  zoom: 0,
-  bounds: undefined,
-  useFly: false,
-  theme: 'light',
-  id: undefined,
-  class: undefined,
-  style: undefined,
-  zoomControl: false,
-  attributionControl: false
-});
-
-const emit = defineEmits<Emits>();
+}>();
 
 const container = ref<HTMLElement | null>(null);
 const instance = getCurrentInstance()!;
@@ -144,7 +142,7 @@ const map = useLeafletMap(container, {
   useFly,
   zoomControl: zoomControl.value,
   attributionControl: attributionControl.value,
-  onViewChanged: hasViewChanged ? e => emit('view-changed', e) : undefined,
+  onViewChanged: hasViewChanged ? e => emit('viewChanged', e) : undefined,
   ...rest,
   ...pickAttrs(attrs)
 });

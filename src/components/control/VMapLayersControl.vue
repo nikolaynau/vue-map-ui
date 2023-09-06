@@ -41,11 +41,6 @@ export interface Props {
   position?: ControlPosition | ExtraControlPosition;
 }
 
-export type Emits = {
-  (type: 'update:currentBaseLayer', value: string | number): void;
-  (type: 'update:currentOverlays', value: string[] | number[]): void;
-};
-
 const props = withDefaults(defineProps<Props>(), {
   currentBaseLayer: 0,
   currentOverlays: undefined,
@@ -54,7 +49,10 @@ const props = withDefaults(defineProps<Props>(), {
   position: undefined
 });
 
-const emit = defineEmits<Emits>();
+const emit = defineEmits<{
+  (type: 'update:currentBaseLayer', value: string | number): void;
+  (type: 'update:currentOverlays', value: string[] | number[]): void;
+}>();
 
 const instance = getCurrentInstance()!;
 const {
