@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import type { LatLngExpression, LeafletMouseEvent } from 'leaflet';
 import {
   VMap,
   VMapOsmTileLayer,
@@ -12,6 +13,14 @@ const counter = ref(0);
 const html = computed(() => `<div>${counter.value}</div>`);
 const inited = ref(true);
 const cssClass = ref('custom-marker-foo');
+const draggable = ref(false);
+const latlng = ref<LatLngExpression>([0, 0]);
+const clicked = ref(false);
+
+function onClick(e: LeafletMouseEvent) {
+  console.log('Click:', e);
+  clicked.value = true;
+}
 
 function setClassName() {
   cssClass.value = 'custom-marker-bar';
@@ -29,12 +38,14 @@ function increment() {
     <VMapAttributionControl />
     <VMapDivMarker
       v-if="inited"
-      :latlng="[0, 0]"
+      v-model:latlng="latlng"
+      :draggable="draggable"
       :icon-html="html"
       :icon-class="['div-icon-round', cssClass]"
       :icon-class-name="{ 'custom-marker-a': true, 'custom-marker-b': false }"
       :icon-size="[20, 20]"
       :icon-anchor="[10, 20]"
+      @click="onClick"
     />
     <VMapDivMarker
       v-if="inited"
@@ -85,6 +96,11 @@ function increment() {
     </button>
     <button class="block mb-1" @click="setClassName">Set Class Name</button>
     <button class="block mb-1" @click="increment">Increment Counter</button>
+    <div class="mb-1">Marker Position: {{ latlng }}</div>
+    <button class="block mb-1" @click="draggable = !draggable">
+      Toggle Draggable: {{ draggable }}
+    </button>
+    <div>Clicked: {{ clicked }}</div>
   </div>
 </template>
 
