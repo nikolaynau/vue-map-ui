@@ -1,5 +1,6 @@
 import type { InjectionKey, Ref } from 'vue';
 import type { Control } from 'leaflet';
+import type { LocateControlExtension } from 'vue-use-leaflet';
 import type { UseLayersControlApiReturn } from './useLayersControlApi';
 
 export const layersControlKey = Symbol(
@@ -37,3 +38,9 @@ export const controlPositionKey = Symbol(
     ? 'ControlPosition'
     : ''
 ) as InjectionKey<Ref<HTMLElement | null>>;
+
+export const locateControlKey = Symbol(
+  import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
+    ? 'LayersControlApi'
+    : ''
+) as InjectionKey<Ref<LocateControlExtension.Locate | null>>;

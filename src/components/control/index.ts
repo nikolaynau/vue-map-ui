@@ -5,3 +5,4 @@ export { default as VMapZoomControl } from './VMapZoomControl.vue';
 export { default as VMapScaleControl } from './VMapScaleControl.vue';
 export { default as VMapAttributionControl } from './VMapAttributionControl.vue';
 export { default as VMapControlPosition } from './VMapControlPosition.vue';
+export { default as VMapLocateControl } from './VMapLocateControl.vue';
