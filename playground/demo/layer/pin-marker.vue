@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue';
+import type { LeafletMouseEvent } from 'leaflet';
 import {
   VMap,
   VMapAttributionControl,
@@ -22,9 +23,16 @@ const colors = reactive([
   '#1ac0c6'
 ]);
 const latlng = ref<[number, number]>([-40, 0]);
+const draggable = ref(false);
+const clicked = ref(false);
 
 function onChangePosition() {
   latlng.value = [-45, -10];
+}
+
+function onClick(e: LeafletMouseEvent) {
+  console.log('Click:', e);
+  clicked.value = true;
 }
 </script>
 
@@ -42,7 +50,12 @@ function onChangePosition() {
     >
       <FontAwesomeIcon icon="fas fa-arrow-down" />
     </VMapPinMarker>
-    <VMapPinMarker :latlng="latlng" :icon-color="color">
+    <VMapPinMarker
+      v-model:latlng="latlng"
+      :draggable="draggable"
+      :icon-color="color"
+      @click="onClick"
+    >
       <i class="fa-solid fa-bolt-lightning"></i>
     </VMapPinMarker>
   </VMap>
@@ -57,5 +70,10 @@ function onChangePosition() {
         </select>
       </label>
     </div>
+    <div class="mb-1">Marker Position: {{ latlng }}</div>
+    <button class="block mb-1" @click="draggable = !draggable">
+      Toggle Draggable: {{ draggable }}
+    </button>
+    <div>Clicked: {{ clicked }}</div>
   </div>
 </template>

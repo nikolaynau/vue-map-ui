@@ -2,7 +2,7 @@
 
 > Vue 3 map component library based on leaflet.
 
-[Demo & Documentation](https://vuemap.org)
+[Documentation & Demo](https://vuemap.org)
 
 ## Installation
 

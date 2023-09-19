@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getCurrentInstance, useSlots } from 'vue';
+import { useVModel } from '@vueuse/core';
 import type {
   CrossOrigin,
   Icon,
@@ -35,6 +36,10 @@ export interface Props extends MarkerOptions {
 
 const props = defineProps<Props>();
 
+const emit = defineEmits<{
+  (type: 'update:latlng', value: LatLngExpression): void;
+}>();
+
 const instance = getCurrentInstance()!;
 const splitted = splitProps(
   instance,
@@ -47,6 +52,7 @@ const splitted = splitProps(
 );
 
 const slots = useSlots() as { default: unknown };
+const latlng = useVModel(props, 'latlng', emit);
 
 const { templateRef: markerRef, value: marker } = useTemplateRef<
   InstanceType<typeof VMapMarker>,
@@ -65,7 +71,7 @@ defineExpose({
 </script>
 
 <template>
-  <VMapMarker ref="markerRef" :latlng="latlng" v-bind="splitted.rest">
+  <VMapMarker ref="markerRef" v-model:latlng="latlng" v-bind="splitted.rest">
     <VMapIcon ref="iconRef" :icon-url="iconUrl" v-bind="splitted.matching">
       <template v-if="slots.default" #default>
         <slot></slot>
