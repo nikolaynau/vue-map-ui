@@ -13,14 +13,14 @@ import {
   useLeafletLocateControl,
   useLeafletDisplayControl,
   useLeafletReady,
-  type LocateControlExtension
+  type LocateControlExtensionOptions
 } from 'vue-use-leaflet';
 import { useMap } from '../map/composables/useMap';
 import { pickAttrs, pickProps } from '../../utils/props';
 import type { ExtraControlPosition } from '../../utils/types';
 import { provideLocateControl } from './composables/useLocateControl';
 
-export interface Props extends LocateControlExtension.LocateOptions {
+export interface Props extends LocateControlExtensionOptions {
   position?: ControlPosition | ExtraControlPosition;
 }
 

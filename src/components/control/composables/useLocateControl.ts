@@ -3,13 +3,13 @@ import type { LocateControlExtension } from 'vue-use-leaflet';
 import { locateControlKey } from './injectionSymbols';
 
 export function provideLocateControl(
-  control: Ref<LocateControlExtension.Locate | null>
+  control: Ref<LocateControlExtension | null>
 ) {
   provide(locateControlKey, readonly(control));
 }
 
 export function useLocateControl():
-  | Ref<LocateControlExtension.Locate | null>
+  | Ref<LocateControlExtension | null>
   | undefined {
   return inject(locateControlKey, undefined);
 }

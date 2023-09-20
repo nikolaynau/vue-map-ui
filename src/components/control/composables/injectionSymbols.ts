@@ -43,4 +43,4 @@ export const locateControlKey = Symbol(
   import.meta.env.MODE === 'development' || import.meta.env.MODE === 'test'
     ? 'LayersControlApi'
     : ''
-) as InjectionKey<Ref<LocateControlExtension.Locate | null>>;
+) as InjectionKey<Ref<LocateControlExtension | null>>;
