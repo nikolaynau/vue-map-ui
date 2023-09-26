@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { watch, useAttrs, unref, onUnmounted, getCurrentInstance } from 'vue';
 import type {
@@ -34,6 +26,10 @@ export interface Props extends TileLayerOptions {
   title?: string;
   overlay?: boolean;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = withDefaults(defineProps<Props>(), {
   title: undefined,

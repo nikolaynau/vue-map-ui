@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { reactive, useAttrs, getCurrentInstance } from 'vue';
 import type { ControlPosition, Layer } from 'leaflet';
@@ -40,6 +32,10 @@ export interface Props {
   ) => number;
   position?: ControlPosition | ExtraControlPosition;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = withDefaults(defineProps<Props>(), {
   currentBaseLayer: 0,

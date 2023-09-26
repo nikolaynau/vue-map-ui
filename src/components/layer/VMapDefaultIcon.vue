@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { onUnmounted, watch, useAttrs, getCurrentInstance } from 'vue';
 import type { IconOptions } from 'leaflet';
@@ -23,6 +15,10 @@ export interface Props extends Omit<IconOptions, 'iconUrl'> {
   class?: any;
   className?: any;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = defineProps<Props>();
 

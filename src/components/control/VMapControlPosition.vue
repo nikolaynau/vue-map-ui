@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { computed, toRefs } from 'vue';
 import { useLeafletControlPosition, useLeafletReady } from 'vue-use-leaflet';
@@ -17,6 +9,10 @@ export interface Props {
   position?: [string, string];
   class?: any;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = defineProps<Props>();
 const { position, class: cssClass } = toRefs(props);

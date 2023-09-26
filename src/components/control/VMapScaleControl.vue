@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { useAttrs, getCurrentInstance } from 'vue';
 import type { ControlPosition } from 'leaflet';
@@ -27,6 +19,10 @@ export interface Props {
   updateWhenIdle?: boolean;
   position?: ControlPosition | ExtraControlPosition;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = withDefaults(defineProps<Props>(), {
   maxWidth: undefined,

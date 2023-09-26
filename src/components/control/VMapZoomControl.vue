@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { getCurrentInstance, useAttrs } from 'vue';
 import type { ControlPosition } from 'leaflet';
@@ -27,6 +19,10 @@ export interface Props {
   zoomOutTitle?: string;
   position?: ControlPosition | ExtraControlPosition;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = withDefaults(defineProps<Props>(), {
   position: 'centerright',

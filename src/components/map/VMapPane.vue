@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { computed, toRefs, watch } from 'vue';
 import { isDefined } from '@vueuse/shared';
@@ -19,6 +11,10 @@ export interface Props {
   zIndex?: number;
   class?: any;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = defineProps<Props>();
 const { name, zIndex, class: _class } = toRefs(props);

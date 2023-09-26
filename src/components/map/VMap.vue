@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { getCurrentInstance, ref, useAttrs } from 'vue';
 import type {
@@ -45,6 +37,10 @@ export interface Props extends MapOptions {
   class?: any;
   style?: any;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = withDefaults(defineProps<Props>(), {
   center: () => [0, 0],

@@ -1,11 +1,3 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  inheritAttrs: false
-});
-</script>
-
 <script setup lang="ts">
 import { getCurrentInstance, useAttrs, useSlots } from 'vue';
 import { syncRef, toRef, useVModel } from '@vueuse/core';
@@ -41,6 +33,10 @@ export interface Props extends MarkerOptions {
   zIndexOffset?: number;
   draggable?: boolean;
 }
+
+defineOptions({
+  inheritAttrs: false
+});
 
 const props = defineProps<Props>();
 
