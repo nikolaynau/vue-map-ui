@@ -8,3 +8,11 @@
   );
   margin-top: -1em;
 }
+
+.v-map
+  .leaflet-center.leaflet-right
+  .leaflet-control-zoom
+  + .leaflet-control-locate {
+  /* display styles */
+  @apply mt-control-corner;
+}

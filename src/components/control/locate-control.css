@@ -1,0 +1,65 @@
+.v-map .leaflet-control-locate a {
+  /* display styles */
+  @apply flex items-center justify-center;
+}
+
+.v-map .leaflet-control-locate a .leaflet-control-locate-spinner,
+.v-map .leaflet-control-locate a .leaflet-control-locate-location-arrow {
+  /* display styles */
+  @apply block m-0;
+
+  /* visual styles */
+  @apply text-control bg-current bg-none;
+
+  /* mask */
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+.v-map .leaflet-control-locate a .leaflet-control-locate-location-arrow {
+  /* display styles */
+  @apply relative top-px -left-px;
+
+  /* visual styles */
+  @apply w-1em h-1em;
+
+  /* mask image */
+  mask-image: url(../../assets/icons/location-arrow.svg);
+}
+
+.v-map .leaflet-control-locate a .leaflet-control-locate-spinner {
+  /* visual styles */
+  @apply w-[0.9em] h-[0.9em];
+
+  /* mask image */
+  mask-image: url(../../assets/icons/spinner.svg);
+}
+
+/* spinner ff fix */
+@-moz-document url-prefix() {
+  .v-map .leaflet-control-locate a .leaflet-control-locate-spinner {
+    /* reset mask */
+    mask-image: none;
+
+    /* visual styles */
+    @apply bg-transparent bg-no-repeat bg-center;
+
+    /* bg image */
+    background-image: url(../../assets/icons/spinner.svg);
+  }
+}
+
+/* active */
+.v-map .leaflet-control-locate.active a .leaflet-control-locate-location-arrow {
+  /* visual styles */
+  @apply bg-none text-locate-active-foreground;
+}
+
+/* following */
+.v-map
+  .leaflet-control-locate.following
+  a
+  .leaflet-control-locate-location-arrow {
+  /* visual styles */
+  @apply bg-none text-locate-following-foreground;
+}

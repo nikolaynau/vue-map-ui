@@ -14,6 +14,9 @@ module.exports = {
         'scale-background': 'var(--v-map-scale-background)',
         'scale-border': 'var(--v-map-scale-border)',
         'scale-border-highlight': 'var(--v-map-scale-border-highlight)',
+        'locate-active-foreground': 'var(--v-map-locate-active-foreground)',
+        'locate-following-foreground':
+          'var(--v-map-locate-following-foreground)',
         'control-foreground': 'var(--v-map-control-foreground)',
         'control-hover-foreground': 'var(--v-map-control-hover-foreground)',
         'control-background': 'var(--v-map-control-background)',

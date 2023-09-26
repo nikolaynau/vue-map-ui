@@ -14,7 +14,7 @@ const shown = ref(true);
 </script>
 
 <template>
-  <VMap style="height: 200px">
+  <VMap style="height: 300px">
     <VMapOsmTileLayer />
     <VMapZoomControl />
     <VMapAttributionControl />

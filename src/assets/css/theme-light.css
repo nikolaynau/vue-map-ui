@@ -39,6 +39,10 @@
   --v-map-scale-border-highlight: rgba(255, 255, 255, 0.6);
   --v-map-scale-max-width: 100px;
 
+  /* locate control */
+  --v-map-locate-active-foreground: rgb(32, 116, 182);
+  --v-map-locate-following-foreground: rgb(252, 132, 40);
+
   /* pin icon */
   --v-map-pin-icon-background: inherit;
   --v-map-pin-icon-foreground: #3863c2;

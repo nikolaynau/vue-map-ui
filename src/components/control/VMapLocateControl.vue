@@ -50,3 +50,7 @@ defineExpose({
 <template>
   <slot v-if="ready"></slot>
 </template>
+
+<style>
+@import 'locate-control';
+</style>
