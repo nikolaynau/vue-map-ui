@@ -71,7 +71,7 @@
     "@vueuse/core": "^10.4.1",
     "@vueuse/shared": "^10.4.1",
     "uuid": "^9.0.0",
-    "vue-use-leaflet": "^0.1.5"
+    "vue-use-leaflet": "^0.1.6"
   },
   "devDependencies": {
     "@babel/types": "^7.22.11",
