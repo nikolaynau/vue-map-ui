@@ -58,7 +58,11 @@ const attrs = useAttrs();
 const slots = useSlots() as { default: unknown };
 
 const _html = ref<string | HTMLElement | null | undefined>(null);
-syncRef(toRef(html), _html, { immediate: true, direction: 'ltr' });
+syncRef(toRef(html), _html, {
+  immediate: true,
+  direction: 'ltr',
+  transform: { ltr: v => v }
+});
 
 const rootEl = ref<HTMLElement | null>(null);
 const cssClass = useMergeCss(_class, className);
