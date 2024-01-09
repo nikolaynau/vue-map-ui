@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  computed,
-  ref,
-  useSlots,
-  getCurrentInstance,
-  type StyleValue
-} from 'vue';
+import { computed, useSlots, getCurrentInstance, type StyleValue } from 'vue';
 import type { DivIcon, DivIconOptions, PointExpression } from 'leaflet';
 import { useTemplateRef } from '../../composables/internal/useTemplateRef';
 import { pickProps } from '../../utils/props';
@@ -62,7 +56,6 @@ const {
 );
 
 const slots = useSlots() as { default: unknown };
-const popupAnchor = ref([0, -50]);
 
 const pinStyle = computed<StyleValue>(() => ({
   color: backgroundColor.value ?? color.value
