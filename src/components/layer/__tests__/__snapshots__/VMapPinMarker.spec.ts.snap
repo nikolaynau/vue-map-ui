@@ -1,7 +1,7 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`VMapPinMarker > should be reactive attrs > change html 1`] = `"<div class=\\"v-map-pin-icon__shadow\\"></div><div class=\\"v-map-pin-icon__pin\\" style=\\"color: rgb(255, 255, 255);\\"></div><!--v-if-->"`;
+exports[`VMapPinMarker > should be reactive attrs > change html 1`] = `"<div class="v-map-pin-icon__shadow"></div><div class="v-map-pin-icon__pin" style="color: rgb(255, 255, 255);"></div><!--v-if-->"`;
 
-exports[`VMapPinMarker > should be reactive attrs > init html 1`] = `"<div class=\\"v-map-pin-icon__shadow\\"></div><div class=\\"v-map-pin-icon__pin\\" style=\\"color: rgb(0, 0, 0);\\"></div><!--v-if-->"`;
+exports[`VMapPinMarker > should be reactive attrs > init html 1`] = `"<div class="v-map-pin-icon__shadow"></div><div class="v-map-pin-icon__pin" style="color: rgb(0, 0, 0);"></div><!--v-if-->"`;
 
-exports[`VMapPinMarker > should be render default slot 1`] = `"<div class=\\"v-map-pin-icon__shadow\\"></div><div class=\\"v-map-pin-icon__pin\\"></div><div class=\\"v-map-pin-icon__icon\\"><i class=\\"icon\\"></i></div>"`;
+exports[`VMapPinMarker > should be render default slot 1`] = `"<div class="v-map-pin-icon__shadow"></div><div class="v-map-pin-icon__pin"></div><div class="v-map-pin-icon__icon"><i class="icon"></i></div>"`;
